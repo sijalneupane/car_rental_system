@@ -11,30 +11,31 @@ class CustomRoleSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.2,
-      width: MediaQuery.of(context).size.width ,
-      decoration:BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.white,
-      ),
+      width: MediaQuery.of(context).size.width 
+      // color: Colors.white,
+      ,
       child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+          )
+        ),
         onPressed:onPressed,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CustomIcons(
-                icon: icon,
-                size: 50,
-                color: primaryColor,
-              ),
-              CustomText(
-                data: roleTitle,
-                fontSize: 20,
-              )
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CustomIcons(
+              icon: icon,
+              size: 50,
+              color: primaryColor,
+            ),
+            CustomText(
+              data: roleTitle,
+              fontSize: 20,
+            )
+          ],
         ),
       ),
     );

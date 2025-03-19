@@ -7,6 +7,6 @@ const String findDriver="Find a driver";
 const String continueStr="Continue";
 const String createAccount="Create an account"; 
 const String signupDescription="Sign up to experience convenient transportation at your fingertips";
-
+const String welcomeStr="Welcome to the car rental app";
 const String phoneNumberStr="Phone Number";
 const String passwordStr="Password";
