@@ -1,5 +1,7 @@
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
+import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class LoginPgae extends StatelessWidget {
@@ -8,9 +10,11 @@ class LoginPgae extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ElevatedButton(onPressed: (){
-        RouteGenerator.navigateToPageWithoutStack(context, Routes.signupRoute);
-      }, child: Text("Submit")),
+      body: SafeArea(child: Column(
+        children: [
+          
+        ],
+      )),
     );
   }
 }
