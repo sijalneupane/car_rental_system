@@ -22,36 +22,39 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(children: [
-        CustomText(
-          data: createAccount,
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
+        child: Column(
+          children: [
+          //   CustomText(
+          //     data: createAccount,
+          //     fontSize: 30,
+          //     fontWeight: FontWeight.bold,
+          //   ),
+          //   CustomText(
+          //     data: signupDescription,
+          //     fontSize: 14,
+          //     color: Colors.grey,
+          //   ),
+          //   CustomTextformfield(
+          //     labelText: phoneNumberStr,
+          //     controller: _phoneNumberController,
+          //   ),
+          //   CustomTextformfield(
+          //     obscureText: visible ? false : true,
+          //     suffixIcon: IconButton(
+          //         onPressed: () {
+          //           setState(() {
+          //             visible = !visible;
+          //           });
+          //         },
+          //         icon: visible
+          //             ? Icon(Icons.visibility_off)
+          //             : Icon(Icons.visibility)),
+          //     labelText: passwordStr,
+          //     controller: _passwordController,
+          //   ),
+          ],
         ),
-        CustomText(
-          data: signupDescription,
-          fontSize: 14,
-          color: Colors.grey,
-        ),
-        CustomTextformfield(
-          labelText: phoneNumberStr,
-          controller: _phoneNumberController,
-        ),
-        CustomTextformfield(
-          obscureText: visible ? false : true,
-          suffixIcon: IconButton(
-              onPressed: () {
-                setState(() {
-                  visible = !visible;
-                });
-              },
-              icon: visible
-                  ? Icon(Icons.visibility_off)
-                  : Icon(Icons.visibility)),
-          labelText: passwordStr,
-          controller: _passwordController,
-        ),
-      ])),
+      ),
     );
   }
 }

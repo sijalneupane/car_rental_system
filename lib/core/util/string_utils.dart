@@ -1,12 +1,10 @@
 const String appName="Car Rental System";
-const String splashScreenTitle="Welcome to Car Rental System";
-const String splashScreenSubtitle="Rent a car with ease";
-const String chooseRole="Choose your role";
-const String findTrip="Find a trip";
-const String findDriver="Find a driver";
-const String continueStr="Continue";
-const String createAccount="Create an account"; 
-const String signupDescription="Sign up to experience convenient transportation at your fingertips";
-const String welcomeStr="Welcome to the car rental app";
+const String splashScreenTitle="RENTAL";
+const String logoPath="assets/images/logo.png";
+const String letsStartImagePath="assets/images/lets_start.png";
+const String createAccountStr="Create Account";
+
+const String getStartedTitleStr="Lets get Started";
+const String getStartedSubTitleStr="lorem espum dsfjhasdjfh adsfhaksjdfhads adsfhjkadhsf asdfhjhadjskf";
 const String phoneNumberStr="Phone Number";
 const String passwordStr="Password";

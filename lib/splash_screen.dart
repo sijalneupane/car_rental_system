@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // Navigate to next screen after 3 seconds
     Future.delayed(const Duration(seconds: 2), () {
-      RouteGenerator.navigateToPage(context, Routes.roleSelectionRoute);
+      RouteGenerator.navigateToPage(context, Routes.getStartedRoute);
     });
   }
 
@@ -29,9 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CustomText(data: splashScreenTitle, fontSize: 30,color:primaryColor ,),
-            const SizedBox(height: 20),
-            CustomText(data: splashScreenSubtitle, fontSize: 20),
+            Image.asset(logoPath,width: MediaQuery.of(context).size.width*0.75,)
           ],
         ),
       ),
