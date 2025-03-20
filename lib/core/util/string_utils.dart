@@ -3,7 +3,8 @@ const String splashScreenTitle="RENTAL";
 const String logoPath="assets/images/logo.png";
 const String letsStartImagePath="assets/images/lets_start.png";
 const String createAccountStr="Create Account";
-
+const String alreadyHaveAccountStr="Already have an account? ";
+const String loginStr="Log In";
 const String getStartedTitleStr="Lets get Started";
 const String getStartedSubTitleStr="lorem espum dsfjhasdjfh adsfhaksjdfhads adsfhjkadhsf asdfhjhadjskf";
 const String phoneNumberStr="Phone Number";
