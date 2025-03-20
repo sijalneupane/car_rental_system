@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     // Navigate to next screen after 3 seconds
     Future.delayed(const Duration(seconds: 2), () {
-      RouteGenerator.navigateToPage(context, Routes.getStartedRoute);
+      RouteGenerator.navigateToPageWithoutStack(context, Routes.getStartedRoute);
     });
   }
 
@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:MainAxisAlignment.center,
           children: [
             Image.asset(logoPath,width: MediaQuery.of(context).size.width*0.75,)
           ],

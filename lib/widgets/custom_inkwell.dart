@@ -3,12 +3,12 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomInkwell extends StatelessWidget {
-  String data;
   Function()? onTap;
-  CustomInkwell({super.key, required this.data, this.onTap});
+  Widget? child;
+  CustomInkwell({super.key,this.onTap,this.child});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(child: CustomText(data: data), onTap: onTap);
+    return InkWell(onTap: onTap, child:child );
   }
 }

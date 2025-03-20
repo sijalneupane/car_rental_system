@@ -2,6 +2,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
+import 'package:car_rental_system/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -19,6 +20,10 @@ class RouteGenerator {
         (route) => false);
   }
 
+//navigate back to previous page
+static navigateToPreviousPage(BuildContext context){
+Navigator.pop(context);
+}
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
@@ -27,6 +32,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>  Signup());
       case Routes.getStartedRoute:
         return MaterialPageRoute(builder: (_) => const GetStarted());
+        case Routes.forgotPasswordRoute:
+        return MaterialPageRoute(builder: (_) => const SplashScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
