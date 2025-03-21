@@ -8,6 +8,7 @@ const String facebookLogoPath="assets/images/facebook_logo.png";
 const String createAccountStr="Create Account";
 const String welcomeBackStr="Welcom Back";
 const String alreadyHaveAccountStr="Already have an account? ";
+const String dontHaveAccountStr="Dont have an account? ";
 const String loginStr="Log In";
 const String getStartedTitleStr="Lets get Started";
 const String getStartedSubTitleStr="We welcome you to the car rental app where your time is our priority and your safety is out motto";
@@ -27,3 +28,5 @@ const String registerStr="Register";
 const String orStr="Or";
 
 const String rememberMeStr="Remember Me";
+const String forgotPasswordStr="Forgot Passwoord";
+const String sendCodeStr="Send Code";

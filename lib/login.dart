@@ -20,7 +20,7 @@ class LoginPgae extends StatefulWidget {
 }
 
 class _LoginPgaeState extends State<LoginPgae> {
-  TextEditingController _nameController = TextEditingController();
+  // TextEditingController _nameController = TextEditingController();
   TextEditingController _emailAddressController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool visible = false;
@@ -65,12 +65,19 @@ class _LoginPgaeState extends State<LoginPgae> {
                   },
                 ),
                 CustomTextformfield(
+                  obscureText: visible?false:true,
+                  
                   controller: _passwordController,
                   labelText: passwordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIcons(
-                    icon: Icons.visibility_outlined,
-                    color: primaryColor,
+                  suffixIcon: CustomIconButton(
+                    icon: visible? Icons.visibility_outlined:Icons.visibility_off_outlined,
+                      color: primaryColor,
+                    onPressed: () {
+                      setState(() {
+                        visible=!visible;
+                      });
+                    },
                   ),
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
@@ -95,12 +102,12 @@ class _LoginPgaeState extends State<LoginPgae> {
                     Spacer(),
                     CustomInkwell(
                       child: CustomText(
-                        data: loginStr,
+                        data: forgotPasswordStr,
                         color: primaryColor,
                       ),
                       onTap: () {
                         RouteGenerator.navigateToPage(
-                            context, Routes.loginRoute);
+                            context, Routes.forgotPasswordRoute);
                       },
                     )
                   ],
@@ -113,15 +120,15 @@ class _LoginPgaeState extends State<LoginPgae> {
                       if (_formKey.currentState!.validate()) {
                       }
                     },
-                    child: Text(registerStr)),
+                    child: const Text(registerStr)),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Row(
                   children: [
-                    Expanded(child: Divider()),
+                    const Expanded(child: Divider()),
                     CustomText(data: orStr),
-                    Expanded(child: Divider()),
+                    const Expanded(child: Divider()),
                   ],
                 ),
                 SizedBox(
@@ -132,20 +139,20 @@ class _LoginPgaeState extends State<LoginPgae> {
                   children: [
                     CustomElevatedbutton(
                         onPressed: () {},
+                        backgroundColor: Colors.white,
+                        width: MediaQuery.of(context).size.width * 0.35,
                         child: CustomImageAssets(
                           name: googleLogoPath,
                           height: 40,
-                        ),
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35),
+                        )),
                     CustomElevatedbutton(
                         onPressed: () {},
+                        backgroundColor: Colors.white,
+                        width: MediaQuery.of(context).size.width * 0.35,
                         child: CustomImageAssets(
                           name: facebookLogoPath,
                           height: 40,
-                        ),
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35)
+                        ))
                   ],
                 ),
                 SizedBox(
@@ -154,15 +161,15 @@ class _LoginPgaeState extends State<LoginPgae> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomText(data: alreadyHaveAccountStr),
+                    CustomText(data: dontHaveAccountStr),
                     CustomInkwell(
                       child: CustomText(
-                        data: loginStr,
+                        data: registerStr,
                         color: primaryColor,
                       ),
                       onTap: () {
                         RouteGenerator.navigateToPage(
-                            context, Routes.loginRoute);
+                            context, Routes.signupRoute);
                       },
                     )
                   ],

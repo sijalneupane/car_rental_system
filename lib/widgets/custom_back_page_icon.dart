@@ -17,7 +17,7 @@ class CustomBackPageIcon extends StatelessWidget {
       child: IconButton(
         iconSize: 18,
         onPressed: () {
-          RouteGenerator.navigateToPreviousPage(context);
+        Navigator.pop(context);
         },
         icon: Icon(icon), // Icon color inside
       ),

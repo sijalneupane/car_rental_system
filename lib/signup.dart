@@ -69,18 +69,24 @@ class _SignupState extends State<Signup> {
                   hintText: emailAddressHintStr,
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return validateEmailAddressStr ;
+                      return validateEmailAddressStr;
                     }
                     return null;
                   },
                 ),
-                CustomTextformfield(
+                 CustomTextformfield(
+                  obscureText: visible?false:true,
                   controller: _passwordController,
                   labelText: passwordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIcons(
-                    icon: Icons.visibility_outlined,
-                    color: primaryColor,
+                  suffixIcon: CustomIconButton(
+                    icon: visible? Icons.visibility_outlined:Icons.visibility_off_outlined,
+                      color: primaryColor,
+                    onPressed: () {
+                      setState(() {
+                        visible=!visible;
+                      });
+                    },
                   ),
                   validator: (p0) {
                     if (p0 == null || p0.isEmpty) {
@@ -112,8 +118,7 @@ class _SignupState extends State<Signup> {
                 ),
                 CustomElevatedbutton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                      }
+                      if (_formKey.currentState!.validate()) {}
                     },
                     child: Text(registerStr)),
                 SizedBox(
