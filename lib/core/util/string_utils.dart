@@ -34,3 +34,8 @@ const String verifyAccountStr="Verify Account";
 const String didntReceiveOtpStr="Didn't recieve otp? ";
 const String resendOtpStr="Re-send";
 const String validateOtpStr="PLease enter valid otp";
+
+const String newPasswordStr="New Password";
+const String confirmPasswordStr="Confirm Password";
+const String resetPasswordStr="Reset Password";
+const String passwordDidntMatchStr="Password didn't match";

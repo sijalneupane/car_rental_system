@@ -1,6 +1,7 @@
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/login.dart';
+import 'package:car_rental_system/reset_password.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
 import 'package:car_rental_system/splash_screen.dart';
@@ -34,6 +35,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ForgotPassword());
       case Routes.enterOtpRoute:
         return MaterialPageRoute(builder: (_) =>const EnterOtp() );
+      case Routes.resetPasswordRoute:
+        return MaterialPageRoute(builder: (_) =>const ResetPassword() );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

@@ -1,4 +1,6 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -77,7 +79,7 @@ class _EnterOtpState extends State<EnterOtp> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return validateOtpStr;
-                      }
+                      }return null;
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -98,6 +100,7 @@ class _EnterOtpState extends State<EnterOtp> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           print(_pinCodeController.text);
+                          RouteGenerator.navigateToPage(context, Routes.resetPasswordRoute);
                         }
                       },
                       child: CustomText(

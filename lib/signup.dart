@@ -13,16 +13,16 @@ import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
-  Signup({super.key});
+  const Signup({super.key});
 
   @override
   State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailAddressController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailAddressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool visible = false;
   bool isTermsAndConditionedAgreed = false;
   final _formKey = GlobalKey<FormState>();
@@ -118,17 +118,19 @@ class _SignupState extends State<Signup> {
                 ),
                 CustomElevatedbutton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {}
+                      if (_formKey.currentState!.validate()) {
+                        
+                      }
                     },
-                    child: Text(registerStr)),
+                    child: const Text(registerStr)),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),
                 Row(
                   children: [
-                    Expanded(child: Divider()),
+                   const Expanded(child: Divider()),
                     CustomText(data: orStr),
-                    Expanded(child: Divider()),
+                  const  Expanded(child: Divider()),
                   ],
                 ),
                 SizedBox(
@@ -139,20 +141,20 @@ class _SignupState extends State<Signup> {
                   children: [
                     CustomElevatedbutton(
                         onPressed: () {},
+                        backgroundColor: Colors.white,
+                        width: MediaQuery.of(context).size.width * 0.35,
                         child: CustomImageAssets(
                           name: googleLogoPath,
                           height: 40,
-                        ),
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35),
+                        )),
                     CustomElevatedbutton(
                         onPressed: () {},
+                        backgroundColor: Colors.white,
+                        width: MediaQuery.of(context).size.width * 0.35,
                         child: CustomImageAssets(
                           name: facebookLogoPath,
                           height: 40,
-                        ),
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35)
+                        ))
                   ],
                 ),
                 SizedBox(

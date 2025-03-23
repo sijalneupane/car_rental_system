@@ -1,4 +1,4 @@
-package com.car_rental_system.app
+package com.carrentalsystem.app
 
 import io.flutter.embedding.android.FlutterActivity
 

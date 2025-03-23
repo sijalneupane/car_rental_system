@@ -4,4 +4,5 @@ class Routes {
   static const signupRoute = "/signup";
   static const forgotPasswordRoute="/fogotPassword";
 static const enterOtpRoute="/enterOtp";
+static const resetPasswordRoute="/resetPassword";
 }

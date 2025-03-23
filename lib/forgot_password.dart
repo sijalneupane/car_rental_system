@@ -24,7 +24,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: CustomBackPageIcon(icon: Icons.arrow_back),
+        title: CustomBackPageIcon(icon: Icons.arrow_back,),
       ),
       body: Form(
         key:_formKey ,
