@@ -1,4 +1,5 @@
 import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
@@ -21,17 +22,18 @@ class RouteGenerator {
         (route) => false);
   }
 
-
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
         return MaterialPageRoute(builder: (_) => const LoginPgae());
       case Routes.signupRoute:
-        return MaterialPageRoute(builder: (_) =>  Signup());
+        return MaterialPageRoute(builder: (_) => Signup());
       case Routes.getStartedRoute:
         return MaterialPageRoute(builder: (_) => const GetStarted());
-        case Routes.forgotPasswordRoute:
+      case Routes.forgotPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ForgotPassword());
+      case Routes.enterOtpRoute:
+        return MaterialPageRoute(builder: (_) =>const EnterOtp() );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

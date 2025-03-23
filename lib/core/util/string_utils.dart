@@ -30,3 +30,7 @@ const String orStr="Or";
 const String rememberMeStr="Remember Me";
 const String forgotPasswordStr="Forgot Passwoord";
 const String sendCodeStr="Send Code";
+const String verifyAccountStr="Verify Account";
+const String didntReceiveOtpStr="Didn't recieve otp? ";
+const String resendOtpStr="Re-send";
+const String validateOtpStr="PLease enter valid otp";
