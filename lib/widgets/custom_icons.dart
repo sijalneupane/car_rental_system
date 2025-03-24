@@ -1,3 +1,4 @@
+import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:flutter/material.dart';
 
 class CustomIcons extends StatelessWidget {
@@ -8,6 +9,6 @@ class CustomIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Icon(icon,size: size,color: color,);
+    return Icon(icon,size: size,color: color??primaryColor,);
   }
 }

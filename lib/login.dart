@@ -118,9 +118,10 @@ class _LoginPgaeState extends State<LoginPgae> {
                 CustomElevatedbutton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+RouteGenerator.navigateToPage(context,Routes.homeRoute);
                       }
                     },
-                    child: const Text(registerStr)),
+                    child: const Text(loginStr),),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
                 ),

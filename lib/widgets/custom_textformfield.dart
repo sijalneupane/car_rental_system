@@ -3,7 +3,6 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextformfield extends StatefulWidget {
-  
   String? labelText;
   String? hintText;
   Widget? suffixIcon;
@@ -28,13 +27,14 @@ class CustomTextformfield extends StatefulWidget {
 }
 
 class _CustomTextformfieldState extends State<CustomTextformfield> {
-    FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
     _focusNode.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -42,7 +42,11 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(data: widget.labelText!,fontWeight: FontWeight.bold,fontSize: 16,),
+          CustomText(
+            data: widget.labelText!,
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
           const SizedBox(height: 10), // Space between label and field
           TextFormField(
             focusNode: _focusNode,
@@ -52,20 +56,18 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
             validator: widget.validator,
             obscureText: widget.obscureText ?? false,
             decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 1,
-                  color: primaryColor
-                )
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: primaryColor)),
+              // labelText: labelText,
+              hintText: widget.hintText,
+              hintStyle: TextStyle(color: Colors.grey),
+              alignLabelWithHint: true,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
-                // labelText: labelText,
-                hintText: widget.hintText,
-                hintStyle: TextStyle(color: Colors.grey),
-                alignLabelWithHint: true,
-                suffixIcon: widget.suffixIcon,
-                prefixIcon: widget.prefixIcon,
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+            ),
           ),
         ],
       ),
