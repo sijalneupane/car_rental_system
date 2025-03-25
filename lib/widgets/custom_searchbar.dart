@@ -23,13 +23,14 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-    
         decoration: InputDecoration(
           hintText: widget.hintText,
           prefixIcon: CustomIcons(icon: Icons.search),
+          contentPadding: const EdgeInsets.all(8),
           focusedBorder: const OutlineInputBorder(
+            
               borderSide: BorderSide(width: 1, color: primaryColor)),
-          hintStyle: TextStyle(color: Colors.grey),
+          hintStyle: TextStyle(color: greyColor),
           alignLabelWithHint: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(5),

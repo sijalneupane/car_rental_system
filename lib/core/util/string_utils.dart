@@ -46,7 +46,10 @@ const String searchCarBarStr="Search Car ...";
 const String topBrandsStr="Top Brands";
 const String popularCarStr="Popular Car";
 const String seeAllStr="See All";
+const String manualTypeStr="Manual";
+const String automaticTypeStr="Auto";
 const String rentalNowStr="Rental Now";
+
 
 //car detail page strings
 const String carDetailStr="Car Details";

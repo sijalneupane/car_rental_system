@@ -1,3 +1,5 @@
+import 'package:car_rental_system/bottom_navbar.dart';
+import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/home.dart';
@@ -38,8 +40,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>const EnterOtp() );
       case Routes.resetPasswordRoute:
         return MaterialPageRoute(builder: (_) =>const ResetPassword() );
+      case Routes.bottomNavbarRoute:
+        return MaterialPageRoute(builder: (_) =>const BottomNavbar1() );
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) =>const Home() );
+      case Routes.carDetailsRoute:
+        return MaterialPageRoute(builder: (_) =>const CarDetailsPage() );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

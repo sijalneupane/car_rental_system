@@ -118,7 +118,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                 CustomElevatedbutton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-RouteGenerator.navigateToPage(context,Routes.homeRoute);
+RouteGenerator.navigateToPage(context,Routes.bottomNavbarRoute);
                       }
                     },
                     child: const Text(loginStr),),

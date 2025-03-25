@@ -6,4 +6,6 @@ class Routes {
 static const enterOtpRoute="/enterOtp";
 static const resetPasswordRoute="/resetPassword";
 static const homeRoute="/home";
+static const bottomNavbarRoute="/bottomNavbar";
+static const carDetailsRoute="/carDetails";
 }

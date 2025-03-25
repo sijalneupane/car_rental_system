@@ -1,3 +1,8 @@
+import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
+import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +17,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
   final int numberOfPeople;
   final String price;
 
-  CustomCarOverviewContainer({
+  const CustomCarOverviewContainer({super.key, 
     required this.logoUrl,
     required this.carImageUrl,
     required this.carName,
@@ -28,18 +33,18 @@ class CustomCarOverviewContainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.35,
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: EdgeInsets.all(10.0),
+        height: MediaQuery.of(context).size.height * 0.3,
+        width: MediaQuery.of(context).size.width * 0.65,
+        padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           color: Colors.white,
           border: Border.all(
-            color: Colors.grey.withOpacity(0.5),
+            color: greyColor,
           ),
           // boxShadow: [
           //   BoxShadow(
-          //     color: Colors.grey.withOpacity(0.5),
+          //     color: greyColor.withOpacity(0.5),
           //     spreadRadius: 5,
           //     blurRadius: 7,
           //     offset: Offset(0, 3),
@@ -56,26 +61,33 @@ class CustomCarOverviewContainer extends StatelessWidget {
                   logoUrl,
                   width: 50,
                   height: 50,
+                  fit: BoxFit.contain,
                 ),
-                Spacer(),
+                const Spacer(),
                 CustomIcons(icon: Icons.favorite),
               ],
             ),
-            SizedBox(height: 16.0),
+             SizedBox(height:MediaQuery.of(context).size.height * 0.01),
             Center(
               child: Image.network(
                 carImageUrl,
-                height: MediaQuery.of(context).size.height * 0.15,
-                fit: BoxFit.cover,
+                height: MediaQuery.of(context).size.height * 0.18,
+                fit: BoxFit.contain,
               ),
             ),
-            SizedBox(height: 16.0),
+            SizedBox(height:MediaQuery.of(context).size.height * 0.01),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  carName,
-                  overflow: TextOverflow.ellipsis,
+                Flexible(
+                  child: Text(
+                    carName,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 Row(
                   children: [
@@ -85,40 +97,59 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+             SizedBox(height:MediaQuery.of(context).size.height * 0.01),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
-                    CustomIcons(icon: Icons.local_gas_station),
-                    SizedBox(width: 4.0),
+                    CustomIcons(
+                        icon: Icons.local_gas_station, color: greyColor),
+                    
+            SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
                     Text(fuelCapacity),
                   ],
                 ),
                 Row(
                   children: [
-                    CustomIcons(icon: Icons.autorenew),
-                    SizedBox(width: 4.0),
-                    Text(isManual ? 'Manual' : 'Auto'),
+                    CustomIcons(icon: Icons.autorenew, color: greyColor),
+                     SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
+                    Text(isManual ? manualTypeStr : automaticTypeStr),
                   ],
                 ),
                 Row(
                   children: [
-                    CustomIcons(icon: Icons.people),
-                    SizedBox(width: 4.0),
+                    CustomIcons(
+                      icon: Icons.people,
+                      color: greyColor,
+                    ),
+                     SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
                     Text(numberOfPeople.toString()),
                   ],
                 ),
               ],
             ),
             Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomText(data:"\$ ${price.toString()}"),
-                CustomIcons(icon: Icons.arrow_forward_ios),
-              ],
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomText(data: "\$ ${price.toString()} $perDayStr"),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.035,
+                  ),
+                  Expanded(
+                    child: CustomElevatedbutton(
+                      child: const Text(
+                        rentalNowStr,
+                      ),
+                      onPressed: () {
+                        RouteGenerator.navigateToPage(context, Routes.carDetailsRoute);
+                      },
+                    ),
+                  ),
+                ],
+              ),
             )
           ],
         ),

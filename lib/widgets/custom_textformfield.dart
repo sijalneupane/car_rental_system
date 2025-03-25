@@ -60,7 +60,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
                   borderSide: BorderSide(width: 1, color: primaryColor)),
               // labelText: labelText,
               hintText: widget.hintText,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: TextStyle(color: greyColor),
               alignLabelWithHint: true,
               suffixIcon: widget.suffixIcon,
               prefixIcon: widget.prefixIcon,

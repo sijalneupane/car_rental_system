@@ -37,7 +37,7 @@ class GetStarted extends StatelessWidget {
                 ),
                 CustomText(
                   data: getStartedSubTitleStr,
-                  color: Colors.grey,
+                  color: greyColor,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.03,
