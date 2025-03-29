@@ -4,10 +4,10 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
-import 'package:car_rental_system/widgets/custom_icon_button.dart';
-import 'package:car_rental_system/widgets/custom_icons.dart';
+import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_image_assets.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
+import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +21,8 @@ class LoginPgae extends StatefulWidget {
 
 class _LoginPgaeState extends State<LoginPgae> {
   // TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailAddressController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailAddressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   bool visible = false;
   bool rememberMe = false;
   final _formKey = GlobalKey<FormState>();
@@ -44,15 +44,17 @@ class _LoginPgaeState extends State<LoginPgae> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // CustomBackPageIcon( icon: Icons.close),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.04,
-                // ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
                 CustomText(
                   data: welcomeBackStr,
                   fontSize: 30,
                   textAlign: TextAlign.center,
                 ),
-              
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.04,
+                ),
                 CustomTextformfield(
                   controller: _emailAddressController,
                   labelText: emailAddressStr,
@@ -70,7 +72,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                   controller: _passwordController,
                   labelText: passwordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIconButton(
+                  suffixIcon: CustomNoBorderIconButton(
                     icon: visible? Icons.visibility_outlined:Icons.visibility_off_outlined,
                       color: primaryColor,
                     onPressed: () {
@@ -99,7 +101,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                       },
                     ),
                     CustomText(data: rememberMeStr),
-                    Spacer(),
+                    const Spacer(),
                     CustomInkwell(
                       child: CustomText(
                         data: forgotPasswordStr,
@@ -118,47 +120,47 @@ class _LoginPgaeState extends State<LoginPgae> {
                 CustomElevatedbutton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-RouteGenerator.navigateToPage(context,Routes.bottomNavbarRoute);
+                      RouteGenerator.navigateToPage(context,Routes.bottomNavbarRoute);
                       }
                     },
                     child: const Text(loginStr),),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
+                  height: MediaQuery.of(context).size.height * 0.1,
                 ),
-                Row(
-                  children: [
-                    const Expanded(child: Divider()),
-                    CustomText(data: orStr),
-                    const Expanded(child: Divider()),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.03,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CustomElevatedbutton(
-                        onPressed: () {},
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        child: CustomImageAssets(
-                          name: googleLogoPath,
-                          height: 40,
-                        )),
-                    CustomElevatedbutton(
-                        onPressed: () {},
-                        backgroundColor: Colors.white,
-                        width: MediaQuery.of(context).size.width * 0.35,
-                        child: CustomImageAssets(
-                          name: facebookLogoPath,
-                          height: 40,
-                        ))
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                ),
+                // Row(
+                //   children: [
+                //     const Expanded(child: Divider()),
+                //     CustomText(data: orStr),
+                //     const Expanded(child: Divider()),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.03,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //   children: [
+                //     CustomElevatedbutton(
+                //         onPressed: () {},
+                //         backgroundColor: Colors.white,
+                //         width: MediaQuery.of(context).size.width * 0.35,
+                //         child: CustomImageAssets(
+                //           name: googleLogoPath,
+                //           height: 40,
+                //         ),),
+                //     CustomElevatedbutton(
+                //         onPressed: () {},
+                //         backgroundColor: Colors.white,
+                //         width: MediaQuery.of(context).size.width * 0.35,
+                //         child: CustomImageAssets(
+                //           name: facebookLogoPath,
+                //           height: 40,
+                //         ),)
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.15,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

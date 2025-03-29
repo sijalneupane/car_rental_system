@@ -2,7 +2,7 @@ import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
-import 'package:car_rental_system/widgets/custom_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_searchBar.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
@@ -40,146 +40,149 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
+      appBar: AppBar(
+        leading: Column(
+          children: [
+            CustomText(
+              data: locationStr,
+              fontSize: 14,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                CustomIcons(
+                  icon: Icons.location_on_outlined,
+                  color: primaryColor,
+                ),
+                CustomText(data: "New York, USA")
+              ],
+            )
+          ],
+        ),
+        actions: [
+          CustomBorderIconButton(
+            icon: Icons.notifications_none_outlined,
+            color: greyColor,
+            onPressed: () {},
+            // color: primaryColor,
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Row(
+              //   children: [],
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      children: [
-                        CustomText(
-                          data: locationStr,
-                          fontSize: 14,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomIcons(
-                              icon: Icons.location_on_outlined,
-                              color: primaryColor,
-                            ),
-                            CustomText(data: "New York, USA")
-                          ],
-                        )
-                      ],
+                    Flexible(
+                      flex: 6,
+                      child: CustomSearchbar(
+                        hintText: searchCarBarStr,
+                      ),
                     ),
-                    const Spacer(),
-                    CustomIconButton(
-                      icon: Icons.notifications_none_outlined,
-                      color: greyColor,
-                      onPressed: () {},
-                      // color: primaryColor,
-                    )
+                    // CustomIconButton(
+                    //   icon: Icons.filter_list_alt,
+                    //   onPressed: () {},
+                    //   color: primaryColor,
+                    // )
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    Expanded(
+                      child: CustomElevatedbutton(
+                          child: CustomIcons(
+                            icon: Icons.filter_list_alt,
+                            color: Colors.white,
+                          ),
+                          // color: const Color.fromARGB(255, 255, 255, 255),
+                          onPressed: () {
+                            print("Filter button pressed");
+                          }),
+                    ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        flex: 6,
-                        child: CustomSearchbar(
-                          hintText: searchCarBarStr,
-                        ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              CustomText(
+                data: topBrandsStr,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: topBrandCarsList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor:
+                                const Color.fromARGB(97, 223, 176, 176),
+                            radius: 30,
+                            child:
+                                Image.network(topBrandCarsList[index].image),
+                          ),
+                          CustomText(data: topBrandCarsList[index].name)
+                        ],
                       ),
-                      // CustomIconButton(
-                      //   icon: Icons.filter_list_alt,
-                      //   onPressed: () {},
-                      //   color: primaryColor,
-                      // )
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      Expanded(
-                        child: CustomElevatedbutton(
-                            child: CustomIcons(icon: Icons.filter_list_alt,color: Colors.white,),
-                            // color: const Color.fromARGB(255, 255, 255, 255),
-                            onPressed: () {
-                              print("Filter button pressed");
-                            }),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.035,
+              // ),
+              CustomText(
+                data: popularCarStr,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.47,
+                child: ListView.builder(
+                  itemCount: carDetailsList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomCarOverviewContainer(
+                          carName: carDetailsList[index].carName,
+                          carImageUrl: carDetailsList[index].carImageUrl,
+                          logoUrl: carDetailsList[index].logoUrl,
+                          rating: carDetailsList[index].rating.toString(),
+                          fuelCapacity: carDetailsList[index].fuelCapacity,
+                          isManual: carDetailsList[index].isManual,
+                          numberOfPeople:
+                              carDetailsList[index].numberOfPeople,
+                          price: carDetailsList[index].price.toString()
+                          //  price: '200',
+                          ),
+                    );
+                  },
                 ),
-                CustomText(
-                  data: topBrandsStr,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: topBrandCarsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  const Color.fromARGB(97, 223, 176, 176),
-                              radius: 30,
-                              child:
-                                  Image.network(topBrandCarsList[index].image),
-                            ),
-                            CustomText(data: topBrandCarsList[index].name)
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.035,
-                // ),
-                CustomText(
-                  data: popularCarStr,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.47,
-                  child: ListView.builder(
-                    itemCount: carDetailsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomCarOverviewContainer(
-                            carName: carDetailsList[index].carName,
-                            carImageUrl: carDetailsList[index].carImageUrl,
-                            logoUrl: carDetailsList[index].logoUrl,
-                            rating: carDetailsList[index].rating.toString(),
-                            fuelCapacity: carDetailsList[index].fuelCapacity,
-                            isManual: carDetailsList[index].isManual,
-                            numberOfPeople:
-                                carDetailsList[index].numberOfPeople,
-                            price: carDetailsList[index].price.toString()
-                            //  price: '200',
-                            ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

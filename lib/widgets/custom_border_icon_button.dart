@@ -2,11 +2,11 @@ import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:flutter/material.dart';
 
-class CustomIconButton extends StatelessWidget {
+class CustomBorderIconButton extends StatelessWidget {
   Function()? onPressed;
   Color? color;
   IconData? icon;
-  CustomIconButton(
+  CustomBorderIconButton(
       {super.key, required this.onPressed, this.color,required this.icon});
 
   @override

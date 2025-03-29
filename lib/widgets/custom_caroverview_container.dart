@@ -17,7 +17,8 @@ class CustomCarOverviewContainer extends StatelessWidget {
   final int numberOfPeople;
   final String price;
 
-  const CustomCarOverviewContainer({super.key, 
+  const CustomCarOverviewContainer({
+    super.key,
     required this.logoUrl,
     required this.carImageUrl,
     required this.carName,
@@ -67,7 +68,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 CustomIcons(icon: Icons.favorite),
               ],
             ),
-             SizedBox(height:MediaQuery.of(context).size.height * 0.01),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Center(
               child: Image.network(
                 carImageUrl,
@@ -75,7 +76,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            SizedBox(height:MediaQuery.of(context).size.height * 0.01),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,7 +98,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 ),
               ],
             ),
-             SizedBox(height:MediaQuery.of(context).size.height * 0.01),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -105,15 +106,16 @@ class CustomCarOverviewContainer extends StatelessWidget {
                   children: [
                     CustomIcons(
                         icon: Icons.local_gas_station, color: greyColor),
-                    
-            SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.0055),
                     Text(fuelCapacity),
                   ],
                 ),
                 Row(
                   children: [
                     CustomIcons(icon: Icons.autorenew, color: greyColor),
-                     SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.0055),
                     Text(isManual ? manualTypeStr : automaticTypeStr),
                   ],
                 ),
@@ -123,7 +125,8 @@ class CustomCarOverviewContainer extends StatelessWidget {
                       icon: Icons.people,
                       color: greyColor,
                     ),
-                     SizedBox(height:MediaQuery.of(context).size.height * 0.0055),
+                    SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.0055),
                     Text(numberOfPeople.toString()),
                   ],
                 ),
@@ -144,7 +147,8 @@ class CustomCarOverviewContainer extends StatelessWidget {
                         rentalNowStr,
                       ),
                       onPressed: () {
-                        RouteGenerator.navigateToPage(context, Routes.carDetailsRoute);
+                        RouteGenerator.navigateToPage(
+                            context, Routes.carDetailsRoute);
                       },
                     ),
                   ),

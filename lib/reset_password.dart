@@ -4,8 +4,9 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
-import 'package:car_rental_system/widgets/custom_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
+import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   controller: _passwordController,
                   labelText: passwordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIconButton(
+                  suffixIcon: CustomNoBorderIconButton(
                     icon: visible1
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
@@ -82,7 +83,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   controller: _confirmPasswordController,
                   labelText: confirmPasswordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIconButton(
+                  suffixIcon: CustomBorderIconButton(
                     icon: visible2
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,

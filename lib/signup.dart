@@ -4,10 +4,11 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
-import 'package:car_rental_system/widgets/custom_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_image_assets.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
+import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
@@ -79,8 +80,8 @@ class _SignupState extends State<Signup> {
                   controller: _passwordController,
                   labelText: passwordStr,
                   hintText: passwordHintStr,
-                  suffixIcon: CustomIconButton(
-                    icon: visible? Icons.visibility_outlined:Icons.visibility_off_outlined,
+                  suffixIcon: CustomNoBorderIconButton(
+                    icon:visible? Icons.visibility_outlined:Icons.visibility_off_outlined,
                       color: primaryColor,
                     onPressed: () {
                       setState(() {
