@@ -16,6 +16,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
   final bool isManual;
   final int numberOfPeople;
   final String price;
+ final dynamic Function()? onPressed;
 
   const CustomCarOverviewContainer({
     super.key,
@@ -27,6 +28,8 @@ class CustomCarOverviewContainer extends StatelessWidget {
     required this.isManual,
     required this.numberOfPeople,
     required this.price,
+    this.onPressed,
+    
   });
 
   @override
@@ -143,13 +146,14 @@ class CustomCarOverviewContainer extends StatelessWidget {
                   ),
                   Expanded(
                     child: CustomElevatedbutton(
+                      onPressed:onPressed,
                       child: const Text(
                         rentalNowStr,
                       ),
-                      onPressed: () {
-                        RouteGenerator.navigateToPage(
-                            context, Routes.carDetailsRoute);
-                      },
+                      // () {
+                      //   // RouteGenerator.navigateToPage(
+                      //   //     context, Routes.carDetailsRoute);
+                      // },
                     ),
                   ),
                 ],

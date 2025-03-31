@@ -13,7 +13,7 @@ class CustomElevatedbutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 40,
+        height: 50,
         width: width??MediaQuery.of(context).size.width,
         child: ElevatedButton(
           onPressed: onPressed,
@@ -21,7 +21,7 @@ class CustomElevatedbutton extends StatelessWidget {
             elevation: 0,
              backgroundColor: backgroundColor?? primaryColor,
             foregroundColor: Colors.white,
-            textStyle: TextStyle(fontSize: 12),
+            textStyle: TextStyle(fontSize: 14),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

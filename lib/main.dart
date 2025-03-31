@@ -1,3 +1,4 @@
+import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/firebase_options.dart';
 import 'package:car_rental_system/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen() ,
+      // home: SplashScreen() ,
+      home: CarDetailsPage(),
     );
   }
 }

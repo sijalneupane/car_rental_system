@@ -45,6 +45,7 @@ class RouteGenerator {
       case Routes.homeRoute:
         return MaterialPageRoute(builder: (_) =>const Home() );
       case Routes.carDetailsRoute:
+      print( settings.arguments);
         return MaterialPageRoute(builder: (_) =>const CarDetailsPage() );
       default:
         return MaterialPageRoute(

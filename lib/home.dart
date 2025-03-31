@@ -1,4 +1,6 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -41,11 +43,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: Column(
+        automaticallyImplyLeading: false,
+        title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomText(
               data: locationStr,
-              fontSize: 14,
+              fontSize: 16,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -54,7 +58,7 @@ class _HomeState extends State<Home> {
                   icon: Icons.location_on_outlined,
                   color: primaryColor,
                 ),
-                CustomText(data: "New York, USA")
+                CustomText(data: "New York, USA",fontSize: 16,)
               ],
             )
           ],
@@ -175,8 +179,12 @@ class _HomeState extends State<Home> {
                           isManual: carDetailsList[index].isManual,
                           numberOfPeople:
                               carDetailsList[index].numberOfPeople,
-                          price: carDetailsList[index].price.toString()
+                          price: carDetailsList[index].price.toString(),
                           //  price: '200',
+                          onPressed: () {
+                        RouteGenerator.navigateToPage(
+                            context, Routes.carDetailsRoute, arguments: carDetailsList[index]);
+                      },
                           ),
                     );
                   },
