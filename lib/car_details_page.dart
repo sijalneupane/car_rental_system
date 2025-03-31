@@ -144,8 +144,8 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
             },
             children: [
              _aboutCarBox(context),
-              Center(child: Text('Search Page', style: TextStyle(fontSize: 24))),
-              Center(child: Text('Profile Page', style: TextStyle(fontSize: 24))),
+              Center(child: Text('Gallery Section', style: TextStyle(fontSize: 24))),
+              Center(child: Text('Review Section', style: TextStyle(fontSize: 24))),
             ],
           ),
         ),
