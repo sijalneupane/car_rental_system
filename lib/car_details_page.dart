@@ -3,11 +3,13 @@ import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/home.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_image_assets.dart';
 import 'package:car_rental_system/widgets/custom_image_network.dart';
 import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_review_container.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +25,9 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   FocusNode focusNode = FocusNode();
   // State to manage the selected tab
   final List<bool> _selectedTabs = [true, false, false];
-  final List<String> _tabs = ['About', 'Gallery', 'Review'];
-  int _activeIndex = 0; 
-   final PageController _pageController = PageController();
+  final List<String> _tabs = [aboutStr, galleryStr, reviewStr];
+  int _activeIndex = 0;
+  final PageController _pageController = PageController();
 
   @override
   void dispose() {
@@ -48,141 +50,141 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
         title: CustomText(data: carDetailStr),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomImageNetwork(
-                name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
-                height: MediaQuery.of(context).size.height * 0.25,
-                width: MediaQuery.of(context).size.width,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomImageNetwork(
+              name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width,
+            ),
+            Center(
+              child: CircleAvatar(
+                backgroundColor: primaryColor,
+                child: CustomText(data: "360°", color: Colors.white),
               ),
-              Center(
-                child: CircleAvatar(
-                  backgroundColor: primaryColor,
-                  child: CustomText(data: "360°", color: Colors.white),
+            ),
+            CustomSizedBox(height: 0.02), // Spacer, // Spacer
+
+            // Car Title and Rating
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomText(
+                  data: "Audi Q7 50 Quattro",
+                  fontSize: 24,
                 ),
-              ),
-      CustomSizedBox(height: 0.02), // Spacer, // Spacer
+                Row(
+                  children: [
+                    CustomIcons(icon: Icons.star),
+                    CustomText(data: "4.5"),
+                  ],
+                ),
+              ],
+            ),
+            CustomSizedBox(height: 0.01),
+            CustomText(
+              data: "Audi",
+              textAlign: TextAlign.left,
+            ),
+            CustomSizedBox(height: 0.01), // Spacer
+            // Tabs (About, Gallery, Review) using ToggleButtons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: List.generate(_tabs.length, (index) {
+                final bool isActive = _activeIndex == index;
 
-              // Car Title and Rating
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    data: "Audi Q7 50 Quattro",
-                    fontSize: 24,
-                  ),
-                  Row(
-                    children: [
-                      CustomIcons(icon: Icons.star),
-                      CustomText(data: "4.5"),
-                    ],
-                  ),
-                ],
-              ),
-              CustomSizedBox(height: 0.01),
-              CustomText(
-                data: "Audi",
-                textAlign: TextAlign.left,
-              ),
-              CustomSizedBox(height: 0.01), // Spacer
-              // Tabs (About, Gallery, Review) using ToggleButtons
-               Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: List.generate(_tabs.length, (index) {
-            final bool isActive = _activeIndex == index;
-
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  _activeIndex = index;
-                });
-                _pageController.animateToPage(
-                  index,
-                  duration: Duration(milliseconds: 700),
-                  curve: Curves.easeInOutCubicEmphasized,
-                );
-              },
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 700),
-                curve: Curves.easeInOutCubicEmphasized,
-                padding: EdgeInsets.symmetric(vertical: 8),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: isActive ? primaryColor : greyColor.withValues(alpha: .1),
-                      width: 2.0,
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _activeIndex = index;
+                    });
+                    _pageController.animateToPage(
+                      index,
+                      duration: const Duration(milliseconds: 700),
+                      curve: Curves.easeInOutCubicEmphasized,
+                    );
+                  },
+                  child: AnimatedContainer(
+                    duration:const Duration(milliseconds: 700),
+                    curve: Curves.easeInOutCubicEmphasized,
+                    padding:const  EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: isActive
+                              ? primaryColor
+                              : greyColor.withValues(alpha: .1),
+                          width: 2.0,
+                        ),
+                      ),
+                    ),
+                    width: MediaQuery.of(context).size.width * 0.305,
+                    alignment: Alignment.center,
+                    child: Text(
+                      _tabs[index],
+                      style: TextStyle(
+                        color: isActive ? primaryColor : greyColor,
+                        fontWeight:
+                            isActive ? FontWeight.bold : FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-                width: MediaQuery.of(context).size.width * 0.305,
-                alignment: Alignment.center,
-                child: Text(
-                  _tabs[index],
-                  style: TextStyle(
-                    color: isActive ? primaryColor : greyColor,
-                    fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
-                  ),
-                ),
-              ),
-            );
-          }),
-        ),
-              CustomSizedBox(height: 0.02), // Spacer, // Spacer
+                );
+              }),
+            ),
+            CustomSizedBox(height: 0.02), // Spacer, // Spacer
 
-        SizedBox(
-          height: MediaQuery.of(context).size.height*0.3,
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _activeIndex = index;
-              });
-            },
-            children: [
-             _aboutCarBox(context),
-              Center(child: Text('Gallery Section', style: TextStyle(fontSize: 24))),
-              Center(child: Text('Review Section', style: TextStyle(fontSize: 24))),
-            ],
-          ),
-        ),
-              CustomSizedBox(height: 0.01),
-              // Price and Rent Now Button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Expanded(
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _activeIndex = index;
+                  });
+                },
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        data: "Price",
-                        color: greyColor,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(data: "\$88"),
-                          CustomText(
-                            data: perDayStr,
-                            color: greyColor,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  CustomElevatedbutton(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: const Text(rentNowStr),
-                    onPressed: () {
-                      // Add your rent now logic here
-                    },
-                  ),
+                  _aboutCarBox(context),
+                  _galleryPage(),
+                  _reviewTab(context)
                 ],
-              ), // Spacer
-            ],
-          ),
+              ),
+            ),
+            CustomSizedBox(height: 0.01),
+            // Price and Rent Now Button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      data: "Price",
+                      color: greyColor,
+                    ),
+                    Row(
+                      children: [
+                        CustomText(data: "\$88"),
+                        CustomText(
+                          data: perDayStr,
+                          color: greyColor,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                CustomElevatedbutton(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: const Text(rentNowStr),
+                  onPressed: () {
+                    // Add your rent now logic here
+                  },
+                ),
+              ],
+            ), // Spacer
+          ],
         ),
       ),
     );
@@ -203,10 +205,9 @@ Widget _aboutCarBox(BuildContext context) {
       // Rent Partner Section
       Row(
         children: [
-          const CircleAvatar(
-            radius: 25,
-            backgroundImage: NetworkImage(
-              'https://randomuser.me/api/portraits/men/85.jpg', 
+          CustomCircleAvatar(
+            backgroundImage: const NetworkImage(
+              'https://randomuser.me/api/portraits/men/85.jpg',
             ),
           ),
           CustomSizedBox(width: 0.02), // Spacer
@@ -220,13 +221,13 @@ Widget _aboutCarBox(BuildContext context) {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           CustomSizedBox(width: 0.01), // Spacer
           CustomBorderIconButton(
             icon: Icons.message,
             onPressed: () {},
           ),
-                CustomSizedBox(width: 0.02), // Spacer, // Spacer
+          CustomSizedBox(width: 0.02), // Spacer, // Spacer
 
           CustomBorderIconButton(
             icon: Icons.phone,
@@ -252,8 +253,49 @@ Widget _aboutCarBox(BuildContext context) {
 }
 
 //gallery page
-Widget _galleryPage(){
-  return Column(
+Widget _galleryPage() {
+  final List<String> images = List.generate(
+    20,
+    (index) => 'https://picsum.photos/seed/$index/200/300',
+  );
+  return GridView.builder(
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 3, // Number of columns
+      crossAxisSpacing: 8,
+      mainAxisSpacing: 8,
+    ),
+    itemCount: images.length,
+    itemBuilder: (context, index) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(images[index], fit: BoxFit.cover),
+      );
+    },
+  );
+}
 
+Widget _reviewTab(BuildContext context) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      CustomText(
+        data: reviewStr,
+        fontSize: 20,
+      ),
+      
+      Expanded(
+        child: ListView.builder(
+          padding:const EdgeInsets.all(10),
+          itemCount: 5,
+          itemBuilder: (context, index) {
+            return 
+            CustomReviewContainer(
+                reviewerName: "Ram ji",
+                reviewerInfo: "Manager at abc ",
+                reviewedDateTime: "01-01-2025");
+          },
+        ),
+      )
+    ],
   );
 }
