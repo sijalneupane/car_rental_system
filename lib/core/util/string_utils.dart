@@ -15,18 +15,31 @@ const String getStartedSubTitleStr="We welcome you to the car rental app where y
 const String nameStr="Name";
 const String nameHintStr="Enter your name";
 const String validateNameStr="PLease enter name";
+const String validateNameRegexStr="PLease enter name only containing letters and spaces";
+const String namePatternStr = r'^[A-Za-z]+(?: [A-Za-z]+)*$';
+RegExp nameRegex = RegExp(namePatternStr);
+
 const String emailAddressStr="Email Address";
 const String emailAddressHintStr="Enter your email address";
 const String validateEmailAddressStr="PLease enter email";
+const String validateEmailAddressRegexStr="PLease enter email address with @ and proper format";
+const String emailPatternStr = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+RegExp emailRegex = RegExp(emailPatternStr);
 
 const String passwordStr="Password";
 const String passwordHintStr="Enter password";
-const String validatePasswordStr="PLease enter password";
+const String validatePasswordStr="PLease enter password ";
+const String validatePasswordRegexStr="PLease enter password with at least 8 characters long, contain at least one uppercase letter and one number";
+const String passwordPatternStr = r'^(?=.*[A-Z])(?=.*\d).{8,}$';
+RegExp passwordRegex = RegExp(passwordPatternStr);
 
 const String agreeTermsAndConditionStr='I agree to the terms and conditions';
+const String notAgreedToTermsAndConditionsMessage="PLease agree to terms and condition to signup";
 const String registerStr="Register";
 const String orStr="Or";
 
+const String loginSuccessfullyStr="Logged in successfully";
+const String failedStr="Failed !";
 const String rememberMeStr="Remember Me";
 const String forgotPasswordStr="Forgot Passwoord";
 const String sendCodeStr="Send Code";

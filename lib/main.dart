@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen() ,
-      home: CarDetailsPage(),
+      home: SplashScreen() ,
+      // home: CarDetailsPage(),
     );
   }
 }

@@ -38,7 +38,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
         height: MediaQuery.of(context).size.height * 0.3,
-        width: MediaQuery.of(context).size.width * 0.65,
+        width: MediaQuery.of(context).size.width * 0.7,
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
@@ -135,7 +135,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 ),
               ],
             ),
-            Divider(),
+            const Divider(),
             Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
