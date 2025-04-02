@@ -11,6 +11,8 @@ class CustomTextformfield extends StatefulWidget {
   TextInputType? keyboardType;
   TextEditingController? controller;
   String? Function(String?)? validator;
+  void Function()? onTap;
+  bool? readOnly;
   CustomTextformfield(
       {super.key,
       this.labelText,
@@ -20,7 +22,9 @@ class CustomTextformfield extends StatefulWidget {
       this.obscureText,
       this.keyboardType,
       this.controller,
-      this.validator});
+      this.validator,
+      this.onTap,
+      this.readOnly});
 
   @override
   State<CustomTextformfield> createState() => _CustomTextformfieldState();
@@ -54,7 +58,9 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
             keyboardType: widget.keyboardType ?? TextInputType.text,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: widget.validator,
+            onTap:widget.onTap,
             obscureText: widget.obscureText ?? false,
+            readOnly:widget.readOnly??false,
             decoration: InputDecoration(
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: primaryColor)),

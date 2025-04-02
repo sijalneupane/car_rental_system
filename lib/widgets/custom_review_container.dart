@@ -47,9 +47,10 @@ class CustomReviewContainer extends StatelessWidget {
         ),
         CustomSizedBox(height:0.005),
         CustomText(data: "adjkasdkja aksdjhjkjrewororiwoier shcjhbfjhdgjksfgbgsfd gsfhsdfjghkskdjghjsdgfgjsdhfgrtiuwreoidsbaiufhdahf",color: greyColor,textAlign: TextAlign.left,)
-        ,
+        , 
         CustomSizedBox(height: 0.005,),
         Divider()
+    
         ],
       ),
     );
