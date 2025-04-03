@@ -1,7 +1,8 @@
 import 'package:car_rental_system/core/util/display_snackbar.dart';
-import 'package:car_rental_system/widgets/custom_date_input.dart';
+import 'package:car_rental_system/widgets/custom_date_time_input.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,8 @@ class _BookingPageState extends State<BookingPage> {
 
   final _dropoffLocationController = TextEditingController();
   final _pickupDateController = TextEditingController();
-final _dropoffDateController = TextEditingController();
+  final _pickUpTimeController = TextEditingController();
+
   DateTime? _pickupDate;
 
   TimeOfDay? _pickupTime;
@@ -39,9 +41,9 @@ final _dropoffDateController = TextEditingController();
               Row(
                 children: [
                   Expanded(
-                    child: CustomTextformfield (
+                    child: CustomTextformfield(
                       controller: _pickupLocationController,
-                    labelText: 'Pick-Up Location',
+                      labelText: 'Pick-Up Location',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter pick-up location';
@@ -51,9 +53,9 @@ final _dropoffDateController = TextEditingController();
                     ),
                   ),
                   Expanded(
-                    child: CustomTextformfield (
+                    child: CustomTextformfield(
                       controller: _dropoffLocationController,
-                    labelText: 'Drop-Off Location',
+                      labelText: 'Drop-Off Location',
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter drop-off location';
@@ -67,75 +69,17 @@ final _dropoffDateController = TextEditingController();
               Row(
                 children: [
                   Expanded(
-                    child: 
-                    // CustomDateInput(
-                    //   labelText: "Pick-Up Date",hintText: "Select Pick Up date",
-
-                    // ),
-                    CustomTextformfield(
-                      labelText: "Pick-Up Date",hintText: "Select Pick Up date",
-                      readOnly: true,
-                      suffixIcon: CustomNoBorderIconButton( onPressed:() async {
-                        final date = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2100),
-                        );
-                        if (date != null) {
-                          setState(() {
-                            _pickupDate = date;
-                            _pickupDateController.text=_pickupDate.toString().split(' ')[0];
-
-                          });
-                        }
-                      }, icon: Icons.date_range),
-                    controller: _pickupDateController,
-                    
-                      // hintText: _pickupDate == null
-                      //     ? 'Select Pick-Up Date'
-                      //     : _pickupDate.toString().split(' ')[0],
-                      validator:(p0) {
-                      
-                      } ,
-                    )
-                    // TextButton(
-                    //   onPressed: () async {
-                    //     final date = await showDatePicker(
-                    //       context: context,
-                    //       initialDate: DateTime.now(),
-                    //       firstDate: DateTime.now(),
-                    //       lastDate: DateTime(2100),
-                    //     );
-                    //     if (date != null) {
-                    //       setState(() {
-                    //         _pickupDate = date;
-                    //       });
-                    //     }
-                    //   },
-                    //   child: Text(_pickupDate == null
-                    //       ? 'Select Pick-Up Date'
-                    //       : _pickupDate.toString().split(' ')[0]),
-                    // ),
-                  ),
-                  // Expanded(
-                  //   child: TextButton(
-                  //     onPressed: () async {
-                  //       final time = await showTimePicker(
-                  //         context: context,
-                  //         initialTime: TimeOfDay.now(),
-                  //       );
-                  //       if (time != null) {
-                  //         setState(() {
-                  //           _pickupTime = time;
-                  //         });
-                  //       }
-                  //     },
-                  //     child: Text(_pickupTime == null
-                  //         ? 'Select Pick-Up Time'
-                  //         : _pickupTime!.format(context)),
-                  //   ),
-                  // ),
+                    child: CustomDateTimeInput(
+                      labelText: "Pick-Up Date",
+                      hintText: "Select Pick Up date",
+                      pickerType: "date",
+                      controller: _pickupDateController,
+                    ),
+                  ),CustomSizedBox(width: 0.02,),
+                  Expanded(child: CustomDateTimeInput(
+                    labelText: "Pick-Up time",
+                    pickerType: "time", controller: _pickUpTimeController,
+                  ))
                 ],
               ),
               CheckboxListTile(
@@ -147,18 +91,17 @@ final _dropoffDateController = TextEditingController();
                   });
                 },
               ),
-             CustomElevatedbutton(
+              CustomElevatedbutton(
                 onPressed: () {
                   if (_formKey.currentState!.validate() &&
                       _pickupDate != null &&
                       _pickupTime != null &&
                       _insuranceAgreed) {
-                      DisplaySnackbar.show(context,"Form Submitted Successfully!");
+                    DisplaySnackbar.show(
+                        context, "Form Submitted Successfully!");
                   } else {
-                    DisplaySnackbar.show(context,"Please fill all fields correctly.");
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   const SnackBar(content: Text('Please fill all fields correctly.')),
-                    // );
+                    DisplaySnackbar.show(
+                        context, "Please fill all fields correctly.");
                   }
                 },
                 child: const Text('Continue'),

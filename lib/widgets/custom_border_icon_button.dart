@@ -10,17 +10,28 @@ class CustomBorderIconButton extends StatelessWidget {
       {super.key, required this.onPressed, this.color,required this.icon});
 
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
     return Container(
+      height: 45,
+      width: 45,
       padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(50),
+        shape: BoxShape.circle, // Ensures the container is circular
         border: Border.all(color: greyColor),
       ),
       child: IconButton(
-          onPressed:onPressed,
-          icon: CustomIcons(icon: icon,color: color,)),
+        iconSize: 24,
+        onPressed: onPressed,
+        icon: CustomIcons(
+          icon: icon,
+          color: color,
+        ), 
+        // padding: EdgeInsets.zero, // Removes the gap
+        constraints: BoxConstraints(), // Removes extra spacing constraints
+        splashRadius: 24, // Adds better ripple effect within the circle
+      ),
     );
   }
+
 }

@@ -1,6 +1,8 @@
 import 'package:car_rental_system/booking_page.dart';
+import 'package:car_rental_system/bottom_navbar.dart';
 import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/firebase_options.dart';
+import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // home: SplashScreen() ,
       // home: CarDetailsPage(),
-      home: BookingPage(),
+      // home: BookingPage(),
+      // home: BottomNavbar1(),
+      home: LoginPgae(),
     );
   }
 }

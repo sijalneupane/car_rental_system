@@ -31,7 +31,7 @@ class CustomTextformfield extends StatefulWidget {
 }
 
 class _CustomTextformfieldState extends State<CustomTextformfield> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -62,11 +62,12 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
             obscureText: widget.obscureText ?? false,
             readOnly:widget.readOnly??false,
             decoration: InputDecoration(
+              errorMaxLines: 3,
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: primaryColor)),
               // labelText: labelText,
               hintText: widget.hintText,
-              hintStyle: TextStyle(color: greyColor),
+              hintStyle:const TextStyle(color: greyColor),
               alignLabelWithHint: true,
               suffixIcon: widget.suffixIcon,
               prefixIcon: widget.prefixIcon,

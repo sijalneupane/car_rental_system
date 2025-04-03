@@ -40,6 +40,7 @@ const String orStr="Or";
 
 const String loginSuccessfullyStr="Logged in successfully";
 const String failedStr="Failed !";
+const String credentialsDidnotMatchStr="Credentials didnot match";
 const String rememberMeStr="Remember Me";
 const String forgotPasswordStr="Forgot Passwoord";
 const String sendCodeStr="Send Code";
