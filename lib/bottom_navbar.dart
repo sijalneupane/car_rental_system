@@ -1,3 +1,4 @@
+import 'package:car_rental_system/add_car_form.dart';
 import 'package:car_rental_system/chat_page.dart';
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
@@ -23,7 +24,7 @@ class _BottomNavbar1State extends State<BottomNavbar1> {
       label: '',
     ),
     const BottomNavigationBarItem(
-      icon: Icon(Icons.share_location),
+      icon: Icon(Icons.car_rental_outlined),
       label: '', // Empty string to remove label
     ),
     const BottomNavigationBarItem(
@@ -38,7 +39,7 @@ class _BottomNavbar1State extends State<BottomNavbar1> {
 
   List<Widget> widgets = [
     const Home(),
-    const Home(),
+    const AddCarForm(),
     const ChatPage(),
     const ChatPage(),
   ];
@@ -56,15 +57,20 @@ class _BottomNavbar1State extends State<BottomNavbar1> {
           });
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:Theme(
+        data: ThemeData(
+          splashFactory: NoSplash.splashFactory, // Disable splash effect
+        ),child: BottomNavigationBar(
         items: bottomNavItemList,
+        elevation: 2,
         currentIndex: index,
         backgroundColor: Colors.white,
         unselectedItemColor: greyColor,
         selectedItemColor: primaryColor,
         type: BottomNavigationBarType.fixed, // Ensures all icons are visible
         showSelectedLabels: false, // Hides selected labels
-        showUnselectedLabels: false, // Hides unselected labels
+        showUnselectedLabels: false,
+         // Hides unselected labels
         onTap: (value) {
           setState(() {
             index = value;
@@ -72,7 +78,7 @@ class _BottomNavbar1State extends State<BottomNavbar1> {
             // OR use pageController.animateToPage(value, duration: Duration(milliseconds: 300), curve: Curves.ease);
           });
         },
-      ),
+      ),),
     );
   }
   

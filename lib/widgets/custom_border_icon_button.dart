@@ -12,8 +12,8 @@ class CustomBorderIconButton extends StatelessWidget {
   @override
    Widget build(BuildContext context) {
     return Container(
-      height: 45,
-      width: 45,
+      height: 40,
+      width: 40,
       padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -21,7 +21,7 @@ class CustomBorderIconButton extends StatelessWidget {
         border: Border.all(color: greyColor),
       ),
       child: IconButton(
-        iconSize: 24,
+        iconSize: 22,
         onPressed: onPressed,
         icon: CustomIcons(
           icon: icon,

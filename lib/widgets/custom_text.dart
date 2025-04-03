@@ -6,16 +6,29 @@ class CustomText extends StatelessWidget {
   double? fontSize;
   FontWeight? fontWeight;
   TextAlign? textAlign;
+  bool? isFormTitle ;
+  bool? isPageTitle;
+
   CustomText(
-      {super.key, required this.data, this.color, this.fontSize,this.fontWeight,this.textAlign});
+      {super.key,
+      required this.data,
+      this.color,
+      this.fontSize,
+      this.fontWeight,
+      this.textAlign,
+      this.isFormTitle,
+      this.isPageTitle});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       data,
       softWrap: true,
-      textAlign:textAlign?? TextAlign.center ,
-      style: TextStyle(color: color ?? Colors.black, fontSize: fontSize, fontWeight:fontWeight ),
+      textAlign: textAlign ?? TextAlign.center,
+      style: TextStyle(
+          color: color ?? Colors.black,
+          fontSize: isPageTitle?? false?20:isFormTitle ?? false ?28:fontSize ,
+          fontWeight: fontWeight),
     );
   }
 }

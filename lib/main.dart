@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
       // home: SplashScreen() ,
       // home: CarDetailsPage(),
       // home: BookingPage(),
-      // home: BottomNavbar1(),
-      home: LoginPgae(),
+      home: BottomNavbar1(),
+      // home: LoginPgae(),
     );
   }
 }

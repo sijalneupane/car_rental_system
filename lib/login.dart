@@ -54,7 +54,7 @@ class _LoginPgaeState extends State<LoginPgae> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomBackPageIcon(icon: Icons.arrow_back),
+                CustomBackPageIcon(),
 
                 // CustomBackPageIcon( icon: Icons.close),
                 CustomSizedBox(
@@ -62,7 +62,8 @@ class _LoginPgaeState extends State<LoginPgae> {
                 ),
                 CustomText(
                   data: welcomeBackStr,
-                  fontSize: 30,
+                  // fontSize: 30,
+                  isFormTitle: true,
                   textAlign: TextAlign.center,
                 ),
                 CustomSizedBox(

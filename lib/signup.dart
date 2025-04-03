@@ -57,7 +57,7 @@ class _SignupState extends State<Signup> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CustomBackPageIcon(icon: Icons.arrow_back),
+                  CustomBackPageIcon(),
                   CustomSizedBox(
                     height: 0.02,
                   ),

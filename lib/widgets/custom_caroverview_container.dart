@@ -13,8 +13,8 @@ class CustomCarOverviewContainer extends StatelessWidget {
   final String carName;
   final String rating;
   final String fuelCapacity;
-  final bool isManual;
-  final int numberOfPeople;
+  final String carType;
+  final String numberOfPeople;
   final String price;
  final dynamic Function()? onPressed;
 
@@ -25,7 +25,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
     required this.carName,
     required this.rating,
     required this.fuelCapacity,
-    required this.isManual,
+    required this.carType,
     required this.numberOfPeople,
     required this.price,
     this.onPressed,
@@ -119,7 +119,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                     CustomIcons(icon: Icons.autorenew, color: greyColor),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.0055),
-                    Text(isManual ? manualTypeStr : automaticTypeStr),
+                    Text(carType),
                   ],
                 ),
                 Row(

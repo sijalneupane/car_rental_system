@@ -12,6 +12,7 @@ import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_review_container.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
+import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailsPage extends StatefulWidget {
@@ -39,15 +40,14 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal:  15.0,vertical: 10),
+        child: PaddingForAllPages (
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomBackPageIcon(icon: Icons.arrow_back),
+                  CustomBackPageIcon(),
                   CustomText(
                     data: carDetailStr,
                     fontSize: 20,

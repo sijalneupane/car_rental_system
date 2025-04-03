@@ -8,7 +8,8 @@ class DisplaySnackbar {
       Color textColor = Colors.white,
       Duration duration = const Duration(seconds: 3),
       IconData? icon,
-      bool isError=false}) {
+      bool isError=false
+      , bool isSuccess=false}) {
     final snackBar = SnackBar(
       content: Row(
         children: [
@@ -22,7 +23,7 @@ class DisplaySnackbar {
           ),
         ],
       ),
-      backgroundColor:isError?Colors.red: backgroundColor,
+      backgroundColor:isError?Colors.red:isSuccess?Colors.green: backgroundColor,
       duration: duration,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(

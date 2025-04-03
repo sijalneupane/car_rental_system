@@ -27,7 +27,7 @@ class _EnterOtpState extends State<EnterOtp> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: CustomBackPageIcon(icon: Icons.arrow_back),
+        title: CustomBackPageIcon(),
       ),
       body: Form(
           key: _formKey,

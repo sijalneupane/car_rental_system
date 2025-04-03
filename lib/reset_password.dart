@@ -33,7 +33,7 @@ class _ResetPasswordState extends State<ResetPassword> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: CustomBackPageIcon(icon: Icons.arrow_back),
+        title: CustomBackPageIcon(),
       ),
       body: Form(
         key: _formKey,
