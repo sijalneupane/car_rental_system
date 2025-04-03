@@ -10,7 +10,7 @@ class Loader {
       child: Stack(
         children: [
           const Center(
-            child: SpinKitDualRing(color: Colors.green,size: 100,),
+            child: SpinKitDualRing(color: Color(0xFF08910D),size: 100,lineWidth: 12,),
           ),
           Container(
             height: MediaQuery.of(context).size.height,

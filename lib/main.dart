@@ -29,10 +29,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       debugShowCheckedModeBanner: false,
-      // home: SplashScreen() ,
+      home: SplashScreen() ,
       // home: CarDetailsPage(),
       // home: BookingPage(),
-      home: BottomNavbar1(),
+      // home: BottomNavbar1(),
       // home: LoginPgae(),
     );
   }
