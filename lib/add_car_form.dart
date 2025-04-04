@@ -2,6 +2,7 @@ import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/hide_keyboard.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_dropdown.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -184,19 +185,20 @@ class _AddCarFormState extends State<AddCarForm> {
                     });
                     HideKeyboard.hideKeyboard(context);
                     Future.delayed(Duration(seconds: 2),()async{
-                      var carDetails = {
-                      "carName": _carNameController.text,
-                      "carBrand": _carBrandController.text,
-                      "carType": _carTypeController.text,
-                      "passengerCapacity": _passengerCapacityController.text,
-                      "fuelCapacity": _fuelCapacityController.text,
-                      "rentPrice": _priceController.text,
-                    };
+                      Car obj= Car(carName: _carNameController.text);
+                    //   var carDetails = {
+                    //   "carName": _carNameController.text,
+                    //   "carBrand": _carBrandController.text,
+                    //   "carType": _carTypeController.text,
+                    //   "passengerCapacity": _passengerCapacityController.text,
+                    //   "fuelCapacity": _fuelCapacityController.text,
+                    //   "rentPrice": _priceController.text,
+                    // };
                     // print(carDetails);
                     try {
                       FirebaseFirestore firebaseFirestore =
                           FirebaseFirestore.instance;
-                     await firebaseFirestore.collection("cars").add(carDetails);
+                     await firebaseFirestore.collection("cars").add(obj.toJson());
                       setState(() {
                         loader=false;
                       });

@@ -4,6 +4,7 @@ import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/get_started.dart';
 import 'package:car_rental_system/home.dart';
+import 'package:car_rental_system/profile_page.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,7 @@ class _BottomNavbar1State extends State<BottomNavbar1> {
     const Home(),
     const AddCarForm(),
     const ChatPage(),
-    const ChatPage(),
+    const ProfilePage()
   ];
 
   @override

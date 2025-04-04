@@ -3,6 +3,7 @@ import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -23,7 +24,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List carsList = [];
+  List<Car> carsList = [];
   bool loader = false;
 
   @override
@@ -42,7 +43,18 @@ class _HomeState extends State<Home> {
     firestore.collection("cars").get().then((value) {
       if (value.docs.isNotEmpty) {
         setState(() {
-          carsList = value.docs.map((doc) => doc.data()).toList();
+         carsList = value.docs.map((doc) => Car.fromJson(doc.data())).toList();
+          //value.docs get the list of json data from collection named cars
+         // value.docs[0].data()  gets value odf 0 index in json format
+         // we have multiple value sp we  used for each loop
+         //here is the for each loop like value.docs.map((doc)=>Car.fromJson(doc.data())).toList());
+         //in above loop value.docs contains list of json of cars collection
+         //doc is the name of variable
+         //in doc.data() we have the value of 0 index of value.docs list which contain data in json format
+         // by usnig CAR.fromJson fucntion we convert json format data to object of class named Car
+         //so out carlist contains the list of objects of car class
+
+
           loader = false;
         });
       } else {
@@ -137,11 +149,6 @@ class _HomeState extends State<Home> {
                           hintText: searchCarBarStr,
                         ),
                       ),
-                      // CustomIconButton(
-                      //   icon: Icons.filter_list_alt,
-                      //   onPressed: () {},
-                      //   color: primaryColor,
-                      // )
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.05,
                       ),
@@ -215,16 +222,16 @@ class _HomeState extends State<Home> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: CustomCarOverviewContainer(
-                          carName: carsList[index]["carName"],
+                          carName: carsList[index].carName ?? "hello",
                           carImageUrl:
                               "https://content.presspage.com/uploads/1523/f2d90f57-531b-4e28-add8-90171eb0a345/1920_fe-001.jpg?x=1732560151998",
                           logoUrl:
                               "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
                           rating: "4.5",
-                          fuelCapacity: carsList[index]["fuelCapacity"],
-                          carType: carsList[index]["carType"],
-                          numberOfPeople: carsList[index]["passengerCapacity"],
-                          price: carsList[index]["rentPrice"],
+                          fuelCapacity: carsList[index].fuelCapacity ?? "",
+                          carType: carsList[index].carType ?? "",
+                          numberOfPeople: carsList[index].passengerCapacity ?? "",
+                          price: carsList[index].rentPrice ?? "",
                           //  price: '200',
                           onPressed: () {
                             RouteGenerator.navigateToPage(

@@ -143,7 +143,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                         loader = true;
                       });
                       HideKeyboard.hideKeyboard(context);
-                      Future.delayed(const Duration(seconds: 2), () async {
+                      Future.delayed(const Duration(seconds: 20), () async {
                         // var data = {
                         //   "name": _nameController.text.trim(),
                         //   "email": _emailAddressController.text.trim(),
