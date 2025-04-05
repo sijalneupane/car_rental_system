@@ -44,16 +44,16 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
             data: widget.labelText ?? "",
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w500,
             fontSize: 16,
           ),
-          const SizedBox(height: 10), // Space between label and field
+          const SizedBox(height: 4), // Space between label and field
           TextFormField(
             onChanged:widget.onChanged ,
             focusNode: _focusNode,

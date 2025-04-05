@@ -113,8 +113,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
       child: Column(
         children: [
           PaddingForAllPages(
-            horizontalPadding: 12,
-            verticalPadding: 4,
+            leftPadding: 12,
+            topPadding: 4,
             child: CustomAppBar(
               hasBackButton: true,
               middleChild: CustomText(

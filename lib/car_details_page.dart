@@ -4,6 +4,7 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/home.dart';
 import 'package:car_rental_system/model/car.dart';
+import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
@@ -45,26 +46,17 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
     return Scaffold(
       body: SafeArea(
         child: PaddingForAllPages (
+          bottomPadding: 14,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomBackPageIcon(),
-                  CustomText(
-                    data: carDetailStr,
-                    fontSize: 20,
-                  ),
-                  CustomNoBorderIconButton(
-                    onPressed: () {},
-                    icon: Icons.favorite_outlined,
-                  ),
-                ],
+              CustomAppBar(
+                hasBackButton: true,
+                middleChild: CustomText(data: carDetailStr,isPageTitle: true,),
               ),
               CustomImageNetwork(
                 name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.22,
                 width: MediaQuery.of(context).size.width,
               ),
               Center(
@@ -73,7 +65,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                   child: CustomText(data: "360°", color: Colors.white),
                 ),
               ),
-              CustomSizedBox(height: 0.02), // Spacer, // Spacer
+              CustomSizedBox(height: 0.01), // Spacer, // Spacer
           
               // Car Title and Rating
               Row(
@@ -186,7 +178,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: const Text(rentNowStr),
                     onPressed: () {
-                      RouteGenerator.navigateToPage(context,Routes.carBookingRoute);
+                      RouteGenerator.navigateToPage(context,Routes.carBookingRoute,arguments: carDetail);
                       // Add your rent now logic here
                     },
                   ),

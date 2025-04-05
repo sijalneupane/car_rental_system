@@ -33,7 +33,7 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
         contentPadding: const EdgeInsets.all(8),
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: primaryColor)),
-        hintStyle: TextStyle(color: greyColor),
+        hintStyle:const TextStyle(color: greyColor),
         alignLabelWithHint: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

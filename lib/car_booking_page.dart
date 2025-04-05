@@ -1,8 +1,12 @@
+import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
+import 'package:car_rental_system/widgets/custom_checkbox.dart';
 import 'package:car_rental_system/widgets/custom_date_time_input.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
+import 'package:car_rental_system/widgets/custom_icons.dart';
+import 'package:car_rental_system/widgets/custom_image_network.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
@@ -17,7 +21,7 @@ class CarBookingPage extends StatefulWidget {
 }
 
 class _CarBookingPageState extends State<CarBookingPage> {
- final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   final _pickupLocationController = TextEditingController();
 
@@ -40,78 +44,123 @@ class _CarBookingPageState extends State<CarBookingPage> {
             child: Form(
               key: _formKey,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomAppBar(
                     hasBackButton: true,
-                    middleChild: CustomText(data: bookingStr,isPageTitle: true,),
+                    middleChild: CustomText(
+                      data: bookingStr,
+                      isPageTitle: true,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextformfield(
-                          controller: _pickupLocationController,
-                          labelText: 'Pick-Up Location',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter pick-up location';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        child: CustomTextformfield(
-                          controller: _dropoffLocationController,
-                          labelText: 'Drop-Off Location',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter drop-off location';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
+                  CustomImageNetwork(
+                    name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  Center(
+                    child: CircleAvatar(
+                      backgroundColor: primaryColor,
+                      child: CustomText(data: "360°", color: Colors.white),
+                    ),
+                  ),
+                  CustomSizedBox(height: 0.01), // Spacer, // Spacer
+
+                  CustomTextformfield(
+                    controller: _pickupLocationController,
+                    labelText: pickUpLocationStr,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return pickUpLocationValidationStr;
+                      }
+                      return null;
+                    },
+                  ),
+                  CustomTextformfield(
+                    controller: _dropoffLocationController,
+                    labelText: dropOffLocationStr,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return dropOffLocationValidationStr;
+                      }
+                      return null;
+                    },
                   ),
                   Row(
                     children: [
                       Expanded(
                         child: CustomDateTimeInput(
-                          labelText: "Pick-Up Date",
-                          hintText: "Select Pick Up date",
-                          pickerType: "date",
+                          suffixIcon: CustomIcons(icon: Icons.date_range),
+                          labelText: pickUpDateStr,
+                          hintText: selectDateStr,
+                          pickerType: dateStr,
                           controller: _pickupDateController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return pickUpDateValidationStr;
+                            }
+                            return null;
+                          },
                         ),
-                      ),CustomSizedBox(width: 0.02,),
-                      Expanded(child: CustomDateTimeInput(
-                        labelText: "Pick-Up time",
-                        pickerType: "time", controller: _pickUpTimeController,
+                      ),
+                      CustomSizedBox(
+                        width: 0.02,
+                      ),
+                      Expanded(
+                          child: CustomDateTimeInput(
+                        suffixIcon: CustomIcons(
+                            icon: Icons.history_toggle_off_outlined),
+                        labelText: pickUpTimeStr,
+                        hintText: selectTimeStr,
+                        pickerType: timeStr,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return pickUpTimeValidationStr;
+                          }
+                          return null;
+                        },
+                        controller: _pickUpTimeController,
                       ))
                     ],
                   ),
-                  CheckboxListTile(
-                    title: const Text('Agree to Insurance Terms'),
-                    value: _insuranceAgreed,
-                    onChanged: (value) {
-                      setState(() {
-                        _insuranceAgreed = value!;
-                      });
-                    },
+                  CustomSizedBox(
+                    height: 0.01,
                   ),
-                  CustomElevatedbutton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() &&
-                          _pickupDate != null &&
-                          _pickupTime != null &&
-                          _insuranceAgreed) {
-                        DisplaySnackbar.show(
-                            context, "Form Submitted Successfully!");
-                      } else {
-                        DisplaySnackbar.show(
-                            context, "Please fill all fields correctly.");
-                      }
-                    },
-                    child: const Text('Continue'),
+                  CustomText(
+                    data: insuranceStr,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  CustomSizedBox(
+                    height: 0.01,
+                  ),
+                  CustomCheckbox(
+                      value: _insuranceAgreed,
+                      onChanged: (value) {
+                        setState(() {
+                          _insuranceAgreed = value!;
+                        });
+                      },
+                      data: insuranceCoveragesAgreementStr),
+                  CustomSizedBox(
+                    height: 0.01,
+                  ),
+                  Column(
+                    children: [
+                      CustomElevatedbutton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate() &&
+                              _insuranceAgreed) {
+                            DisplaySnackbar.show(
+                                context, "Form Submitted Successfully!");
+                          } else {
+                            DisplaySnackbar.show(
+                                context, "Please fill all fields correctly.");
+                          }
+                        },
+                        child: const Text('Continue'),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -121,5 +170,4 @@ class _CarBookingPageState extends State<CarBookingPage> {
       ),
     );
   }
-
 }

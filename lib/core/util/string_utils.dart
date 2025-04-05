@@ -80,14 +80,21 @@ const String perDayStr="/ day";
 //booking page str
 const String bookingStr="Booking";
 const String pickUpLocationStr="Pick-Up Location";
+const String pickUpLocationValidationStr="Please enter pick-Up Location";
 const String dropOffLocationStr="Drop-Off Location";
+const String dropOffLocationValidationStr="Please enter drop-Off Location";
 const String pickUpDateStr="Pick-Up Date";
+const String selectDateStr="Select Date";
+const String dateStr="Date";
+const String pickUpDateValidationStr="Please select pick-Up Date";
 const String pickUpTimeStr="Pick-Up Time";
-const String dropOffDateStr="Drop-Off Date";
-const String dropOffTimeStr="Drop-Off Time";
+const String selectTimeStr="Select Time";
+const String timeStr="Time";
+const String pickUpTimeValidationStr="Please select pick-Up Time";
+// const String dropOffDateStr="Drop-Off Date";
+// const String dropOffTimeStr="Drop-Off Time";
 const String insuranceStr="Insurance";
 const String insuranceCoveragesAgreementStr="By renting a car at Renter, you agree to the included insurance coverage for the selected car. ";
-const String selectDateStr="Select Date";
 
 //billing page str
 const String billingStr="Billing";
@@ -126,7 +133,6 @@ const String chatStr="Chat";
 const String searchChatStr="Search chat, people and more ...";
 const String profileStr="Profile";
 const String editProfileStr="Edit Profile";
-// const String addCarDetailsStr="Add Car Details";
 const String viewCarDetailsStr="View Car Details";
 const String licenseStr="License";
 const String passportStr="Passport";

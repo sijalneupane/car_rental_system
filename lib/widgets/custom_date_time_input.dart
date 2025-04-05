@@ -11,7 +11,6 @@ class CustomDateTimeInput extends StatefulWidget {
   String? Function(String?)? validator;
   // void Function()? onTap;
   final bool? readOnly;
-  final IconData? icon;
   final String? pickerType; // "date" or "time"
   CustomDateTimeInput({
     super.key,
@@ -22,7 +21,6 @@ class CustomDateTimeInput extends StatefulWidget {
    required this.controller,
     this.validator,
     // this.onTap,
-    this.icon,
    required this.pickerType,this.readOnly
   });
 
@@ -65,9 +63,9 @@ class _CustomDateTimeInputState extends State<CustomDateTimeInput> {
   }
 
   void _handlePicker() {
-    if (widget.pickerType == "date") {
+    if (widget.pickerType == "Date") {
       _pickDate();
-    } else if (widget.pickerType == "time") {
+    } else if (widget.pickerType == "Time") {
       _pickTime();
     }
   }
@@ -78,19 +76,10 @@ class _CustomDateTimeInputState extends State<CustomDateTimeInput> {
       readOnly:  widget.readOnly??true,
         labelText: widget.labelText,
         hintText: widget.hintText,
-      // decoration: InputDecoration(
-      //   suffixIcon: IconButton(
-      //     onPressed: _handlePicker,
-      //     icon: Icon(widget.icon),
-      //   ),
       onTap: _handlePicker,
-      suffixIcon: CustomNoBorderIconButton(
-          onPressed: _handlePicker,
-          icon: widget.icon),
+      prefixIcon: widget.prefixIcon,
+      suffixIcon: widget.suffixIcon,
 
-      // hintText: _pickupDate == null
-      //     ? 'Select Pick-Up Date'
-      //     : _pickupDate.toString().split(' ')[0],
       validator: widget.validator,
     );
   }

@@ -98,6 +98,7 @@ class _HomeState extends State<Home> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: PaddingForAllPages(
+            
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
