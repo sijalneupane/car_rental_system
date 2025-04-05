@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class CustomSearchbar extends StatefulWidget {
   String? hintText;
-  CustomSearchbar({super.key, this.hintText});
+  void Function(String)? onChanged;
+  CustomSearchbar({super.key, this.hintText, this.onChanged});
 
   @override
   State<CustomSearchbar> createState() => _CustomSearchbarState();
@@ -23,19 +24,21 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          prefixIcon: CustomIcons(icon: Icons.search),
-          contentPadding: const EdgeInsets.all(8),
-          focusedBorder: const OutlineInputBorder(
-            
-              borderSide: BorderSide(width: 1, color: primaryColor)),
-          hintStyle: TextStyle(color: greyColor),
-          alignLabelWithHint: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
+      onChanged: widget.onChanged,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: const Color.fromARGB(255, 255, 255, 255),
+        hintText: widget.hintText,
+        prefixIcon: CustomIcons(icon: Icons.search),
+        contentPadding: const EdgeInsets.all(8),
+        focusedBorder: const OutlineInputBorder(
+            borderSide: BorderSide(width: 1, color: primaryColor)),
+        hintStyle: TextStyle(color: greyColor),
+        alignLabelWithHint: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
         ),
+      ),
     );
   }
 }

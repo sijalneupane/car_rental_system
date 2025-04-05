@@ -64,7 +64,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                     icon: visible1
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
-                    color: primaryColor,
+                    iconColor: primaryColor,
                     onPressed: () {
                       setState(() {
                         visible1 = !visible1;

@@ -12,6 +12,7 @@ class CustomTextformfield extends StatefulWidget {
   TextEditingController? controller;
   String? Function(String?)? validator;
   void Function()? onTap;
+  void Function(String)? onChanged;
   bool? readOnly;
   CustomTextformfield(
       {super.key,
@@ -24,7 +25,8 @@ class CustomTextformfield extends StatefulWidget {
       this.controller,
       this.validator,
       this.onTap,
-      this.readOnly});
+      this.readOnly,
+      this.onChanged});
 
   @override
   State<CustomTextformfield> createState() => _CustomTextformfieldState();
@@ -47,12 +49,13 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomText(
-            data: widget.labelText!,
+            data: widget.labelText ?? "",
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
           const SizedBox(height: 10), // Space between label and field
           TextFormField(
+            onChanged:widget.onChanged ,
             focusNode: _focusNode,
             controller: widget.controller,
             keyboardType: widget.keyboardType ?? TextInputType.text,

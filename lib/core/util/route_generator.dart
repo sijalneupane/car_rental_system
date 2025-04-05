@@ -1,4 +1,6 @@
+import 'package:car_rental_system/add_car_form.dart';
 import 'package:car_rental_system/bottom_navbar.dart';
+import 'package:car_rental_system/car_booking_page.dart';
 import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/enter_otp.dart';
@@ -7,8 +9,8 @@ import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/reset_password.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
-import 'package:car_rental_system/splash_screen.dart';
 import 'package:car_rental_system/forgot_password.dart';
+import 'package:car_rental_system/view_car_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
@@ -46,7 +48,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>const Home() );
       case Routes.carDetailsRoute:
       print( settings.arguments);
-        return MaterialPageRoute(builder: (_) =>const CarDetailsPage() );
+        return MaterialPageRoute(builder: (_) =>const CarDetailsPage(),settings: settings );
+      case Routes.carBookingRoute:
+        return MaterialPageRoute(builder: (_) =>const CarBookingPage() );
+      case Routes.addCarDetailsRoute:
+        return MaterialPageRoute(builder: (_) =>const AddCarForm() );
+      case Routes.viewCarListRoute:
+        return MaterialPageRoute(builder: (_) =>const ViewCarListScreen() );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

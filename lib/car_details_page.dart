@@ -1,6 +1,9 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/home.dart';
+import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
@@ -38,6 +41,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+  var carDetail=ModalRoute.of(context)?.settings.arguments as Car;
     return Scaffold(
       body: SafeArea(
         child: PaddingForAllPages (
@@ -76,7 +80,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    data: "Audi Q7 50 Quattro",
+                    data: carDetail.carName!,
                     fontSize: 24,
                   ),
                   Row(
@@ -89,7 +93,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
               ),
               CustomSizedBox(height: 0.01),
               CustomText(
-                data: "Audi",
+                data: carDetail.carBrand!,
                 textAlign: TextAlign.left,
               ),
               CustomSizedBox(height: 0.01), // Spacer
@@ -164,12 +168,12 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText(
-                        data: "Price",
+                        data: priceStr,
                         color: greyColor,
                       ),
                       Row(
                         children: [
-                          CustomText(data: "\$88"),
+                          CustomText(data: "\$ ${carDetail.rentPrice}"),
                           CustomText(
                             data: perDayStr,
                             color: greyColor,
@@ -182,6 +186,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: const Text(rentNowStr),
                     onPressed: () {
+                      RouteGenerator.navigateToPage(context,Routes.carBookingRoute);
                       // Add your rent now logic here
                     },
                   ),

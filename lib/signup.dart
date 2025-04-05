@@ -101,7 +101,7 @@ class _SignupState extends State<Signup> {
                       icon: visible
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
-                      color: primaryColor,
+                      iconColor: primaryColor,
                       onPressed: () {
                         setState(() {
                           visible = !visible;

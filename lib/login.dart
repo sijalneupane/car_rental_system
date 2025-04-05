@@ -16,6 +16,9 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
+// ···
 
 class LoginPgae extends StatefulWidget {
   const LoginPgae({super.key});
@@ -91,7 +94,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                     icon: visible
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
-                    color: primaryColor,
+                    iconColor: primaryColor,
                     onPressed: () {
                       setState(() {
                         visible = !visible;
@@ -143,7 +146,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                         loader = true;
                       });
                       HideKeyboard.hideKeyboard(context);
-                      Future.delayed(const Duration(seconds: 20), () async {
+                      Future.delayed(const Duration(seconds: 2), () async {
                         // var data = {
                         //   "name": _nameController.text.trim(),
                         //   "email": _emailAddressController.text.trim(),
@@ -160,11 +163,25 @@ class _LoginPgaeState extends State<LoginPgae> {
                               .where("password",
                                   isEqualTo: _passwordController.text.trim())
                               .get()
-                              .then((value) {
+                              .then((value) async {
                             if (value.docs.isNotEmpty) {
+                              if (rememberMe) {
+                                // Obtain shared preferences.
+                                const SharedPreferencesOptions
+                                    sharedPreferencesOptions =
+                                    SharedPreferencesOptions();
+                                final SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+                                  legacySharedPreferencesInstance: prefs,
+                                  sharedPreferencesAsyncOptions:
+                                      sharedPreferencesOptions,
+                                  migrationCompletedKey: 'migrationCompleted',
+                                );
+                                await prefs.setBool('isLoggedIn', true);
+                              }
                               DisplaySnackbar.show(
                                   context, loginSuccessfullyStr);
-
                               RouteGenerator.navigateToPageWithoutStack(
                                   // ignore: use_build_context_synchronously
                                   context,
@@ -173,8 +190,8 @@ class _LoginPgaeState extends State<LoginPgae> {
                               DisplaySnackbar.show(
                                   isError: true,
                                   context,
-                                credentialsDidnotMatchStr,
-                                icon: Icons.error_outline);
+                                  credentialsDidnotMatchStr,
+                                  icon: Icons.error_outline);
                             }
                             setState(() {
                               loader = false;
@@ -185,7 +202,8 @@ class _LoginPgaeState extends State<LoginPgae> {
                             loader = false;
                           });
                           // ignore: use_build_context_synchronously
-                          DisplaySnackbar.show(context, failedStr);
+                          DisplaySnackbar.show(
+                              context, failedStr + e.toString());
                         }
                       });
                     }

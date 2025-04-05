@@ -28,7 +28,7 @@ class CustomText extends StatelessWidget {
       style: TextStyle(
           color: color ?? Colors.black,
           fontSize: isPageTitle?? false?20:isFormTitle ?? false ?28:fontSize ,
-          fontWeight: fontWeight),
+          fontWeight:(isPageTitle==true || isFormTitle ==true)?FontWeight.bold: fontWeight),
     );
   }
 }

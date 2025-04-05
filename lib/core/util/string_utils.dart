@@ -126,6 +126,8 @@ const String chatStr="Chat";
 const String searchChatStr="Search chat, people and more ...";
 const String profileStr="Profile";
 const String editProfileStr="Edit Profile";
+// const String addCarDetailsStr="Add Car Details";
+const String viewCarDetailsStr="View Car Details";
 const String licenseStr="License";
 const String passportStr="Passport";
 const String paymentMethodsStr="Payment Methods";
@@ -163,3 +165,7 @@ const String priceValidateString = "Please enter rent price";
 const String submitStr="Submit";
 const String carDetailsAddedSuccessStr="Car Details Added successfully";
 const String carDetailsAddedFailStr="Failed to add Car Details ";
+
+//view car list screen
+const String carListStr="Car List";
+const String noCarFoudStr="No Car Found in the list";

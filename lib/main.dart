@@ -1,4 +1,4 @@
-import 'package:car_rental_system/booking_page.dart';
+import 'package:car_rental_system/car_booking_page.dart';
 import 'package:car_rental_system/bottom_navbar.dart';
 import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/firebase_options.dart';

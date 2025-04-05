@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 class CustomNoBorderIconButton extends StatelessWidget {
  Function()? onPressed;
-  Color? color;
-  IconData? icon;
+  Color? iconColor;
+  IconData? icon;Color? iconButtonColor;
   CustomNoBorderIconButton(
-      {super.key, required this.onPressed, this.color,required this.icon});
+      {super.key, required this.onPressed, this.iconColor,required this.icon,this.iconButtonColor});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
         onPressed:onPressed,
-        icon: CustomIcons (icon: icon,color: color,));
+        color: iconButtonColor,
+        icon: CustomIcons (icon: icon,color: iconColor,));
   }
 }
