@@ -139,6 +139,8 @@ const String passportStr="Passport";
 const String paymentMethodsStr="Payment Methods";
 const String myBookingStr="My Booking";
 const String settingStr="Settings";
+const String logoutStr="Logout";
+const String logoutConfirmStr="Do you really want to Logout?";
 
 // add car form page
 const String addCarDetailsStr="Add Car Details";
@@ -175,3 +177,16 @@ const String carDetailsAddedFailStr="Failed to add Car Details ";
 //view car list screen
 const String carListStr="Car List";
 const String noCarFoudStr="No Car Found in the list";
+const String deleteCarConfirmTitleStr="Delete Car";
+const String deleteCarConfirmMessageStr="Do your really want to delete Car: ";
+const String deleteCarSuccessMessageStr="Successfully deleted Car:";
+const String deleteCarFailedStr="Failed to delete Car: ";
+const String failedToFetchCar="Failed to fetch Car Details";
+
+//dialogBox str
+const String confirmStr="Confirm";
+const String cancelStr="Cancel";
+const String okStr="Ok";
+const String yesStr="Yes";
+const String noStr="No";
+

@@ -48,6 +48,8 @@ class _LoginPgaeState extends State<LoginPgae> {
   }
 
   Widget ui() {
+    
+  var fromLogOut = ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -57,7 +59,7 @@ class _LoginPgaeState extends State<LoginPgae> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CustomBackPageIcon(),
+               fromLogOut?SizedBox(): CustomBackPageIcon(),
 
                 // CustomBackPageIcon( icon: Icons.close),
                 CustomSizedBox(

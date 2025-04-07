@@ -1,3 +1,4 @@
+import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
@@ -151,8 +152,24 @@ class _CarBookingPageState extends State<CarBookingPage> {
                         onPressed: () {
                           if (_formKey.currentState!.validate() &&
                               _insuranceAgreed) {
-                            DisplaySnackbar.show(
-                                context, "Form Submitted Successfully!");
+                            // DialogBox.showCustomConfirmationDialog(
+                            //   icon: Icons.people,
+                            //   context: context,
+                            //   title: "Booking Confirmation",
+                            //   message: "Booking  button clicked ! ! !",
+                            //   onOkPressed: () {
+                            //     DisplaySnackbar.show(
+                            //       context,
+                            //       "Clicked ok in ok button ${_dropoffLocationController.text}",
+                            //     );
+                            //   },
+                            //   onCancelPressed: () {
+                            //     DisplaySnackbar.show(
+                            //         context, "Clicked ok in cancel box");
+                            //   },
+                            // ); 
+                            // DisplaySnackbar.show(
+                            //     context, "Form Submitted Successfully!");
                           } else {
                             DisplaySnackbar.show(
                                 context, "Please fill all fields correctly.");

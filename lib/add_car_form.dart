@@ -165,7 +165,7 @@ class _AddCarFormState extends State<AddCarForm> {
                 labelText: priceLabelStr,
                 hintText: priceHintStr,
                 controller: _priceController,
-                prefixIcon: CustomIcons(icon: Icons.attach_money),
+                prefixIcon: CustomIcons(icon: Icons.currency_rupee_sharp),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return priceValidateString;
@@ -185,7 +185,13 @@ class _AddCarFormState extends State<AddCarForm> {
                     });
                     HideKeyboard.hideKeyboard(context);
                     Future.delayed(Duration(seconds: 2),()async{
-                      Car obj= Car(carName: _carNameController.text);
+                      Car obj= Car(carName: _carNameController.text,
+                      carBrand: _carBrandController.text,
+                      carType: _carTypeController.text,
+                      passengerCapacity: _passengerCapacityController.text,
+                      fuelCapacity: _fuelCapacityController.text,
+                      rentPrice: _priceController.text,
+                      );
                     //   var carDetails = {
                     //   "carName": _carNameController.text,
                     //   "carBrand": _carBrandController.text,
@@ -203,13 +209,18 @@ class _AddCarFormState extends State<AddCarForm> {
                         loader=false;
                       });
                     DisplaySnackbar.show(context, carDetailsAddedSuccessStr,isSuccess: true);
-
+                      _carNameController.clear();
+                      _carBrandController.clear();
+                      _carTypeController.clear();
+                      _passengerCapacityController.clear();
+                      _fuelCapacityController.clear();
+                      _priceController.clear();
                     } catch (e) {
                       // TODO
                       setState(() {
                         loader=false;
                       });
-                      DisplaySnackbar.show(context,carDetailsAddedFailStr,isError: true);
+                      DisplaySnackbar.show(context,e.toString(),isError: true);
                     }
                     });
                   }

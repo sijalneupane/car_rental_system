@@ -43,9 +43,12 @@ class _HomeState extends State<Home> {
     firestore.collection("cars").get().then((value) {
       if (value.docs.isNotEmpty) {
         setState(() {
-         carsList = value.docs.map((doc) => Car.fromJson(doc.data())).toList();
-          //value.docs get the list of json data from collection named cars
-         // value.docs[0].data()  gets value odf 0 index in json format
+         carsList = value.docs.map((doc) {
+           var car = Car.fromJson(doc.data());
+           car.id = doc.id; // Assuming the Car model has an 'id' field
+           return car;
+         }).toList();
+         // value.docs[0].data()  gets value of 0 index in json format
          // we have multiple value sp we  used for each loop
          //here is the for each loop like value.docs.map((doc)=>Car.fromJson(doc.data())).toList());
          //in above loop value.docs contains list of json of cars collection
@@ -148,6 +151,11 @@ class _HomeState extends State<Home> {
                         flex: 6,
                         child: CustomSearchbar(
                           hintText: searchCarBarStr,
+                          readOnly: true,
+                          onTap: () {
+                            bool fromSearchBar=true;
+                            RouteGenerator.navigateToPage(context,Routes.viewCarListRoute,arguments:fromSearchBar);
+                          },
                         ),
                       ),
                       SizedBox(
@@ -161,7 +169,7 @@ class _HomeState extends State<Home> {
                             ),
                             // color: const Color.fromARGB(255, 255, 255, 255),
                             onPressed: () {
-                              print("Filter button pressed");
+                              print("Filter button pressed"); //Checking if the filter button is clicked or not
                             }),
                       ),
                     ],

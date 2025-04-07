@@ -5,14 +5,23 @@ import 'package:flutter/material.dart';
 class CustomSearchbar extends StatefulWidget {
   String? hintText;
   void Function(String)? onChanged;
-  CustomSearchbar({super.key, this.hintText, this.onChanged});
+  void Function()? onTap;
+  bool? readOnly;
+  bool? autofocus;
+  CustomSearchbar(
+      {super.key,
+      this.hintText,
+      this.onChanged,
+      this.onTap,
+      this.readOnly,
+      this.autofocus});
 
   @override
   State<CustomSearchbar> createState() => _CustomSearchbarState();
 }
 
 class _CustomSearchbarState extends State<CustomSearchbar> {
-  FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -23,8 +32,11 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: widget.autofocus ?? false,
       focusNode: _focusNode,
       onChanged: widget.onChanged,
+      onTap: widget.onTap,
+      readOnly: widget.readOnly ?? false,
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color.fromARGB(255, 255, 255, 255),
@@ -33,7 +45,7 @@ class _CustomSearchbarState extends State<CustomSearchbar> {
         contentPadding: const EdgeInsets.all(8),
         focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: primaryColor)),
-        hintStyle:const TextStyle(color: greyColor),
+        hintStyle: const TextStyle(color: greyColor),
         alignLabelWithHint: true,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

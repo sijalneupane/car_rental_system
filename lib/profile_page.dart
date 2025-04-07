@@ -1,4 +1,5 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
@@ -10,6 +11,7 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -36,7 +38,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0, bottom: 8),
                   child: CustomCircleAvatar(
-                    backgroundImage:const NetworkImage("https://randomuser.me/api/portraits/men/85.jpg"),
+                    backgroundImage: const NetworkImage(
+                        "https://randomuser.me/api/portraits/men/85.jpg"),
                     radius: 40,
                   ),
                 ),
@@ -53,35 +56,63 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 0.03,
                 ),
                 CustomProfileOptionsButton(
-                    icon: Icons.edit, data: editProfileStr, onPressed: () {}),
+                  icon: Icons.edit,
+                  data: editProfileStr,
+                  onPressed: () {},
+                ),
                 CustomProfileOptionsButton(
-                    icon: Icons.add_box_rounded,
-                    data: addCarDetailsStr,
-                    onPressed: () {
-                      RouteGenerator.navigateToPage(context,Routes.addCarDetailsRoute);
-                    }),
+                  icon: Icons.add_box_rounded,
+                  data: addCarDetailsStr,
+                  onPressed: () {
+                    RouteGenerator.navigateToPage(
+                        context, Routes.addCarDetailsRoute);
+                  },
+                ),
                 CustomProfileOptionsButton(
-                    icon: FontAwesomeIcons.car,
-                    data: viewCarDetailsStr,
-                    onPressed: () {
-                      RouteGenerator.navigateToPage(context,Routes.viewCarListRoute);
-                    }),
+                  icon: FontAwesomeIcons.car,
+                  data: viewCarDetailsStr,
+                  onPressed: () {
+                    RouteGenerator.navigateToPage(
+                        context, Routes.viewCarListRoute);
+                  },
+                ),
                 CustomProfileOptionsButton(
-                    icon: FontAwesomeIcons.idCard,
-                    data: licenseStr,
-                    onPressed: () {}),
+                  icon: FontAwesomeIcons.idCard,
+                  data: licenseStr,
+                  onPressed: () {},
+                ),
                 CustomProfileOptionsButton(
-                    icon: FontAwesomeIcons.passport,
-                    data:passportStr,
-                    onPressed: () {}),
+                  icon: FontAwesomeIcons.passport,
+                  data: passportStr,
+                  onPressed: () {},
+                ),
                 CustomProfileOptionsButton(
-                    icon:Icons.history,
-                    data: myBookingStr,
-                    onPressed: () {}),
-                    CustomProfileOptionsButton(
-                    icon:Icons.settings,
-                    data: settingStr,
-                    onPressed: () {}),
+                  icon: Icons.history,
+                  data: myBookingStr,
+                  onPressed: () {},
+                ),
+                CustomProfileOptionsButton(
+                  icon: Icons.settings,
+                  data: settingStr,
+                  onPressed: () {},
+                ),
+                CustomProfileOptionsButton(
+                  icon: Icons.exit_to_app,
+                  data: logoutStr,
+                  onPressed: () {
+                    DialogBox.showConfirmBox(
+                        context: context,
+                        title: logoutStr,
+                        message: logoutConfirmStr,
+                        onCancelPressed: () {},
+                        onOkPressed: () async {
+                          SharedPreferences prefs=await SharedPreferences.getInstance();
+                          prefs.remove("isLoggedIn");
+                          RouteGenerator.navigateToPageWithoutStack(
+                              context, Routes.loginRoute,arguments: true);
+                        });
+                  },
+                ),
               ],
             ),
           ),

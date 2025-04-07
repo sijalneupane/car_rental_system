@@ -31,7 +31,7 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
-        return MaterialPageRoute(builder: (_) => const LoginPgae());
+        return MaterialPageRoute(builder: (_) => const LoginPgae(),settings: settings);
       case Routes.signupRoute:
       return MaterialPageRoute(builder: (_) =>const Signup());
       case Routes.getStartedRoute:
@@ -54,7 +54,7 @@ class RouteGenerator {
       case Routes.addCarDetailsRoute:
         return MaterialPageRoute(builder: (_) =>const AddCarForm() );
       case Routes.viewCarListRoute:
-        return MaterialPageRoute(builder: (_) =>const ViewCarListScreen() );
+        return MaterialPageRoute(builder: (_) =>const ViewCarListScreen(),settings: settings );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
