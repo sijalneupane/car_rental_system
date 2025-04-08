@@ -388,6 +388,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                               .carName!),
                                                   onOkPressed: () async {
                                                     try {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
                                                       bool success =
                                                           await deleteCarDetailsById(
                                                               carsList[index]
