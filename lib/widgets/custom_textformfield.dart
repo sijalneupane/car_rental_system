@@ -66,6 +66,7 @@ class _CustomTextformfieldState extends State<CustomTextformfield> {
             readOnly:widget.readOnly??false,
             decoration: InputDecoration(
               errorMaxLines: 3,
+              contentPadding:const EdgeInsets.all(10,) ,
               focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(width: 1, color: primaryColor)),
               // labelText: labelText,

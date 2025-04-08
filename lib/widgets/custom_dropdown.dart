@@ -49,24 +49,32 @@ class _CustomDropdownState extends State<CustomDropdown> {
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 4),
           DropdownButtonFormField(
-              dropdownColor: primaryColor,
+              dropdownColor: greyColor,
               focusNode: _focusNode,
+              
               decoration: InputDecoration(
-                  focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(width: 1, color: primaryColor)),
-                  prefixIcon: widget.prefixIcon,
-                  suffixIcon: widget.suffixIcon,
-                  labelText: widget.labelText,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5))),
+                
+                contentPadding: const EdgeInsets.all(10),
+                focusedBorder: const OutlineInputBorder(
+                  
+                  borderSide: BorderSide(width: 1, color: primaryColor),
+                ),
+                prefixIcon: widget.prefixIcon,
+                suffixIcon: widget.suffixIcon,
+                labelText: widget.labelText,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
               items: widget.dropDownItemList
                   .map(
                     (e) => DropdownMenuItem(
                       value: e,
                       child: CustomText(
                         data: e,
+                        color: Colors.black,
                       ),
                     ),
                   )

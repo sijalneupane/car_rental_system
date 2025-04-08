@@ -33,8 +33,8 @@ class DisplaySnackbar {
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    //  if (isError) {
-    //   HapticFeedback.heavyImpact(); // Trigger haptic feedback if it's an error
-    // }
+     if (isError || isSuccess && context != null) {
+      HapticFeedback.heavyImpact(); // Trigger haptic feedback if it's an error or success
+    }
   }
 }

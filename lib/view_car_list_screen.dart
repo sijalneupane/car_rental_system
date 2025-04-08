@@ -167,10 +167,10 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                     (car.carBrand?.toLowerCase() ?? '')
                                         .contains(value.toLowerCase()))
                                 .toList();
-                            if(carsList.isEmpty){
-                              emptyList=true;
-                            }else{
-                              emptyList=false;
+                            if (carsList.isEmpty) {
+                              emptyList = true;
+                            } else {
+                              emptyList = false;
                             }
                           });
                         },
@@ -377,8 +377,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                             ),
                                             CustomNoBorderIconButton(
                                               onPressed: () {
-                                                DialogBox
-                                                    .showConfirmBox(
+                                                DialogBox.showConfirmBox(
                                                   context: context,
                                                   title:
                                                       deleteCarConfirmTitleStr,
@@ -388,7 +387,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                               .carName!),
                                                   onOkPressed: () async {
                                                     try {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+                                                      // String deletinCarName=carsList[index]
+                                                      //         .carName!;
                                                       bool success =
                                                           await deleteCarDetailsById(
                                                               carsList[index]
@@ -396,7 +396,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                       if (success) {
                                                         DisplaySnackbar.show(
                                                             context,
-                                                            deleteCarSuccessMessageStr,
+                                                            deleteCarSuccessMessageStr+carsList[index]
+                                                              .carName!,
                                                             isSuccess: true);
                                                         fetchCarDetails();
                                                       } else {
