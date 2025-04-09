@@ -45,6 +45,8 @@ dependencies:
   readmore: ^3.0.0
   flutter_platform_alert: ^0.7.0
   package_info_plus: ^8.3.0
+  image_picker: ^1.1.2
+  path: ^1.9.1
 
 dev_dependencies:
   flutter_test:

@@ -183,6 +183,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                                 await prefs.setBool('isLoggedIn', true);
                               }
                               DisplaySnackbar.show(
+                                  // ignore: use_build_context_synchronously
                                   context, loginSuccessfullyStr);
                               RouteGenerator.navigateToPageWithoutStack(
                                   // ignore: use_build_context_synchronously
@@ -191,6 +192,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                             } else {
                               DisplaySnackbar.show(
                                   isError: true,
+                                  // ignore: use_build_context_synchronously
                                   context,
                                   credentialsDidnotMatchStr,
                                   icon: Icons.error_outline);
@@ -205,6 +207,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                           });
                           // ignore: use_build_context_synchronously
                           DisplaySnackbar.show(
+                                  // ignore: use_build_context_synchronously
                               context, failedStr + e.toString());
                         }
                       });

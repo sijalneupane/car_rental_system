@@ -7,6 +7,7 @@ import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_dropdown.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
+import 'package:car_rental_system/widgets/custom_image_picker.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
@@ -176,6 +177,10 @@ class _AddCarFormState extends State<AddCarForm> {
               CustomSizedBox(
                 height: 0.02,
               ),
+             const CustomImagePicker(),
+              CustomSizedBox(
+                height: 0.02,
+              ),
               // Submit Button
               CustomElevatedbutton(
                 onPressed: ()  {
@@ -233,4 +238,5 @@ class _AddCarFormState extends State<AddCarForm> {
       ),
     );
   }
+  
 }

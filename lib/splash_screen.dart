@@ -56,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body:buildNumber==null?Loader.backdropFilter(context): Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Image.asset(
             logoPath,

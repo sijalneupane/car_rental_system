@@ -152,6 +152,7 @@ const String carTypeLabelStr="Car Type";
 const String totalPassengerCapacityLabelStr="Passenger Capacity";
 const String fuelCapacityLabelStr="Fuel Capacity";
 const String priceLabelStr="Rent Price";
+const String imagePickerLabelStr="Select Image";
 
 const String carNameHintStr="Enter Car Name";
 const String carImageHintStr="Enter Car Image";
