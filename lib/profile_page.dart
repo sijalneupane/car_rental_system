@@ -107,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         onCancelPressed: () {},
                         onOkPressed: () async {
                           SharedPreferences prefs=await SharedPreferences.getInstance();
-                          prefs.remove("isLoggedIn");
+                          prefs.clear();
                           RouteGenerator.navigateToPageWithoutStack(
                               context, Routes.loginRoute,arguments: true);
                         });

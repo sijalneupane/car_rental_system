@@ -55,10 +55,10 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                 middleChild: CustomText(data: carDetailStr,isPageTitle: true,),
               ),
               CustomImageNetwork(
-                name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
+                name:carDetail.imageUrl!,
                 height: MediaQuery.of(context).size.height * 0.22,
                 width: MediaQuery.of(context).size.width,
-              ),
+              ),CustomSizedBox(height: 0.01), 
               Center(
                 child: CircleAvatar(
                   backgroundColor: primaryColor,

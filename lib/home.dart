@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/car.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -16,6 +19,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -24,14 +29,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+    @override
+    void initState() {
+      super.initState();
+    fetchCarDetails();
+      SharedPreferences.getInstance().then((prefs) {
+        bool? isLoggedIn= prefs.getBool('isLoggedIn');
+        if (isLoggedIn == true) {
+          String? id = prefs.getString('id');
+          String? name = prefs.getString('name');
+          String? email = prefs.getString('email');
+          String? password = prefs.getString('password');
+          if (name != null && email != null && password != null) {
+            setState(() {
+              Users.id=id;
+              Users.name = name;
+            Users.email = email;
+            Users.password = password;
+            });
+          }
+        }
+      });
+    }
   List<Car> carsList = [];
   bool loader = false;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchCarDetails();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  // }
 
   void fetchCarDetails() {
     setState(() {
@@ -96,12 +123,13 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+log(Users.email.toString() +"\n" );
+log(Users.id.toString() +"\n" );
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
           child: PaddingForAllPages(
-            
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +197,6 @@ class _HomeState extends State<Home> {
                             ),
                             // color: const Color.fromARGB(255, 255, 255, 255),
                             onPressed: () {
-                              print("Filter button pressed"); //Checking if the filter button is clicked or not
                             }),
                       ),
                     ],
@@ -233,7 +260,7 @@ class _HomeState extends State<Home> {
                         child: CustomCarOverviewContainer(
                           carName: carsList[index].carName ?? "hello",
                           carImageUrl:
-                              "https://content.presspage.com/uploads/1523/f2d90f57-531b-4e28-add8-90171eb0a345/1920_fe-001.jpg?x=1732560151998",
+                            carsList[index].imageUrl ??carPlaceholderImageUrl,
                           logoUrl:
                               "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
                           rating: "4.5",

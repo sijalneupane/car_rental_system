@@ -5,6 +5,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -48,8 +49,8 @@ class _LoginPgaeState extends State<LoginPgae> {
   }
 
   Widget ui() {
-    
-  var fromLogOut = ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+    var fromLogOut =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -59,7 +60,7 @@ class _LoginPgaeState extends State<LoginPgae> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-               fromLogOut?SizedBox(): CustomBackPageIcon(),
+                fromLogOut ? SizedBox() : CustomBackPageIcon(),
 
                 // CustomBackPageIcon( icon: Icons.close),
                 CustomSizedBox(
@@ -147,6 +148,16 @@ class _LoginPgaeState extends State<LoginPgae> {
                       setState(() {
                         loader = true;
                       });
+                      // Obtain shared preferences.
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      const SharedPreferencesOptions sharedPreferencesOptions =
+                          SharedPreferencesOptions();
+                      await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
+                        legacySharedPreferencesInstance: prefs,
+                        sharedPreferencesAsyncOptions: sharedPreferencesOptions,
+                        migrationCompletedKey: 'migrationCompleted',
+                      );
                       HideKeyboard.hideKeyboard(context);
                       Future.delayed(const Duration(seconds: 2), () async {
                         // var data = {
@@ -168,23 +179,20 @@ class _LoginPgaeState extends State<LoginPgae> {
                               .then((value) async {
                             if (value.docs.isNotEmpty) {
                               if (rememberMe) {
-                                // Obtain shared preferences.
-                                const SharedPreferencesOptions
-                                    sharedPreferencesOptions =
-                                    SharedPreferencesOptions();
-                                final SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                await migrateLegacySharedPreferencesToSharedPreferencesAsyncIfNecessary(
-                                  legacySharedPreferencesInstance: prefs,
-                                  sharedPreferencesAsyncOptions:
-                                      sharedPreferencesOptions,
-                                  migrationCompletedKey: 'migrationCompleted',
-                                );
                                 await prefs.setBool('isLoggedIn', true);
+                              await prefs.setString("name",value.docs[0].data()["name"].toString());
+                              await prefs.setString("id",value.docs[0].id.toString());
+                              await prefs.setString("email",_emailAddressController.text.trim());
+                              await prefs.setString("password",_passwordController.text.trim());
                               }
+                              Users.id =value.docs[0].id.toString();
+                              Users.name =value.docs[0].data()["name"].toString();
+                              Users.email=_emailAddressController.text.trim();
+                              Users.password= _passwordController.text.trim();
                               DisplaySnackbar.show(
                                   // ignore: use_build_context_synchronously
-                                  context, loginSuccessfullyStr);
+                                  context,
+                                  loginSuccessfullyStr);
                               RouteGenerator.navigateToPageWithoutStack(
                                   // ignore: use_build_context_synchronously
                                   context,
@@ -207,8 +215,9 @@ class _LoginPgaeState extends State<LoginPgae> {
                           });
                           // ignore: use_build_context_synchronously
                           DisplaySnackbar.show(
-                                  // ignore: use_build_context_synchronously
-                              context, failedStr + e.toString());
+                              // ignore: use_build_context_synchronously
+                              context,
+                              failedStr + e.toString());
                         }
                       });
                     }

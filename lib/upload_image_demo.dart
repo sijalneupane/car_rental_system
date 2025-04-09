@@ -79,7 +79,7 @@ class _CloudinaryUploadWithDioState extends State<CloudinaryUploadWithDio> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children:[
             _image != null ? Image.file(_image!, height: 200) : Text('No image selected'),
             SizedBox(height: 20),
             _uploading

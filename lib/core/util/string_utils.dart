@@ -171,10 +171,18 @@ const String carTypeValidateString = "Please enter car type";
 const String totalPassengerCapacityValidateString = "Please enter total passenger capacity";
 const String fuelCapacityValidateString = "Please enter total fuel capacity";
 const String priceValidateString = "Please enter rent price";
+ List<String> allowedExtensions = ["jpeg", "jpg", "png"];
+const String imageSizeValidationStr="Image size should be less than 4 MB";
+const String imageValidationStr="Please upload an image";
+const String imageExtensionsValidationStr="Image should be either in 'jpeg','jpg' or 'png' format";
 const String submitStr="Submit";
+const String cameraStr="Camera";
+// const String galleryStr="Gallery";
+
 const String carDetailsAddedSuccessStr="Car Details Added successfully";
 const String carDetailsAddedFailStr="Failed to add Car Details ";
 
+const String carPlaceholderImageUrl="https://www.shutterstock.com/image-vector/car-logo-icon-emblem-design-600nw-473088025.jpg";
 //view car list screen
 const String carListStr="Car List";
 const String noCarFoudStr="No Car Found in the list";

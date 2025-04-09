@@ -14,7 +14,7 @@ class CustomProfileOptionsButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: CustomElevatedbutton(onPressed: onPressed, 
-      height: 65,
+      height: 55,
       backgroundColor: Colors.transparent,
       foregroundColor: Colors.black,
       borderColor: greyColor,

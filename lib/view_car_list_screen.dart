@@ -212,7 +212,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Image.network(
-                                                "https://content.presspage.com/uploads/1523/f2d90f57-531b-4e28-add8-90171eb0a345/1920_fe-001.jpg?x=1732560151998",
+                                               carsList[index].imageUrl ??carPlaceholderImageUrl,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *

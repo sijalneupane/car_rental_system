@@ -1,8 +1,14 @@
+import 'dart:io';
+
+import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/hide_keyboard.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/core/util/upload_image_cloudinary.dart';
 import 'package:car_rental_system/model/car.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_dropdown.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -14,6 +20,9 @@ import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// ... (imports remain the same)
 
 class AddCarForm extends StatefulWidget {
   const AddCarForm({super.key});
@@ -23,10 +32,7 @@ class AddCarForm extends StatefulWidget {
 }
 
 class _AddCarFormState extends State<AddCarForm> {
-  // Controllers for each field
   final TextEditingController _carNameController = TextEditingController();
-  // final TextEditingController _carImageController = TextEditingController();
-  // final TextEditingController _carLogoController = TextEditingController();
   final TextEditingController _carBrandController = TextEditingController();
   final TextEditingController _carTypeController = TextEditingController();
   final TextEditingController _passengerCapacityController =
@@ -35,19 +41,20 @@ class _AddCarFormState extends State<AddCarForm> {
   final TextEditingController _priceController = TextEditingController();
   List<String> carType = [automaticTypeStr, manualTypeStr];
   bool loader = false;
-  // Global key for form validation
   final _formKey = GlobalKey<FormState>();
+  File? _selectedImage;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Stack(
-        children: [
-          ui(),
-          loader ? Loader.backdropFilter(context) : const SizedBox()
-        ],
-      )),
+        child: Stack(
+          children: [
+            ui(),
+            loader ? Loader.backdropFilter(context) : const SizedBox(),
+          ],
+        ),
+      ),
     );
   }
 
@@ -62,15 +69,14 @@ class _AddCarFormState extends State<AddCarForm> {
                 children: [
                   CustomBackPageIcon(),
                   Expanded(
-                      child: CustomText(
-                    data: addCarDetailsStr,
-                    isPageTitle: true,
-                    textAlign: TextAlign.center,
-                  ))
+                    child: CustomText(
+                      data: addCarDetailsStr,
+                      isPageTitle: true,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ],
               ),
-
-              // Car Name Field
               CustomTextformfield(
                 labelText: carNameLabelStr,
                 hintText: carNameHintStr,
@@ -83,8 +89,6 @@ class _AddCarFormState extends State<AddCarForm> {
                   return null;
                 },
               ),
-
-              // Car Brand Field
               Row(
                 children: [
                   Expanded(
@@ -101,19 +105,14 @@ class _AddCarFormState extends State<AddCarForm> {
                       },
                     ),
                   ),
-                  CustomSizedBox(
-                    width: 0.02,
-                  ),
-                  // Car Type Field
+                  CustomSizedBox(width: 0.02),
                   Expanded(
                     child: CustomDropdown(
                       dropDownItemList: carType,
                       labelText: carTypeLabelStr,
                       hintText: carTypeHintStr,
                       controller: _carTypeController,
-                      prefixIcon: CustomIcons(
-                        icon: Icons.directions_car,
-                      ),
+                      prefixIcon: CustomIcons(icon: Icons.directions_car),
                       onChanged: (value) {
                         setState(() {
                           _carTypeController.text = value!;
@@ -129,8 +128,6 @@ class _AddCarFormState extends State<AddCarForm> {
                   ),
                 ],
               ),
-
-              // Total Passenger Capacity Field
               CustomTextformfield(
                 keyboardType: TextInputType.number,
                 labelText: totalPassengerCapacityLabelStr,
@@ -144,8 +141,6 @@ class _AddCarFormState extends State<AddCarForm> {
                   return null;
                 },
               ),
-
-              // Fuel Capacity Field
               CustomTextformfield(
                 keyboardType: TextInputType.number,
                 labelText: fuelCapacityLabelStr,
@@ -159,8 +154,6 @@ class _AddCarFormState extends State<AddCarForm> {
                   return null;
                 },
               ),
-
-              // Rent Price Field
               CustomTextformfield(
                 keyboardType: TextInputType.number,
                 labelText: priceLabelStr,
@@ -174,59 +167,95 @@ class _AddCarFormState extends State<AddCarForm> {
                   return null;
                 },
               ),
-              CustomSizedBox(
-                height: 0.02,
+              CustomSizedBox(height: 0.02),
+              CustomImagePicker(
+
+                validator: (imageFile) {
+                  if (imageFile == null) {
+                    return imageValidationStr;
+                  }
+                  double imageLength = imageFile.lengthSync() / (1024 * 1024);
+                  String fileExtension =
+                      imageFile.path.split('.').last.toLowerCase();
+
+                  if (!allowedExtensions.contains(fileExtension)) {
+                    return imageExtensionsValidationStr;
+                  }
+                  if (imageLength > 4) {
+                    return imageSizeValidationStr;
+                  }
+                  return null; // Validation passed
+                },
+                labelText: carImageLabelStr,
+                afterPickingImage: (File imageFile) async {
+                  setState(() {
+                    _selectedImage = imageFile; // Store the selected image
+                  });
+                  DialogBox.showAlertBox(
+                    
+                    context: context,
+                    title: "Image Selected",
+                    message: _selectedImage!.path,
+                    onOkPressed: () {},
+                  );
+                },
               ),
-             const CustomImagePicker(),
-              CustomSizedBox(
-                height: 0.02,
-              ),
-              // Submit Button
+              CustomSizedBox(height: 0.02),
               CustomElevatedbutton(
-                onPressed: ()  {
+                onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     setState(() {
-                      loader=true;
+                      loader = true;
                     });
                     HideKeyboard.hideKeyboard(context);
-                    Future.delayed(Duration(seconds: 2),()async{
-                      Car obj= Car(carName: _carNameController.text,
-                      carBrand: _carBrandController.text,
-                      carType: _carTypeController.text,
-                      passengerCapacity: _passengerCapacityController.text,
-                      fuelCapacity: _fuelCapacityController.text,
-                      rentPrice: _priceController.text,
+                    Future.delayed(const Duration(seconds: 2), () async {
+                      try {
+                        String? imageUrl;
+                      if (_selectedImage != null) {
+                        // Upload the image to Cloudinary (or your preferred service)
+                        imageUrl = await UploadImageCloudinary.uploadImageToCloudinary(_selectedImage!);
+                        if (imageUrl == null) {
+                          throw Exception("Image upload failed");
+                        }
+                      }
+                      Car obj = Car(
+                        carName: _carNameController.text,
+                        carBrand: _carBrandController.text,
+                        carType: _carTypeController.text,
+                        passengerCapacity: _passengerCapacityController.text,
+                        fuelCapacity: _fuelCapacityController.text,
+                        rentPrice: _priceController.text,
+                        imageUrl: imageUrl,
+                        username: Users.name,
+                        userId: Users.id
                       );
-                    //   var carDetails = {
-                    //   "carName": _carNameController.text,
-                    //   "carBrand": _carBrandController.text,
-                    //   "carType": _carTypeController.text,
-                    //   "passengerCapacity": _passengerCapacityController.text,
-                    //   "fuelCapacity": _fuelCapacityController.text,
-                    //   "rentPrice": _priceController.text,
-                    // };
-                    // print(carDetails);
-                    try {
-                      FirebaseFirestore firebaseFirestore =
-                          FirebaseFirestore.instance;
-                     await firebaseFirestore.collection("cars").add(obj.toJson());
-                      setState(() {
-                        loader=false;
-                      });
-                    DisplaySnackbar.show(context, carDetailsAddedSuccessStr,isSuccess: true);
-                      _carNameController.clear();
-                      _carBrandController.clear();
-                      _carTypeController.clear();
-                      _passengerCapacityController.clear();
-                      _fuelCapacityController.clear();
-                      _priceController.clear();
-                    } catch (e) {
-                      // TODO
-                      setState(() {
-                        loader=false;
-                      });
-                      DisplaySnackbar.show(context,e.toString(),isError: true);
-                    }
+                        FirebaseFirestore firebaseFirestore =
+                            FirebaseFirestore.instance;
+                        await firebaseFirestore
+                            .collection("cars")
+                            .add(obj.toJson());
+                        setState(() {
+                          loader = false;
+                        });
+                        DisplaySnackbar.show(
+                          context,
+                          carDetailsAddedSuccessStr,
+                          isSuccess: true,
+                        );
+                        // _carNameController.clear();
+                        // _carBrandController.clear();
+                        // _carTypeController.clear();
+                        // _passengerCapacityController.clear();
+                        // _fuelCapacityController.clear();
+                        // _priceController.clear();
+                          Navigator.pop(context);
+                      } catch (e) {
+                        setState(() {
+                          loader = false;
+                        });
+                        DisplaySnackbar.show(context, e.toString(),
+                            isError: true);
+                      }
                     });
                   }
                 },
@@ -238,5 +267,4 @@ class _AddCarFormState extends State<AddCarForm> {
       ),
     );
   }
-  
 }
