@@ -7,7 +7,7 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/car.dart';
-import 'package:car_rental_system/model/users.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -34,23 +34,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchCarDetails();
-    SharedPreferences.getInstance().then((prefs) {
-      bool? isLoggedIn = prefs.getBool('isLoggedIn');
-      if (isLoggedIn == true) {
-        String? id = prefs.getString('id');
-        String? name = prefs.getString('name');
-        String? email = prefs.getString('email');
-        String? password = prefs.getString('password');
-        if (name != null && email != null && password != null) {
-          setState(() {
-            Users.id = id;
-            Users.name = name;
-            Users.email = email;
-            Users.password = password;
-          });
-        }
-      }
-    });
+   
   }
 
   List<Car> carsList = [];
@@ -123,8 +107,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    log(Users.email.toString() + "\n");
-    log(Users.id.toString() + "\n");
     return Scaffold(
         backgroundColor: Colors.white,
         body: Stack(

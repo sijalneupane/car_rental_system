@@ -7,6 +7,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -119,29 +120,30 @@ class _SignupState extends State<Signup> {
                       return null;
                     },
                   ),
-                  CustomImagePicker(
-                      labelText: carImageLabelStr,
-                    afterPickingImage:(imageFile) {
-                    setState(() {
-                    _selectedImage = imageFile; // Store the selected image
-                  });
-                },
-                validator: (imageFile) {
-                   if (imageFile == null) {
-                    return imageValidationStr;
-                  }
-                  double imageLength = imageFile.lengthSync() / (1024 * 1024);
-                  String fileExtension =
-                      imageFile.path.split('.').last.toLowerCase();
-
-                  if (!allowedExtensions.contains(fileExtension)) {
-                    return imageExtensionsValidationStr;
-                  }
-                  if (imageLength > 4) {
-                    return imageSizeValidationStr;
-                  }
-                  return null; // Validation passed
-                },),
+                  // CustomImagePicker(
+                  //   labelText: carImageLabelStr,
+                  //   afterPickingImage: (imageFile) {
+                  //     setState(() {
+                  //       _selectedImage = imageFile; // Store the selected image
+                  //     });
+                  //   },
+                  //   validator: (imageFile) {
+                  //     if (imageFile == null) {
+                  //       return imageValidationStr;
+                  //     }
+                  //     double imageLength =
+                  //         imageFile.lengthSync() / (1024 * 1024);
+                  //     String fileExtension =
+                  //         imageFile.path.split('.').last.toLowerCase();
+                  //     if (!allowedExtensions.contains(fileExtension)) {
+                  //       return imageExtensionsValidationStr;
+                  //     }
+                  //     if (imageLength > 4) {
+                  //       return imageSizeValidationStr;
+                  //     }
+                  //     return null; // Validation passed
+                  //   },
+                  // ),
                   Row(
                     children: [
                       Checkbox(
@@ -177,22 +179,41 @@ class _SignupState extends State<Signup> {
                             loader = true;
                           });
                           Future.delayed(const Duration(seconds: 2), () async {
-                            var data = {
-                              "name": _nameController.text.trim(),
-                              "email": _emailAddressController.text.trim(),
-                              "password": _passwordController.text.trim(),
-                            };
+                            User user = User(
+                              name: _nameController.text.trim(),
+                              email: _emailAddressController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            );
+
                             try {
                               FirebaseFirestore firestore =
                                   FirebaseFirestore.instance;
-                              await firestore.collection("Register").add(data);
+                              await firestore
+                                  .collection("Register")
+                                  .where("email",
+                                      isEqualTo:
+                                          _emailAddressController.text.trim())
+                                  .get()
+                                  .then((value) async {
+                                if (value.docs.isNotEmpty) {
+                                  DisplaySnackbar.show(
+                                      // ignore: use_build_context_synchronously
+                                      context,
+                                      " ${_emailAddressController.text} is already used");
+                                  throw Exception(
+                                      " ${_emailAddressController.text} is already used");
+                                }
+                              });
+                              await firestore
+                                  .collection("Register")
+                                  .add(user.toJson());
                               setState(() {
                                 loader = false;
                               });
                               RouteGenerator.navigateToPage(
-                                  // ignore: use_build_context_synchronously
-                                  context,
-                                  Routes.loginRoute);
+                                // ignore: use_build_context_synchronously
+                                context,
+                                Routes.loginRoute);
                             } catch (e) {
                               setState(() {
                                 loader = false;

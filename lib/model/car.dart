@@ -10,7 +10,6 @@ class Car {
   String? rentPrice;
   String? rating;
   String? userId;
-  String? username;
   String? imageUrl;
 
   Car(
@@ -23,7 +22,6 @@ class Car {
       this.rentPrice,
       this.rating,
       this.userId,
-      this.username,
       this.imageUrl});
 
   Car.fromJson(Map<String, dynamic> json) {
@@ -36,7 +34,6 @@ class Car {
     rentPrice = json['rentPrice'] ?? "N/A";
     rating = json['rating'] ?? "N/A";
     userId = json['userId'] ?? "N/A";
-    username = json['username'] ?? "N/A";
     imageUrl = json['imageUrl'] ?? carPlaceholderImageUrl;
   }
 
@@ -52,7 +49,6 @@ class Car {
     data['rentPrice'] = this.rentPrice;
     data['rating'] = this.rating;
     data['userId'] = this.userId;
-    data['username'] = this.username;
     data['imageUrl'] = this.imageUrl;
     return data;
   }

@@ -2,13 +2,14 @@ import 'dart:io';
 
 import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
+import 'package:car_rental_system/core/util/get_user_info.dart';
 import 'package:car_rental_system/core/util/hide_keyboard.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/core/util/upload_image_cloudinary.dart';
 import 'package:car_rental_system/model/car.dart';
-import 'package:car_rental_system/model/users.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_dropdown.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -218,6 +219,8 @@ class _AddCarFormState extends State<AddCarForm> {
                           throw Exception("Image upload failed");
                         }
                       }
+                      //getting the userId from sharedprefences
+                      String? userId=await GetUserInfo.getUserId();
                       Car obj = Car(
                         carName: _carNameController.text,
                         carBrand: _carBrandController.text,
@@ -226,8 +229,7 @@ class _AddCarFormState extends State<AddCarForm> {
                         fuelCapacity: _fuelCapacityController.text,
                         rentPrice: _priceController.text,
                         imageUrl: imageUrl,
-                        username: Users.name,
-                        userId: Users.id
+                        userId: userId 
                       );
                         FirebaseFirestore firebaseFirestore =
                             FirebaseFirestore.instance;

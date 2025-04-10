@@ -5,7 +5,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
-import 'package:car_rental_system/model/users.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -177,17 +177,11 @@ class _LoginPgaeState extends State<LoginPgae> {
                               .get()
                               .then((value) async {
                             if (value.docs.isNotEmpty) {
+                              await prefs.clear();
                               if (rememberMe) {
                                 await prefs.setBool('isLoggedIn', true);
-                              await prefs.setString("name",value.docs[0].data()["name"].toString());
-                              await prefs.setString("id",value.docs[0].id.toString());
-                              await prefs.setString("email",_emailAddressController.text.trim());
-                              await prefs.setString("password",_passwordController.text.trim());
                               }
-                              Users.id =value.docs[0].id.toString();
-                              Users.name =value.docs[0].data()["name"].toString();
-                              Users.email=_emailAddressController.text.trim();
-                              Users.password= _passwordController.text.trim();
+                              await prefs.setString("userId",value.docs[0].id.toString());
                               DisplaySnackbar.show(
                                   // ignore: use_build_context_synchronously
                                   context,
