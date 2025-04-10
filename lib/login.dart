@@ -22,7 +22,8 @@ import 'package:shared_preferences/util/legacy_to_async_migration_util.dart';
 // ···
 
 class LoginPgae extends StatefulWidget {
-  const LoginPgae({super.key});
+  bool? fromLogout;
+  LoginPgae({super.key,this.fromLogout});
 
   @override
   State<LoginPgae> createState() => _LoginPgaeState();
@@ -49,8 +50,6 @@ class _LoginPgaeState extends State<LoginPgae> {
   }
 
   Widget ui() {
-    var fromLogOut =
-        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -60,7 +59,7 @@ class _LoginPgaeState extends State<LoginPgae> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                fromLogOut ? SizedBox() : CustomBackPageIcon(),
+                (widget.fromLogout ??false) ? SizedBox() : CustomBackPageIcon(),
 
                 // CustomBackPageIcon( icon: Icons.close),
                 CustomSizedBox(

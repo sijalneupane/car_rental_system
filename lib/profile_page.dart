@@ -58,7 +58,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 CustomProfileOptionsButton(
                   icon: Icons.edit,
                   data: editProfileStr,
-                  onPressed: () {},
+                  onPressed: () {
+                    RouteGenerator.navigateToPage(context, Routes.signupRoute,);
+                  },
                 ),
                 CustomProfileOptionsButton(
                   icon: Icons.add_box_rounded,

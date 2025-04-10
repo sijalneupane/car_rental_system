@@ -77,12 +77,21 @@ class CustomCarOverviewContainer extends StatelessWidget {
                 carImageUrl,
                 height: MediaQuery.of(context).size.height * 0.18,
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace){
-                  return Container(
-                    child: Image.network(carPlaceholderImageUrl,fit: BoxFit.contain,),
-                    height: MediaQuery.of(context).size.height * 0.18,
-                  );
-                },
+                // This is giving me error and only gives me hello text only
+                loadingBuilder: (context, child, loadingProgress) {
+                      return Center(
+                        child: Text("hello"),
+                      );
+                    },
+                    
+                // errorBuilder: (context, error, stackTrace){
+                //   return Container(
+                //     child: Image.network(carPlaceholderImageUrl,fit: BoxFit.contain,
+                    
+                //     ),
+                //     height: MediaQuery.of(context).size.height * 0.18,
+                //   );
+                // },
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),

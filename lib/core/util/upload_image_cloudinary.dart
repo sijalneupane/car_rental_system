@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:path/path.dart' as path;
 
 class UploadImageCloudinary {
-  static Future<String?> uploadImageToCloudinary(File imageFile) async {
+  static Future<String?> uploadImageToCloudinary(File imageFile,String folderName) async {
     String? _uploadedImageUrl;
     const cloudName = 'ddb1esok3';
     const uploadPreset = 'unsigned_preset';
@@ -15,6 +15,7 @@ class UploadImageCloudinary {
         'file':
             await MultipartFile.fromFile(imageFile.path, filename: fileName),
         'upload_preset': uploadPreset,
+         'folder': folderName, // 👈 This tells Cloudinary where to store the image
       });
 
       Dio dio = Dio();

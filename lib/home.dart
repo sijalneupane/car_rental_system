@@ -4,6 +4,7 @@ import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
+import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/model/users.dart';
@@ -29,30 +30,31 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
-    @override
-    void initState() {
-      super.initState();
+  @override
+  void initState() {
+    super.initState();
     fetchCarDetails();
-      SharedPreferences.getInstance().then((prefs) {
-        bool? isLoggedIn= prefs.getBool('isLoggedIn');
-        if (isLoggedIn == true) {
-          String? id = prefs.getString('id');
-          String? name = prefs.getString('name');
-          String? email = prefs.getString('email');
-          String? password = prefs.getString('password');
-          if (name != null && email != null && password != null) {
-            setState(() {
-              Users.id=id;
-              Users.name = name;
+    SharedPreferences.getInstance().then((prefs) {
+      bool? isLoggedIn = prefs.getBool('isLoggedIn');
+      if (isLoggedIn == true) {
+        String? id = prefs.getString('id');
+        String? name = prefs.getString('name');
+        String? email = prefs.getString('email');
+        String? password = prefs.getString('password');
+        if (name != null && email != null && password != null) {
+          setState(() {
+            Users.id = id;
+            Users.name = name;
             Users.email = email;
             Users.password = password;
-            });
-          }
+          });
         }
-      });
-    }
+      }
+    });
+  }
+
   List<Car> carsList = [];
+
   bool loader = false;
 
   // @override
@@ -70,20 +72,19 @@ class _HomeState extends State<Home> {
     firestore.collection("cars").get().then((value) {
       if (value.docs.isNotEmpty) {
         setState(() {
-         carsList = value.docs.map((doc) {
-           var car = Car.fromJson(doc.data());
-           car.id = doc.id; // Assuming the Car model has an 'id' field
-           return car;
-         }).toList();
-         // value.docs[0].data()  gets value of 0 index in json format
-         // we have multiple value sp we  used for each loop
-         //here is the for each loop like value.docs.map((doc)=>Car.fromJson(doc.data())).toList());
-         //in above loop value.docs contains list of json of cars collection
-         //doc is the name of variable
-         //in doc.data() we have the value of 0 index of value.docs list which contain data in json format
-         // by usnig CAR.fromJson fucntion we convert json format data to object of class named Car
-         //so out carlist contains the list of objects of car class
-
+          carsList = value.docs.map((doc) {
+            var car = Car.fromJson(doc.data());
+            car.id = doc.id; // Assuming the Car model has an 'id' field
+            return car;
+          }).toList();
+          // value.docs[0].data()  gets value of 0 index in json format
+          // we have multiple value sp we  used for each loop
+          //here is the for each loop like value.docs.map((doc)=>Car.fromJson(doc.data())).toList());
+          //in above loop value.docs contains list of json of cars collection
+          //doc is the name of variable
+          //in doc.data() we have the value of 0 index of value.docs list which contain data in json format
+          // by usnig CAR.fromJson fucntion we convert json format data to object of class named Car
+          //so out carlist contains the list of objects of car class
 
           loader = false;
         });
@@ -100,7 +101,6 @@ class _HomeState extends State<Home> {
       DisplaySnackbar.show(context, e.toString());
     });
   }
-
 
   List<TopBrandCars> topBrandCarsList = [
     TopBrandCars(
@@ -123,171 +123,178 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-log(Users.email.toString() +"\n" );
-log(Users.id.toString() +"\n" );
+    log(Users.email.toString() + "\n");
+    log(Users.id.toString() + "\n");
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: PaddingForAllPages(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //just like app bar
-                Row(
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: [
+            _ui(),
+            loader ? Loader.backdropFilter(context) : SizedBox()
+          ],
+        ));
+  }
+
+  Widget _ui() {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: PaddingForAllPages(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //just like app bar
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        data: locationStr,
+                        fontSize: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CustomIcons(
+                            icon: Icons.location_on_outlined,
+                            color: primaryColor,
+                          ),
+                          CustomText(
+                            data: "New York, USA",
+                            fontSize: 16,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                  const Spacer(),
+                  CustomBorderIconButton(
+                    icon: Icons.notifications_none_outlined,
+                    color: greyColor,
+                    onPressed: () {},
+                    // color: primaryColor,
+                  ),
+                ],
+              ),
+              //ended just like appbar
+
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          data: locationStr,
-                          fontSize: 16,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomIcons(
-                              icon: Icons.location_on_outlined,
-                              color: primaryColor,
-                            ),
-                            CustomText(
-                              data: "New York, USA",
-                              fontSize: 16,
-                            )
-                          ],
-                        )
-                      ],
+                    Flexible(
+                      flex: 6,
+                      child: CustomSearchbar(
+                        hintText: searchCarBarStr,
+                        readOnly: true,
+                        onTap: () {
+                          bool fromSearchBar = true;
+                          RouteGenerator.navigateToPage(
+                              context, Routes.viewCarListRoute,
+                              arguments: fromSearchBar);
+                        },
+                      ),
                     ),
-                    const Spacer(),
-                    CustomBorderIconButton(
-                      icon: Icons.notifications_none_outlined,
-                      color: greyColor,
-                      onPressed: () {},
-                      // color: primaryColor,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.05,
+                    ),
+                    Expanded(
+                      child: CustomElevatedbutton(
+                          child: CustomIcons(
+                            icon: Icons.filter_list_alt,
+                            color: Colors.white,
+                          ),
+                          // color: const Color.fromARGB(255, 255, 255, 255),
+                          onPressed: () {}),
                     ),
                   ],
                 ),
-                //ended just like appbar
-
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Flexible(
-                        flex: 6,
-                        child: CustomSearchbar(
-                          hintText: searchCarBarStr,
-                          readOnly: true,
-                          onTap: () {
-                            bool fromSearchBar=true;
-                            RouteGenerator.navigateToPage(context,Routes.viewCarListRoute,arguments:fromSearchBar);
-                          },
-                        ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              CustomText(
+                data: topBrandsStr,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: topBrandCarsList.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor:
+                                const Color.fromARGB(97, 223, 176, 176),
+                            radius: 30,
+                            child: Image.network(topBrandCarsList[index].image),
+                          ),
+                          CustomText(data: topBrandCarsList[index].name)
+                        ],
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.05,
+                    );
+                  },
+                ),
+              ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.035,
+              // ),
+              CustomText(
+                data: popularCarStr,
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.47,
+                child: ListView.builder(
+                  itemCount: carsList.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: CustomCarOverviewContainer(
+                        carName: carsList[index].carName ?? "hello",
+                        carImageUrl:
+                            carsList[index].imageUrl ?? carPlaceholderImageUrl,
+                        logoUrl:
+                            "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
+                        rating: "4.5",
+                        fuelCapacity: carsList[index].fuelCapacity ?? "",
+                        carType: carsList[index].carType ?? "",
+                        numberOfPeople: carsList[index].passengerCapacity ?? "",
+                        price: carsList[index].rentPrice ?? "",
+                        //  price: '200',
+                        onPressed: () {
+                          RouteGenerator.navigateToPage(
+                              context, Routes.carDetailsRoute,
+                              arguments: carsList[index]);
+                        },
                       ),
-                      Expanded(
-                        child: CustomElevatedbutton(
-                            child: CustomIcons(
-                              icon: Icons.filter_list_alt,
-                              color: Colors.white,
-                            ),
-                            // color: const Color.fromARGB(255, 255, 255, 255),
-                            onPressed: () {
-                            }),
-                      ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                CustomText(
-                  data: topBrandsStr,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: topBrandCarsList.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor:
-                                  const Color.fromARGB(97, 223, 176, 176),
-                              radius: 30,
-                              child:
-                                  Image.network(topBrandCarsList[index].image),
-                            ),
-                            CustomText(data: topBrandCarsList[index].name)
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height * 0.035,
-                // ),
-                CustomText(
-                  data: popularCarStr,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.47,
-                  child: ListView.builder(
-                    itemCount: carsList.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: CustomCarOverviewContainer(
-                          carName: carsList[index].carName ?? "hello",
-                          carImageUrl:
-                            carsList[index].imageUrl ??carPlaceholderImageUrl,
-                          logoUrl:
-                              "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
-                          rating: "4.5",
-                          fuelCapacity: carsList[index].fuelCapacity ?? "",
-                          carType: carsList[index].carType ?? "",
-                          numberOfPeople: carsList[index].passengerCapacity ?? "",
-                          price: carsList[index].rentPrice ?? "",
-                          //  price: '200',
-                          onPressed: () {
-                            RouteGenerator.navigateToPage(
-                                context, Routes.carDetailsRoute,
-                                arguments: carsList[index]);
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
     );
   }
 }
-
 // List<CarDetails> carDetailsList = [
 //   CarDetails(
 //       "Toyota Supra",

@@ -6,6 +6,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/home.dart';
 import 'package:car_rental_system/login.dart';
+import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/reset_password.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
@@ -31,7 +32,7 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
-        return MaterialPageRoute(builder: (_) => const LoginPgae(),settings: settings);
+        return MaterialPageRoute(builder: (_) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
       case Routes.signupRoute:
       return MaterialPageRoute(builder: (_) =>const Signup());
       case Routes.getStartedRoute:
@@ -48,7 +49,7 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>const Home() );
       case Routes.carDetailsRoute:
       print( settings.arguments);
-        return MaterialPageRoute(builder: (_) =>const CarDetailsPage(),settings: settings );
+        return MaterialPageRoute(builder: (_) => CarDetailsPage(carDetail: settings.arguments as Car,), );
       case Routes.carBookingRoute:
         return MaterialPageRoute(builder: (_) =>const CarBookingPage() );
       case Routes.addCarDetailsRoute:

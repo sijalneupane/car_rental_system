@@ -4,7 +4,7 @@ import 'package:car_rental_system/car_details_page.dart';
 import 'package:car_rental_system/firebase_options.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/splash_screen.dart';
-import 'package:car_rental_system/upload_image_demo.dart';
+import 'package:car_rental_system/POC_upload_image_demo.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

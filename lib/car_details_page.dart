@@ -20,7 +20,8 @@ import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailsPage extends StatefulWidget {
-  const CarDetailsPage({super.key});
+ Car carDetail;
+   CarDetailsPage({super.key,required this.carDetail});
 
   @override
   State<CarDetailsPage> createState() => _CarDetailsPageState();
@@ -42,7 +43,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-  var carDetail=ModalRoute.of(context)?.settings.arguments as Car;
+  // var carDetail=ModalRoute.of(context)?.settings.arguments as Car;
     return Scaffold(
       body: SafeArea(
         child: PaddingForAllPages (
@@ -55,7 +56,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                 middleChild: CustomText(data: carDetailStr,isPageTitle: true,),
               ),
               CustomImageNetwork(
-                name:carDetail.imageUrl!,
+                name:widget.carDetail.imageUrl!,
                 height: MediaQuery.of(context).size.height * 0.22,
                 width: MediaQuery.of(context).size.width,
               ),CustomSizedBox(height: 0.01), 
@@ -72,7 +73,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    data: carDetail.carName!,
+                    data: widget.carDetail.carName!,
                     fontSize: 24,
                   ),
                   Row(
@@ -85,7 +86,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
               ),
               CustomSizedBox(height: 0.01),
               CustomText(
-                data: carDetail.carBrand!,
+                data: widget.carDetail.carBrand!,
                 textAlign: TextAlign.left,
               ),
               CustomSizedBox(height: 0.01), // Spacer
@@ -165,7 +166,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                       ),
                       Row(
                         children: [
-                          CustomText(data: "\$ ${carDetail.rentPrice}"),
+                          CustomText(data: "\$ ${widget.carDetail.rentPrice}"),
                           CustomText(
                             data: perDayStr,
                             color: greyColor,
@@ -178,7 +179,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                     width: MediaQuery.of(context).size.width * 0.4,
                     child: const Text(rentNowStr),
                     onPressed: () {
-                      RouteGenerator.navigateToPage(context,Routes.carBookingRoute,arguments: carDetail);
+                      RouteGenerator.navigateToPage(context,Routes.carBookingRoute,arguments: widget.carDetail);
                       // Add your rent now logic here
                     },
                   ),

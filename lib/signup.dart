@@ -12,6 +12,7 @@ import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_image_assets.dart';
+import 'package:car_rental_system/widgets/custom_image_picker.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
 import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
@@ -33,6 +34,7 @@ class _SignupState extends State<Signup> {
   final TextEditingController _passwordController = TextEditingController();
   bool visible = false;
   bool loader = false;
+  File? _selectedImage;
   bool isTermsAndConditionedAgreed = false;
   final _formKey = GlobalKey<FormState>();
   @override
@@ -117,6 +119,29 @@ class _SignupState extends State<Signup> {
                       return null;
                     },
                   ),
+                  CustomImagePicker(
+                      labelText: carImageLabelStr,
+                    afterPickingImage:(imageFile) {
+                    setState(() {
+                    _selectedImage = imageFile; // Store the selected image
+                  });
+                },
+                validator: (imageFile) {
+                   if (imageFile == null) {
+                    return imageValidationStr;
+                  }
+                  double imageLength = imageFile.lengthSync() / (1024 * 1024);
+                  String fileExtension =
+                      imageFile.path.split('.').last.toLowerCase();
+
+                  if (!allowedExtensions.contains(fileExtension)) {
+                    return imageExtensionsValidationStr;
+                  }
+                  if (imageLength > 4) {
+                    return imageSizeValidationStr;
+                  }
+                  return null; // Validation passed
+                },),
                   Row(
                     children: [
                       Checkbox(

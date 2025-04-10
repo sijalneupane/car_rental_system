@@ -213,7 +213,7 @@ class _AddCarFormState extends State<AddCarForm> {
                         String? imageUrl;
                       if (_selectedImage != null) {
                         // Upload the image to Cloudinary (or your preferred service)
-                        imageUrl = await UploadImageCloudinary.uploadImageToCloudinary(_selectedImage!);
+                        imageUrl = await UploadImageCloudinary.uploadImageToCloudinary(_selectedImage!,"carimage");
                         if (imageUrl == null) {
                           throw Exception("Image upload failed");
                         }
