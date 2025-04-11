@@ -198,249 +198,258 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                 fontSize: 45,
                               ),
                             )
-                          : ListView.builder(
-                              itemCount: carsList.length,
-                              itemBuilder: (context, index) {
-                                return Card(
-                                  elevation: 4,
-                                  margin: const EdgeInsets.only(bottom: 12.0),
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Car Image and Name Row
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          textDirection: index % 2 == 0
-                                              ? TextDirection.ltr
-                                              : TextDirection.rtl,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.network(
-                                                carsList[index].imageUrl ??
-                                                    carPlaceholderImageUrl,
-                                                width: MediaQuery.of(context)
+                          : RefreshIndicator(
+                            triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                            
+                            onRefresh: () { 
+                              fetchCarDetails();
+                              return Future.delayed(const Duration(milliseconds: 0));
+                             },
+                            child: ListView.builder(
+                              physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                                itemCount: carsList.length,
+                                itemBuilder: (context, index) {
+                                  return Card(
+                                    elevation: 4,
+                                    margin: const EdgeInsets.only(bottom: 12.0),
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Car Image and Name Row
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            textDirection: index % 2 == 0
+                                                ? TextDirection.ltr
+                                                : TextDirection.rtl,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.network(
+                                                  carsList[index].imageUrl ??
+                                                      carPlaceholderImageUrl,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.2,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                      stackTrace) {
+                                                    return Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.2,
+                                                      color: Colors.grey[300],
+                                                      child:
+                                                          const Icon(Icons.error),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                              CustomSizedBox(width: 0.05),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      data: carsList[index]
+                                                          .carName!,
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                    CustomSizedBox(height: 0.004),
+                                                    CustomText(
+                                                      data: carsList[index]
+                                                          .carBrand!,
+                                                      fontSize: 14,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: greyColor,
+                                                    ),
+                                                    CustomSizedBox(height: 0.004),
+                                                    Row(
+                                                      children: [
+                                                        CustomImageNetwork(
+                                                          name:
+                                                              "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
+                                                          width: 24,
+                                                          height: 24,
+                                                        ),
+                                                        CustomSizedBox(
+                                                            width: 0.008),
+                                                        Row(
+                                                          children: [
+                                                            CustomIcons(
+                                                                icon: Icons.star),
+                                                            CustomText(
+                                                              data:
+                                                                  carsList[index]
+                                                                      .carBrand!,
+                                                              color: greyColor,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                            
+                                          CustomSizedBox(height: 0.01),
+                                          GridView.count(
+                                            crossAxisCount: 2,
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            childAspectRatio: 3,
+                                            crossAxisSpacing:
+                                                MediaQuery.of(context)
                                                         .size
                                                         .width *
-                                                    0.5,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                fit: BoxFit.cover,
-                                                errorBuilder: (context, error,
-                                                    stackTrace) {
-                                                  return Container(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.5,
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.2,
-                                                    color: Colors.grey[300],
-                                                    child:
-                                                        const Icon(Icons.error),
+                                                    0.1,
+                                            mainAxisSpacing: 5,
+                                            children: [
+                                              _buildInfoTile(
+                                                  fuelCapacityLabelStr,
+                                                  carsList[index].fuelCapacity,
+                                                  Icons.local_gas_station),
+                                              _buildInfoTile(
+                                                  carTypeHintStr,
+                                                  carsList[index].carType,
+                                                  Icons.car_crash),
+                                              _buildInfoTile(
+                                                  seatsStr,
+                                                  carsList[index]
+                                                      .passengerCapacity,
+                                                  Icons.people),
+                                              _buildInfoTile(
+                                                  priceStr,
+                                                  carsList[index].rentPrice,
+                                                  Icons.currency_rupee),
+                                            ],
+                                          ),
+                            
+                                          const SizedBox(height: 12),
+                            
+                                          // Owner Information
+                                          Row(
+                                            children: [
+                                              CustomCircleAvatar(
+                                                  backgroundImage: const NetworkImage(
+                                                      "https://randomuser.me/api/portraits/men/85.jpg")),
+                                              const SizedBox(width: 12),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    CustomText(
+                                                      // carsList[index].ownerName ??
+                                                      data: "Unkwon User",
+                                                      fontWeight: FontWeight.w500,
+                                                    ),
+                                                    CustomText(
+                                                      // carsList[index].ownerName ??
+                                                      data: "Registered: N/A ",
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: 12,
+                                                      color: greyColor,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                            
+                                          const SizedBox(height: 12),
+                            
+                                          // Action Buttons
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              CustomNoBorderIconButton(
+                                                onPressed: () {
+                                                 RouteGenerator.navigateToPage(context, Routes.addCarDetailsRoute , arguments: carsList[index]);
+                                                  // DisplaySnackbar.show(context,
+                                                  //     carsList[index].id!);
+                                                },
+                                                icon: Icons.edit,
+                                                iconButtonColor: Colors.lightBlue,
+                                                iconColor: Colors.lightBlue,
+                                              ),
+                                              CustomNoBorderIconButton(
+                                                onPressed: () {
+                                                  DialogBox.showConfirmBox(
+                                                    context: context,
+                                                    title:
+                                                        deleteCarConfirmTitleStr,
+                                                    message:
+                                                        deleteCarConfirmMessageStr +
+                                                            (carsList[index]
+                                                                .carName!),
+                                                    onOkPressed: () async {
+                                                      try {
+                                                        // String deletinCarName=carsList[index]
+                                                        //         .carName!;
+                                                        bool success =
+                                                            await deleteCarDetailsById(
+                                                                carsList[index]
+                                                                    .id!);
+                                                        if (success) {
+                                                          DisplaySnackbar.show(
+                                                              context,
+                                                              deleteCarSuccessMessageStr +
+                                                                  carsList[index]
+                                                                      .carName!,
+                                                              isSuccess: true);
+                                                          fetchCarDetails();
+                                                        } else {
+                                                          throw Exception(
+                                                              deleteCarFailedStr);
+                                                        }
+                                                      } catch (e) {
+                                                        DisplaySnackbar.show(
+                                                            context, e.toString(),
+                                                            isError: true);
+                                                      }
+                                                    },
                                                   );
                                                 },
+                                                icon: Icons.delete,
+                                                iconButtonColor: Colors.red,
+                                                iconColor: Colors.red,
                                               ),
-                                            ),
-                                            CustomSizedBox(width: 0.05),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  CustomText(
-                                                    data: carsList[index]
-                                                        .carName!,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                  CustomSizedBox(height: 0.004),
-                                                  CustomText(
-                                                    data: carsList[index]
-                                                        .carBrand!,
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: greyColor,
-                                                  ),
-                                                  CustomSizedBox(height: 0.004),
-                                                  Row(
-                                                    children: [
-                                                      CustomImageNetwork(
-                                                        name:
-                                                            "https://global.toyota/pages/global_toyota/mobility/toyota-brand/emblem_001.jpg",
-                                                        width: 24,
-                                                        height: 24,
-                                                      ),
-                                                      CustomSizedBox(
-                                                          width: 0.008),
-                                                      Row(
-                                                        children: [
-                                                          CustomIcons(
-                                                              icon: Icons.star),
-                                                          CustomText(
-                                                            data:
-                                                                carsList[index]
-                                                                    .carBrand!,
-                                                            color: greyColor,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-
-                                        CustomSizedBox(height: 0.01),
-                                        GridView.count(
-                                          crossAxisCount: 2,
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          childAspectRatio: 3,
-                                          crossAxisSpacing:
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.1,
-                                          mainAxisSpacing: 5,
-                                          children: [
-                                            _buildInfoTile(
-                                                fuelCapacityLabelStr,
-                                                carsList[index].fuelCapacity,
-                                                Icons.local_gas_station),
-                                            _buildInfoTile(
-                                                carTypeHintStr,
-                                                carsList[index].carType,
-                                                Icons.car_crash),
-                                            _buildInfoTile(
-                                                seatsStr,
-                                                carsList[index]
-                                                    .passengerCapacity,
-                                                Icons.people),
-                                            _buildInfoTile(
-                                                priceStr,
-                                                carsList[index].rentPrice,
-                                                Icons.currency_rupee),
-                                          ],
-                                        ),
-
-                                        const SizedBox(height: 12),
-
-                                        // Owner Information
-                                        Row(
-                                          children: [
-                                            CustomCircleAvatar(
-                                                backgroundImage: const NetworkImage(
-                                                    "https://randomuser.me/api/portraits/men/85.jpg")),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  CustomText(
-                                                    // carsList[index].ownerName ??
-                                                    data: "Unkwon User",
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  CustomText(
-                                                    // carsList[index].ownerName ??
-                                                    data: "Registered: N/A ",
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 12,
-                                                    color: greyColor,
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-
-                                        const SizedBox(height: 12),
-
-                                        // Action Buttons
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            CustomNoBorderIconButton(
-                                              onPressed: () {
-                                               RouteGenerator.navigateToPage(context, Routes.addCarDetailsRoute , arguments: carsList[index]);
-                                                // DisplaySnackbar.show(context,
-                                                //     carsList[index].id!);
-                                              },
-                                              icon: Icons.edit,
-                                              iconButtonColor: Colors.lightBlue,
-                                              iconColor: Colors.lightBlue,
-                                            ),
-                                            CustomNoBorderIconButton(
-                                              onPressed: () {
-                                                DialogBox.showConfirmBox(
-                                                  context: context,
-                                                  title:
-                                                      deleteCarConfirmTitleStr,
-                                                  message:
-                                                      deleteCarConfirmMessageStr +
-                                                          (carsList[index]
-                                                              .carName!),
-                                                  onOkPressed: () async {
-                                                    try {
-                                                      // String deletinCarName=carsList[index]
-                                                      //         .carName!;
-                                                      bool success =
-                                                          await deleteCarDetailsById(
-                                                              carsList[index]
-                                                                  .id!);
-                                                      if (success) {
-                                                        DisplaySnackbar.show(
-                                                            context,
-                                                            deleteCarSuccessMessageStr +
-                                                                carsList[index]
-                                                                    .carName!,
-                                                            isSuccess: true);
-                                                        fetchCarDetails();
-                                                      } else {
-                                                        throw Exception(
-                                                            deleteCarFailedStr);
-                                                      }
-                                                    } catch (e) {
-                                                      DisplaySnackbar.show(
-                                                          context, e.toString(),
-                                                          isError: true);
-                                                    }
-                                                  },
-                                                );
-                                              },
-                                              icon: Icons.delete,
-                                              iconButtonColor: Colors.red,
-                                              iconColor: Colors.red,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
+                                  );
+                                },
+                              ),
+                          ),
                     ),
                   ],
                 ),
