@@ -34,7 +34,7 @@ class Car {
     rentPrice = json['rentPrice'] ?? "N/A";
     rating = json['rating'] ?? "N/A";
     userId = json['userId'] ?? "N/A";
-    imageUrl = json['imageUrl'] ?? carPlaceholderImageUrl;
+    imageUrl = json['imageUrl'];
   }
 
   Map<String, dynamic> toJson() {

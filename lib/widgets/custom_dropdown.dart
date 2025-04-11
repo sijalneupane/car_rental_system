@@ -52,8 +52,8 @@ class _CustomDropdownState extends State<CustomDropdown> {
             fontSize: 16,
           ),
           const SizedBox(height: 4),
-          DropdownButtonFormField(
-            value: widget.value,
+            DropdownButtonFormField(
+            value: widget.value != null && widget.dropDownItemList.contains(widget.value) ? widget.value : null,
               dropdownColor: greyColor,
               focusNode: _focusNode,
               decoration: InputDecoration(

@@ -49,12 +49,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) =>const Home() );
       case Routes.carDetailsRoute:
       print( settings.arguments);
+    
         return MaterialPageRoute(builder: (_) => CarDetailsPage(carDetail: settings.arguments as Car,), );
       case Routes.carBookingRoute:
         return MaterialPageRoute(builder: (_) =>const CarBookingPage() );
       case Routes.addCarDetailsRoute:
-      final car = settings.arguments as Car?;
-        return MaterialPageRoute(builder: (_) => AddCarForm(car: car,) );
+        return MaterialPageRoute(
+        builder: (_) => AddCarForm(car: settings.arguments != null ? settings.arguments as Car : null));
       case Routes.viewCarListRoute:
         return MaterialPageRoute(builder: (_) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
       default:

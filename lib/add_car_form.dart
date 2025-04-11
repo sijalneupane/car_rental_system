@@ -46,9 +46,9 @@ _carTypeController.text=widget.car?.carType??"";
 _passengerCapacityController.text=widget.car?.passengerCapacity??"";
 _priceController.text=widget.car?.rentPrice??"";
 _fuelCapacityController.text=widget.car?.fuelCapacity??"";
+preCarImageUrl=widget.car?.imageUrl;
  }
   }
-
   final TextEditingController _carNameController = TextEditingController();
   final TextEditingController _carBrandController = TextEditingController();
   final TextEditingController _carTypeController = TextEditingController();
@@ -60,7 +60,7 @@ _fuelCapacityController.text=widget.car?.fuelCapacity??"";
   bool loader = false;
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
-
+  String? preCarImageUrl;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -187,7 +187,7 @@ _fuelCapacityController.text=widget.car?.fuelCapacity??"";
               ),
               CustomSizedBox(height: 0.02),
               CustomImagePicker(
-                initialImageUrl:widget.car?.imageUrl ,
+                initialImageUrl:preCarImageUrl,
                 validator: (imageFile) {
                   if (imageFile == null) {
                     return imageValidationStr;
@@ -230,9 +230,13 @@ _fuelCapacityController.text=widget.car?.fuelCapacity??"";
                         String? imageUrl;
                         if (_selectedImage != null) {
                           // Upload the image to Cloudinary (or your preferred service)
-                          imageUrl = await UploadImageCloudinary
+                          if(widget.car == null || preCarImageUrl==null){
+                            imageUrl = await UploadImageCloudinary
                               .uploadImageToCloudinary(
                                   _selectedImage!, "carimage");
+                          }else{
+                            imageUrl=preCarImageUrl;
+                          }
                           if (imageUrl == null) {
                             throw Exception("Image upload failed");
                           }
@@ -252,9 +256,14 @@ _fuelCapacityController.text=widget.car?.fuelCapacity??"";
                             userId: userId);
                         FirebaseFirestore firebaseFirestore =
                             FirebaseFirestore.instance;
-                        await firebaseFirestore
+                        if(widget.car!=null && widget.car?.id!=null){
+                          await firebaseFirestore
+                            .collection("cars").doc(widget.car?.id!).update(obj.toJson());
+                        }else{
+                          await firebaseFirestore
                             .collection("cars")
                             .add(obj.toJson());
+                        }
                         setState(() {
                           loader = false;
                         });

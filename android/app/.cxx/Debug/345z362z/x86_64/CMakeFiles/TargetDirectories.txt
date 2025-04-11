@@ -1,0 +1,2 @@
+D:/programming related everything/Flutter/car_rental_system/android/app/.cxx/Debug/345z362z/x86_64/CMakeFiles/edit_cache.dir
+D:/programming related everything/Flutter/car_rental_system/android/app/.cxx/Debug/345z362z/x86_64/CMakeFiles/rebuild_cache.dir

@@ -35,7 +35,7 @@ class _SignupState extends State<Signup> {
   final TextEditingController _passwordController = TextEditingController();
   bool visible = false;
   bool loader = false;
-  File? _selectedImage;
+  // File? _selectedImage;
   bool isTermsAndConditionedAgreed = false;
   final _formKey = GlobalKey<FormState>();
   @override

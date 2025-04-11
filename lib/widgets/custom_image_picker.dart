@@ -13,7 +13,7 @@ class CustomImagePicker extends StatefulWidget {
   final void Function(File imageFile) afterPickingImage;
   final String? Function(File? imageFile)? validator;
 
-  const CustomImagePicker({
+   CustomImagePicker({
     super.key,
     this.initialImageUrl,
     required this.afterPickingImage,
@@ -29,11 +29,15 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
   late FormFieldState<File> _formFieldState; // To store the FormFieldState
-
+String? tempInitiaLImageUrl;
   @override
   void initState() {
     super.initState();
+    setState(() {
+      tempInitiaLImageUrl=widget.initialImageUrl;
+    });
     // If there's an initialImageUrl, you might want to handle it here (optional)
+
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -42,6 +46,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
       File file = File(picked.path);
       setState(() {
         _imageFile = file;
+        tempInitiaLImageUrl=null;
         _formFieldState.didChange(file); // Update the FormField value
       });
       widget.afterPickingImage(file); // Call the callback
@@ -51,6 +56,7 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
   Future<void> _unpickImage() async {
     setState(() {
       _imageFile = null;
+      tempInitiaLImageUrl=widget.initialImageUrl;
       _formFieldState.didChange(null); // Clear the FormField value
     });
   }
@@ -60,7 +66,9 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
     return FormField<File>(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       initialValue: _imageFile,
-      validator: widget.validator,
+      validator:tempInitiaLImageUrl==null?widget.validator:(File? filename){
+        return null;
+      },
       builder: (FormFieldState<File> field) {
         // Store the FormFieldState for later use
         _formFieldState = field;
