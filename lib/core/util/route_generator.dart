@@ -53,9 +53,10 @@ class RouteGenerator {
       case Routes.carBookingRoute:
         return MaterialPageRoute(builder: (_) =>const CarBookingPage() );
       case Routes.addCarDetailsRoute:
-        return MaterialPageRoute(builder: (_) =>const AddCarForm() );
+      final car = settings.arguments as Car?;
+        return MaterialPageRoute(builder: (_) => AddCarForm(car: car,) );
       case Routes.viewCarListRoute:
-        return MaterialPageRoute(builder: (_) =>const ViewCarListScreen(),settings: settings );
+        return MaterialPageRoute(builder: (_) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

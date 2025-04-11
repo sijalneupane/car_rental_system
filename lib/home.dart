@@ -86,24 +86,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-  List<TopBrandCars> topBrandCarsList = [
-    TopBrandCars(
-        "https://www.carlogos.org/car-logos/tesla-logo-2007-full-640.png",
-        "Tesla"),
-    TopBrandCars(
-        "https://www.carlogos.org/car-logos/bmw-logo-2020-gray.png", "BMW"),
-    TopBrandCars(
-        "https://www.carlogos.org/car-logos/audi-logo-2016-640.png", "Audi"),
-    TopBrandCars(
-        "https://www.carlogos.org/logo/Lexus-symbol-1988-1920x1080.png",
-        "Lexus"),
-    TopBrandCars(
-        "https://www.carlogos.org/logo/Mercedes-Benz-logo-2009-1920x1080.png",
-        "Mercedes"),
-    TopBrandCars(
-        "https://www.carlogos.org/car-logos/toyota-logo-2020-europe-640.png",
-        "Toyota"),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -388,3 +371,21 @@ class TopBrandCars {
   String name;
   TopBrandCars(this.image, this.name);
 }
+  List<TopBrandCars> topBrandCarsList = [
+    TopBrandCars(
+        "https://www.carlogos.org/car-logos/tesla-logo-2007-full-640.png",
+        "Tesla"),
+    TopBrandCars(
+        "https://www.carlogos.org/car-logos/bmw-logo-2020-gray.png", "BMW"),
+    TopBrandCars(
+        "https://www.carlogos.org/car-logos/audi-logo-2016-640.png", "Audi"),
+    TopBrandCars(
+        "https://www.carlogos.org/logo/Lexus-symbol-1988-1920x1080.png",
+        "Lexus"),
+    TopBrandCars(
+        "https://www.carlogos.org/logo/Mercedes-Benz-logo-2009-1920x1080.png",
+        "Mercedes"),
+    TopBrandCars(
+        "https://www.carlogos.org/car-logos/toyota-logo-2020-europe-640.png",
+        "Toyota"),
+  ];

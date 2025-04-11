@@ -1,9 +1,13 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
+import 'package:car_rental_system/core/util/get_user_info.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/car.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
 import 'package:car_rental_system/widgets/custom_icons.dart';
@@ -17,7 +21,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ViewCarListScreen extends StatefulWidget {
-  const ViewCarListScreen({super.key});
+    bool? fromHomePage;
+   ViewCarListScreen({super.key,this.fromHomePage});
 
   @override
   State<ViewCarListScreen> createState() => _ViewCarListScreenState();
@@ -28,7 +33,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
   bool emptyList = false;
   List<Car> preCarsList = [];
   List<Car> carsList = [];
-
+  User? user;
   @override
   void initState() {
     // TODO: implement initState
@@ -70,6 +75,16 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
       setState(() {
         loader = false;
       });
+    }
+  }
+
+  fetchUserDetails() async {
+    GetUserInfo getUserInfo = GetUserInfo();
+    String? userId = await getUserInfo.getUserId();
+    if (userId != null) {
+      user = await getUserInfo.getUserDetails(userId);
+    } else {
+      user = null;
     }
   }
 
@@ -130,8 +145,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
   }
 
   Widget ui(BuildContext context) {
-    bool fromHomePage =
-        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+  
     // print(fromHomePage);
     return SafeArea(
       child: Column(
@@ -157,7 +171,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: CustomSearchbar(
-                        autofocus: fromHomePage,
+                        autofocus:widget.fromHomePage,
                         onChanged: (value) {
                           setState(() {
                             carsList = preCarsList
@@ -212,7 +226,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               child: Image.network(
-                                               carsList[index].imageUrl ??carPlaceholderImageUrl,
+                                                carsList[index].imageUrl ??
+                                                    carPlaceholderImageUrl,
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width *
@@ -343,7 +358,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                 children: [
                                                   CustomText(
                                                     // carsList[index].ownerName ??
-                                                    data: "Unknown Owner",
+                                                    data: "Unkwon User",
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                   CustomText(
@@ -368,8 +383,9 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                           children: [
                                             CustomNoBorderIconButton(
                                               onPressed: () {
-                                                DisplaySnackbar.show(context,
-                                                    carsList[index].id!);
+                                               RouteGenerator.navigateToPage(context, Routes.addCarDetailsRoute , arguments: carsList[index]);
+                                                // DisplaySnackbar.show(context,
+                                                //     carsList[index].id!);
                                               },
                                               icon: Icons.edit,
                                               iconButtonColor: Colors.lightBlue,
@@ -396,8 +412,9 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                       if (success) {
                                                         DisplaySnackbar.show(
                                                             context,
-                                                            deleteCarSuccessMessageStr+carsList[index]
-                                                              .carName!,
+                                                            deleteCarSuccessMessageStr +
+                                                                carsList[index]
+                                                                    .carName!,
                                                             isSuccess: true);
                                                         fetchCarDetails();
                                                       } else {

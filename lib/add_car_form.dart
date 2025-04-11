@@ -26,13 +26,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 // ... (imports remain the same)
 
 class AddCarForm extends StatefulWidget {
-  const AddCarForm({super.key});
+  Car? car;
+   AddCarForm({super.key,this.car});
 
   @override
   State<AddCarForm> createState() => _AddCarFormState();
 }
 
 class _AddCarFormState extends State<AddCarForm> {
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+ if(widget.car!=null){
+     _carNameController.text=widget.car?.carName??""; 
+_carBrandController.text=widget.car?.carBrand??"";
+_carTypeController.text=widget.car?.carType??"";
+_passengerCapacityController.text=widget.car?.passengerCapacity??"";
+_priceController.text=widget.car?.rentPrice??"";
+_fuelCapacityController.text=widget.car?.fuelCapacity??"";
+ }
+  }
+
   final TextEditingController _carNameController = TextEditingController();
   final TextEditingController _carBrandController = TextEditingController();
   final TextEditingController _carTypeController = TextEditingController();
@@ -109,6 +125,7 @@ class _AddCarFormState extends State<AddCarForm> {
                   CustomSizedBox(width: 0.02),
                   Expanded(
                     child: CustomDropdown(
+                      value:_carTypeController.text ,
                       dropDownItemList: carType,
                       labelText: carTypeLabelStr,
                       hintText: carTypeHintStr,
@@ -170,7 +187,7 @@ class _AddCarFormState extends State<AddCarForm> {
               ),
               CustomSizedBox(height: 0.02),
               CustomImagePicker(
-
+                initialImageUrl:widget.car?.imageUrl ,
                 validator: (imageFile) {
                   if (imageFile == null) {
                     return imageValidationStr;
@@ -193,7 +210,6 @@ class _AddCarFormState extends State<AddCarForm> {
                     _selectedImage = imageFile; // Store the selected image
                   });
                   DialogBox.showAlertBox(
-                    
                     context: context,
                     title: "Image Selected",
                     message: _selectedImage!.path,
@@ -212,25 +228,28 @@ class _AddCarFormState extends State<AddCarForm> {
                     Future.delayed(const Duration(seconds: 2), () async {
                       try {
                         String? imageUrl;
-                      if (_selectedImage != null) {
-                        // Upload the image to Cloudinary (or your preferred service)
-                        imageUrl = await UploadImageCloudinary.uploadImageToCloudinary(_selectedImage!,"carimage");
-                        if (imageUrl == null) {
-                          throw Exception("Image upload failed");
+                        if (_selectedImage != null) {
+                          // Upload the image to Cloudinary (or your preferred service)
+                          imageUrl = await UploadImageCloudinary
+                              .uploadImageToCloudinary(
+                                  _selectedImage!, "carimage");
+                          if (imageUrl == null) {
+                            throw Exception("Image upload failed");
+                          }
                         }
-                      }
-                      //getting the userId from sharedprefences
-                      String? userId=await GetUserInfo.getUserId();
-                      Car obj = Car(
-                        carName: _carNameController.text,
-                        carBrand: _carBrandController.text,
-                        carType: _carTypeController.text,
-                        passengerCapacity: _passengerCapacityController.text,
-                        fuelCapacity: _fuelCapacityController.text,
-                        rentPrice: _priceController.text,
-                        imageUrl: imageUrl,
-                        userId: userId 
-                      );
+                        //getting the userId from sharedprefences
+                        GetUserInfo getUserInfo = GetUserInfo();
+                        String? userId = await getUserInfo.getUserId();
+                        Car obj = Car(
+                            carName: _carNameController.text,
+                            carBrand: _carBrandController.text,
+                            carType: _carTypeController.text,
+                            passengerCapacity:
+                                _passengerCapacityController.text,
+                            fuelCapacity: _fuelCapacityController.text,
+                            rentPrice: _priceController.text,
+                            imageUrl: imageUrl,
+                            userId: userId);
                         FirebaseFirestore firebaseFirestore =
                             FirebaseFirestore.instance;
                         await firebaseFirestore
@@ -250,7 +269,7 @@ class _AddCarFormState extends State<AddCarForm> {
                         // _passengerCapacityController.clear();
                         // _fuelCapacityController.clear();
                         // _priceController.clear();
-                          Navigator.pop(context);
+                        Navigator.pop(context);
                       } catch (e) {
                         setState(() {
                           loader = false;
