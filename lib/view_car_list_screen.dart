@@ -2,6 +2,7 @@ import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/get_user_info.dart';
+import 'package:car_rental_system/core/util/loading_and_error_builder.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
@@ -19,10 +20,11 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ViewCarListScreen extends StatefulWidget {
-    bool? fromHomePage;
-   ViewCarListScreen({super.key,this.fromHomePage});
+  bool? fromHomePage;
+  ViewCarListScreen({super.key, this.fromHomePage});
 
   @override
   State<ViewCarListScreen> createState() => _ViewCarListScreenState();
@@ -145,7 +147,6 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
   }
 
   Widget ui(BuildContext context) {
-  
     // print(fromHomePage);
     return SafeArea(
       child: Column(
@@ -171,7 +172,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: CustomSearchbar(
-                        autofocus:widget.fromHomePage,
+                        autofocus: widget.fromHomePage,
                         onChanged: (value) {
                           setState(() {
                             carsList = preCarsList
@@ -198,15 +199,18 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                 fontSize: 45,
                               ),
                             )
-                          : RefreshIndicator(
-                            triggerMode: RefreshIndicatorTriggerMode.onEdge,
-                            
-                            onRefresh: () { 
-                              fetchCarDetails();
-                              return Future.delayed(const Duration(milliseconds: 0));
-                             },
-                            child: ListView.builder(
-                              physics: const ScrollPhysics(parent: BouncingScrollPhysics()),
+                          : RefreshIndicator.adaptive(
+                              triggerMode: RefreshIndicatorTriggerMode.onEdge,
+                              elevation:0 ,
+                              onRefresh: () {
+                                return Future.delayed(
+                                    const Duration(seconds: 1), () {
+                                  fetchCarDetails();
+                                });
+                              },
+                              child: ListView.builder(
+                                physics: const ScrollPhysics(
+                                    parent: BouncingScrollPhysics()),
                                 itemCount: carsList.length,
                                 itemBuilder: (context, index) {
                                   return Card(
@@ -245,24 +249,66 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                           .height *
                                                       0.2,
                                                   fit: BoxFit.cover,
-                                                  errorBuilder: (context, error,
-                                                      stackTrace) {
-                                                    return Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.2,
-                                                      color: Colors.grey[300],
-                                                      child:
-                                                          const Icon(Icons.error),
-                                                    );
-                                                  },
+                                                  loadingBuilder:
+                                                      LoadingAndErrorBuilder()
+                                                          .customLoadingBuilder(),
+
+                                                  // (context,
+                                                  //     child, loadingProgress) {
+                                                  //   if (loadingProgress ==
+                                                  //       null) {
+                                                  //     return child;
+                                                  //   }
+                                                  //   return Container( decoration: BoxDecoration(
+                                                  //       color: greyColor
+                                                  //     ),
+                                                  //     width:
+                                                  //         MediaQuery.of(context)
+                                                  //                 .size
+                                                  //                 .width *
+                                                  //             0.5,
+                                                  //     height:
+                                                  //         MediaQuery.of(context)
+                                                  //                 .size
+                                                  //                 .height *
+                                                  //             0.2,
+                                                  //     child: Center(
+                                                  //         child:
+                                                  //             CircularProgressIndicator(
+                                                  //       value: loadingProgress
+                                                  //                   .expectedTotalBytes !=
+                                                  //               null
+                                                  //           ? loadingProgress
+                                                  //                   .cumulativeBytesLoaded /
+                                                  //               (loadingProgress
+                                                  //                       .expectedTotalBytes ??
+                                                  //                   1)
+                                                  //           : null,
+                                                  //     )),
+                                                  //   );
+                                                  // },
+                                                  errorBuilder:
+                                                      LoadingAndErrorBuilder()
+                                                          .customErrorBuilder(),
+                                                  // (context, error,
+                                                  //     stackTrace) {
+                                                  //   return Container(
+
+                                                  //     width:
+                                                  //         MediaQuery.of(context)
+                                                  //                 .size
+                                                  //                 .width *
+                                                  //             0.5,
+                                                  //     height:
+                                                  //         MediaQuery.of(context)
+                                                  //                 .size
+                                                  //                 .height *
+                                                  //             0.2,
+                                                  //     color: Colors.grey[300],
+                                                  //     child: const Icon(
+                                                  //         Icons.error),
+                                                  //   );
+                                                  // },
                                                 ),
                                               ),
                                               CustomSizedBox(width: 0.05),
@@ -275,17 +321,21 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                       data: carsList[index]
                                                           .carName!,
                                                       fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
-                                                    CustomSizedBox(height: 0.004),
+                                                    CustomSizedBox(
+                                                        height: 0.004),
                                                     CustomText(
                                                       data: carsList[index]
                                                           .carBrand!,
                                                       fontSize: 14,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                       color: greyColor,
                                                     ),
-                                                    CustomSizedBox(height: 0.004),
+                                                    CustomSizedBox(
+                                                        height: 0.004),
                                                     Row(
                                                       children: [
                                                         CustomImageNetwork(
@@ -299,11 +349,12 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                         Row(
                                                           children: [
                                                             CustomIcons(
-                                                                icon: Icons.star),
+                                                                icon:
+                                                                    Icons.star),
                                                             CustomText(
-                                                              data:
-                                                                  carsList[index]
-                                                                      .carBrand!,
+                                                              data: carsList[
+                                                                      index]
+                                                                  .carBrand!,
                                                               color: greyColor,
                                                             ),
                                                           ],
@@ -315,7 +366,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                               ),
                                             ],
                                           ),
-                            
+
                                           CustomSizedBox(height: 0.01),
                                           GridView.count(
                                             crossAxisCount: 2,
@@ -349,15 +400,16 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                   Icons.currency_rupee),
                                             ],
                                           ),
-                            
+
                                           const SizedBox(height: 12),
-                            
+
                                           // Owner Information
                                           Row(
                                             children: [
                                               CustomCircleAvatar(
-                                                  backgroundImage: const NetworkImage(
-                                                      "https://randomuser.me/api/portraits/men/85.jpg")),
+                                                  backgroundImage:
+                                                      const NetworkImage(
+                                                          "https://randomuser.me/api/portraits/men/85.jpg")),
                                               const SizedBox(width: 12),
                                               Expanded(
                                                 child: Column(
@@ -367,12 +419,14 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                     CustomText(
                                                       // carsList[index].ownerName ??
                                                       data: "Unkwon User",
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
                                                     CustomText(
                                                       // carsList[index].ownerName ??
                                                       data: "Registered: N/A ",
-                                                      fontWeight: FontWeight.w500,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                       fontSize: 12,
                                                       color: greyColor,
                                                     ),
@@ -381,9 +435,9 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                               ),
                                             ],
                                           ),
-                            
+
                                           const SizedBox(height: 12),
-                            
+
                                           // Action Buttons
                                           Row(
                                             mainAxisAlignment:
@@ -391,12 +445,17 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                             children: [
                                               CustomNoBorderIconButton(
                                                 onPressed: () {
-                                                 RouteGenerator.navigateToPage(context, Routes.addCarDetailsRoute , arguments: carsList[index]);
+                                                  RouteGenerator.navigateToPage(
+                                                      context,
+                                                      Routes.addCarDetailsRoute,
+                                                      arguments:
+                                                          carsList[index]);
                                                   // DisplaySnackbar.show(context,
                                                   //     carsList[index].id!);
                                                 },
                                                 icon: Icons.edit,
-                                                iconButtonColor: Colors.lightBlue,
+                                                iconButtonColor:
+                                                    Colors.lightBlue,
                                                 iconColor: Colors.lightBlue,
                                               ),
                                               CustomNoBorderIconButton(
@@ -421,7 +480,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                           DisplaySnackbar.show(
                                                               context,
                                                               deleteCarSuccessMessageStr +
-                                                                  carsList[index]
+                                                                  carsList[
+                                                                          index]
                                                                       .carName!,
                                                               isSuccess: true);
                                                           fetchCarDetails();
@@ -431,7 +491,8 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                                         }
                                                       } catch (e) {
                                                         DisplaySnackbar.show(
-                                                            context, e.toString(),
+                                                            context,
+                                                            e.toString(),
                                                             isError: true);
                                                       }
                                                     },
@@ -449,7 +510,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                   );
                                 },
                               ),
-                          ),
+                            ),
                     ),
                   ],
                 ),

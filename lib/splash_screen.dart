@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
       try {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         bool? isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-        print('isLoggedIn: $isLoggedIn'); // Debugging line
+        // print('isLoggedIn: $isLoggedIn'); // Debugging line
 
         if (isLoggedIn == true) {
           RouteGenerator.navigateToPageWithoutStack(
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       } catch (e) {
         print('Error retrieving isLoggedIn: $e'); // Debugging line
-        // RouteGenerator.navigateToPageWithoutStack(context, Routes.getStartedRoute);
+        RouteGenerator.navigateToPageWithoutStack(context, Routes.getStartedRoute);
       }
     });
   }
@@ -54,19 +54,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:buildNumber==null?Loader.backdropFilter(context): Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body:buildNumber==null?Loader.backdropFilter(context): Stack(
         children: [
-          Image.asset(
-            logoPath,
-            width: MediaQuery.of(context).size.width ,
+          Center(
+            child: Image.asset(
+              logoPath,
+              width: MediaQuery.of(context).size.width*0.75 ,
+            ),
           ),
-          Column(
-            children: [
-              CustomText(data:"Version : ${version ?? " Hii"}",fontSize: 20,fontWeight: FontWeight.bold,),
-              CustomText(data:"Build Number : ${buildNumber ??" Hello"}",fontSize: 20,fontWeight: FontWeight.bold,),
-            ],
+          Positioned(
+            bottom: 100,
+            left: 0,
+            right: 0,
+            child: Column(
+              children: [
+                CustomText(data:"$versionStr : ${version ?? " Hii"}",fontSize: 16,fontWeight: FontWeight.bold,),
+                CustomText(data:"$buildNoStr : ${buildNumber ??" Hello"}",fontSize: 16,fontWeight: FontWeight.bold,),
+              ],
+            ),
           ),
         ],
       ),

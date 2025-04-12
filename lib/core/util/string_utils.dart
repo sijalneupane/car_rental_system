@@ -1,5 +1,12 @@
 const String appName="Car Rental System";
 const String splashScreenTitle="RENTAL";
+const String versionStr="Version";
+const String buildNoStr="Build No: ";
+//extra string that are not necessarily used for any specific meaning
+const String helloStr="Hello";
+const String hiStr="Hi";
+const String unknownUserStr="Unknown User";
+const String naStr="N/A ";
 //images from assets
 const String logoPath="assets/images/logo.png";
 const String letsStartImagePath="assets/images/lets_start.png";

@@ -6,6 +6,7 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -57,14 +58,15 @@ class _LoginPgaeState extends State<LoginPgae> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                (widget.fromLogout ??false) ? SizedBox() : CustomBackPageIcon(),
+                (widget.fromLogout ??false) ?const SizedBox() : CustomAppBar(hasBackButton: true,),
 
                 // CustomBackPageIcon( icon: Icons.close),
-                CustomSizedBox(
-                  height: 0.04,
-                ),
+                // CustomSizedBox(
+                //   height: 0.04,
+                // ),
                 CustomText(
                   data: welcomeBackStr,
                   // fontSize: 30,
