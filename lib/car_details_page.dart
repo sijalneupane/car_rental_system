@@ -55,10 +55,14 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                 hasBackButton: true,
                 middleChild: CustomText(data: carDetailStr,isPageTitle: true,),
               ),
-              CustomImageNetwork(
-                name:widget.carDetail.imageUrl!,
-                height: MediaQuery.of(context).size.height * 0.22,
-                width: MediaQuery.of(context).size.width,
+              Hero(
+                transitionOnUserGestures: true,
+                tag: "car-image-${widget.carDetail.carName}",
+                child: CustomImageNetwork(
+                  name:widget.carDetail.imageUrl!,
+                  height: MediaQuery.of(context).size.height * 0.22,
+                  width: MediaQuery.of(context).size.width,
+                ),
               ),CustomSizedBox(height: 0.01), 
               Center(
                 child: CircleAvatar(
@@ -116,7 +120,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                           bottom: BorderSide(
                             color: isActive
                                 ? primaryColor
-                                : greyColor.withValues(alpha: .1),
+                                : greyColor.withValues(alpha: .81),
                             width: 2.0,
                           ),
                         ),

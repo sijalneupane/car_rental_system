@@ -4,7 +4,7 @@ import 'package:path/path.dart' as path;
 
 class UploadImageCloudinary {
   static Future<String?> uploadImageToCloudinary(File imageFile,String folderName) async {
-    String? _uploadedImageUrl;
+    String? uploadedImageUrl;
     const cloudName = 'ddb1esok3';
     const uploadPreset = 'unsigned_preset';
 
@@ -30,13 +30,13 @@ class UploadImageCloudinary {
 
       if (response.statusCode == 200||response.statusCode == 201) {
         // setState(() {
-        _uploadedImageUrl = response.data['secure_url'];
+        uploadedImageUrl = response.data['secure_url'];
         // });
-        print('Uploaded Image URL: $_uploadedImageUrl');
+        print('Uploaded Image URL: $uploadedImageUrl');
       } else {
         print('Upload failed: ${response.statusCode}');
       }
-      return _uploadedImageUrl;
+      return uploadedImageUrl;
     } catch (e) {
       print('Error uploading image: $e');
       

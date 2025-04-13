@@ -10,10 +10,10 @@ import 'package:image_picker/image_picker.dart';
 class CustomImagePicker extends StatefulWidget {
   final String? labelText;
   final String? initialImageUrl;
-  final void Function(File imageFile) afterPickingImage;
+  final void Function(File? imageFile) afterPickingImage;
   final String? Function(File? imageFile)? validator;
 
-   CustomImagePicker({
+  CustomImagePicker({
     super.key,
     this.initialImageUrl,
     required this.afterPickingImage,
@@ -29,24 +29,23 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
   File? _imageFile;
   final ImagePicker _picker = ImagePicker();
   late FormFieldState<File> _formFieldState; // To store the FormFieldState
-String? tempInitiaLImageUrl;
+  String? tempInitiaLImageUrl;
   @override
   void initState() {
     super.initState();
     setState(() {
-      tempInitiaLImageUrl=widget.initialImageUrl;
+      tempInitiaLImageUrl = widget.initialImageUrl;
     });
     // If there's an initialImageUrl, you might want to handle it here (optional)
-
   }
 
   Future<void> _pickImage(ImageSource source) async {
     final XFile? picked = await _picker.pickImage(source: source);
     if (picked != null) {
-      File file = File(picked.path);
+      File? file = File(picked.path);
       setState(() {
         _imageFile = file;
-        tempInitiaLImageUrl=null;
+        tempInitiaLImageUrl = null;
         _formFieldState.didChange(file); // Update the FormField value
       });
       widget.afterPickingImage(file); // Call the callback
@@ -56,9 +55,10 @@ String? tempInitiaLImageUrl;
   Future<void> _unpickImage() async {
     setState(() {
       _imageFile = null;
-      tempInitiaLImageUrl=widget.initialImageUrl;
+      tempInitiaLImageUrl = widget.initialImageUrl;
       _formFieldState.didChange(null); // Clear the FormField value
     });
+    widget.afterPickingImage(_imageFile); // Call the callback
   }
 
   @override
@@ -66,9 +66,11 @@ String? tempInitiaLImageUrl;
     return FormField<File>(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       initialValue: _imageFile,
-      validator:tempInitiaLImageUrl==null?widget.validator:(File? filename){
-        return null;
-      },
+      validator: tempInitiaLImageUrl == null
+          ? widget.validator
+          : (File? filename) {
+              return null;
+            },
       builder: (FormFieldState<File> field) {
         // Store the FormFieldState for later use
         _formFieldState = field;

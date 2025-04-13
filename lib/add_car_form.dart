@@ -27,28 +27,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AddCarForm extends StatefulWidget {
   Car? car;
-   AddCarForm({super.key,this.car});
+  AddCarForm({super.key, this.car});
 
   @override
   State<AddCarForm> createState() => _AddCarFormState();
 }
 
 class _AddCarFormState extends State<AddCarForm> {
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
- if(widget.car!=null){
-     _carNameController.text=widget.car?.carName??""; 
-_carBrandController.text=widget.car?.carBrand??"";
-_carTypeController.text=widget.car?.carType??"";
-_passengerCapacityController.text=widget.car?.passengerCapacity??"";
-_priceController.text=widget.car?.rentPrice??"";
-_fuelCapacityController.text=widget.car?.fuelCapacity??"";
-preCarImageUrl=widget.car?.imageUrl;
- }
+    if (widget.car != null) {
+      _carNameController.text = widget.car?.carName ?? "";
+      _carBrandController.text = widget.car?.carBrand ?? "";
+      _carTypeController.text = widget.car?.carType ?? "";
+      _passengerCapacityController.text = widget.car?.passengerCapacity ?? "";
+      _priceController.text = widget.car?.rentPrice ?? "";
+      _fuelCapacityController.text = widget.car?.fuelCapacity ?? "";
+      preCarImageUrl = widget.car?.imageUrl;
+    }
   }
+
   final TextEditingController _carNameController = TextEditingController();
   final TextEditingController _carBrandController = TextEditingController();
   final TextEditingController _carTypeController = TextEditingController();
@@ -125,7 +125,7 @@ preCarImageUrl=widget.car?.imageUrl;
                   CustomSizedBox(width: 0.02),
                   Expanded(
                     child: CustomDropdown(
-                      value:_carTypeController.text ,
+                      value: _carTypeController.text,
                       dropDownItemList: carType,
                       labelText: carTypeLabelStr,
                       hintText: carTypeHintStr,
@@ -187,7 +187,7 @@ preCarImageUrl=widget.car?.imageUrl;
               ),
               CustomSizedBox(height: 0.02),
               CustomImagePicker(
-                initialImageUrl:preCarImageUrl,
+                initialImageUrl: preCarImageUrl,
                 validator: (imageFile) {
                   if (imageFile == null) {
                     return imageValidationStr;
@@ -205,7 +205,7 @@ preCarImageUrl=widget.car?.imageUrl;
                   return null; // Validation passed
                 },
                 labelText: carImageLabelStr,
-                afterPickingImage: (File imageFile) async {
+                afterPickingImage: (File? imageFile) async {
                   setState(() {
                     _selectedImage = imageFile; // Store the selected image
                   });
@@ -230,16 +230,18 @@ preCarImageUrl=widget.car?.imageUrl;
                         String? imageUrl;
                         if (_selectedImage != null) {
                           // Upload the image to Cloudinary (or your preferred service)
-                          if(widget.car == null || preCarImageUrl==null){
-                            imageUrl = await UploadImageCloudinary
+                          imageUrl = await UploadImageCloudinary
                               .uploadImageToCloudinary(
                                   _selectedImage!, "carimage");
-                          }else{
-                            imageUrl=preCarImageUrl;
+                        } else {
+                          // imageUrl = preCarImageUrl;
+                          if (widget.car != null || preCarImageUrl != null) {
+                            imageUrl = preCarImageUrl;
                           }
-                          if (imageUrl == null) {
-                            throw Exception("Image upload failed");
-                          }
+                        }
+
+                        if (imageUrl == null) {
+                          throw Exception("Image upload failed");
                         }
                         //getting the userId from sharedprefences
                         GetUserInfo getUserInfo = GetUserInfo();
@@ -256,13 +258,15 @@ preCarImageUrl=widget.car?.imageUrl;
                             userId: userId);
                         FirebaseFirestore firebaseFirestore =
                             FirebaseFirestore.instance;
-                        if(widget.car!=null && widget.car?.id!=null){
+                        if (widget.car != null && widget.car?.id != null) {
                           await firebaseFirestore
-                            .collection("cars").doc(widget.car?.id!).update(obj.toJson());
-                        }else{
+                              .collection("cars")
+                              .doc(widget.car?.id!)
+                              .update(obj.toJson());
+                        } else {
                           await firebaseFirestore
-                            .collection("cars")
-                            .add(obj.toJson());
+                              .collection("cars")
+                              .add(obj.toJson());
                         }
                         setState(() {
                           loader = false;

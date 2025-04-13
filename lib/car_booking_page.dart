@@ -2,6 +2,7 @@ import 'package:car_rental_system/core/util/dialog_box.dart';
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/model/car.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_checkbox.dart';
 import 'package:car_rental_system/widgets/custom_date_time_input.dart';
@@ -15,7 +16,8 @@ import 'package:car_rental_system/widgets/padding_for_all_pages.dart';
 import 'package:flutter/material.dart';
 
 class CarBookingPage extends StatefulWidget {
-  const CarBookingPage({super.key});
+  Car carDetail;
+   CarBookingPage({super.key,required this.carDetail});
 
   @override
   State<CarBookingPage> createState() => _CarBookingPageState();
@@ -55,10 +57,10 @@ class _CarBookingPageState extends State<CarBookingPage> {
                     ),
                   ),
                   CustomImageNetwork(
-                    name: 'https://www.pngmart.com/files/22/Audi-Q7-PNG.png',
+                    name: widget.carDetail.imageUrl ?? carPlaceholderImageUrl,
                     height: MediaQuery.of(context).size.height * 0.22,
                     width: MediaQuery.of(context).size.width,
-                  ),
+                  ),CustomSizedBox(height: 0.01),
                   Center(
                     child: CircleAvatar(
                       backgroundColor: primaryColor,
@@ -150,8 +152,13 @@ class _CarBookingPageState extends State<CarBookingPage> {
                     children: [
                       CustomElevatedbutton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate() &&
-                              _insuranceAgreed) {
+                          if (_formKey.currentState!.validate() ) {
+                            if(_insuranceAgreed){
+
+                            }else{
+                            DisplaySnackbar.show(
+                                    context, "Please accept the insurance terms to book a car");
+                            }
                             // DialogBox.showCustomConfirmationDialog(
                             //   icon: Icons.people,
                             //   context: context,

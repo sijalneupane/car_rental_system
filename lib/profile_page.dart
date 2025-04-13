@@ -40,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CustomCircleAvatar(
                     backgroundImage: const NetworkImage(
                         "https://randomuser.me/api/portraits/men/85.jpg"),
+                      
                     radius: 40,
                   ),
                 ),

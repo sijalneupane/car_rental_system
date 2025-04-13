@@ -212,6 +212,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
                                 physics: const ScrollPhysics(
                                     parent: BouncingScrollPhysics()),
                                 itemCount: carsList.length,
+                                
                                 itemBuilder: (context, index) {
                                   return Card(
                                     elevation: 4,

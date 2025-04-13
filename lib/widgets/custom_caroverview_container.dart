@@ -1,4 +1,5 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/loading_and_error_builder.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
@@ -16,7 +17,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
   final String carType;
   final String numberOfPeople;
   final String price;
- final dynamic Function()? onPressed;
+  final dynamic Function()? onPressed;
 
   const CustomCarOverviewContainer({
     super.key,
@@ -29,11 +30,11 @@ class CustomCarOverviewContainer extends StatelessWidget {
     required this.numberOfPeople,
     required this.price,
     this.onPressed,
-    
   });
 
   @override
   Widget build(BuildContext context) {
+    double imageHeight = MediaQuery.of(context).size.height * 0.18;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
@@ -73,21 +74,40 @@ class CustomCarOverviewContainer extends StatelessWidget {
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             Center(
-              child: Image.network(
-                carImageUrl,
-                height: MediaQuery.of(context).size.height * 0.18,
-                fit: BoxFit.contain,
-                // This is giving me error and only gives me hello text only
-                
-                    
-                // errorBuilder: (context, error, stackTrace){
-                //   return Container(
-                //     child: Image.network(carPlaceholderImageUrl,fit: BoxFit.contain,
-                    
-                //     ),
-                //     height: MediaQuery.of(context).size.height * 0.18,
-                //   );
-                // },
+              child: Hero(
+                flightShuttleBuilder: (flightContext, animation,
+                    flightDirection, fromHeroContext, toHeroContext) {
+                  return ScaleTransition(
+                    scale: Tween<double>(begin: 1, end: 1.0).animate(
+                        CurvedAnimation(
+                            parent: animation, curve: Curves.easeInOut)),
+                    child: toHeroContext.widget,
+                  );
+                },
+                tag: "car-image-$carName",
+                transitionOnUserGestures: true,
+                child: Image.network(
+                  carImageUrl,
+                  height: imageHeight,
+                  fit: BoxFit.contain,
+
+                  errorBuilder: LoadingAndErrorBuilder().customErrorBuilder(
+                    height: imageHeight,
+                  ),
+                  loadingBuilder: LoadingAndErrorBuilder().customLoadingBuilder(
+                    height: imageHeight,
+                  ),
+                  // This is giving me error and only gives me hello text only
+
+                  // errorBuilder: (context, error, stackTrace){
+                  //   return Container(
+                  //     child: Image.network(carPlaceholderImageUrl,fit: BoxFit.contain,
+
+                  //     ),
+                  //     height: MediaQuery.of(context).size.height * 0.18,
+                  //   );
+                  // },
+                ),
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
@@ -157,7 +177,7 @@ class CustomCarOverviewContainer extends StatelessWidget {
                   ),
                   Expanded(
                     child: CustomElevatedbutton(
-                      onPressed:onPressed,
+                      onPressed: onPressed,
                       child: const Text(
                         rentalNowStr,
                       ),

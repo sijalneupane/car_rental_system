@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/display_snackbar.dart';
+import 'package:car_rental_system/core/util/loading_and_error_builder.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
@@ -144,8 +145,9 @@ class _HomeState extends State<Home> {
               ),
               //ended just like appbar
 
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+              Container(
+                height: MediaQuery.of(context).size.height*0.08,
+              padding: const EdgeInsets.only(top: 10.0, bottom: 0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -166,13 +168,19 @@ class _HomeState extends State<Home> {
                       width: MediaQuery.of(context).size.width * 0.05,
                     ),
                     Expanded(
-                      child: CustomElevatedbutton(
+                      child: GestureDetector(
+                        child: Container(
+                          height:double.infinity ,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: primaryColor
+                          ),
                           child: CustomIcons(
                             icon: Icons.filter_list_alt,
                             color: Colors.white,
                           ),
-                          // color: const Color.fromARGB(255, 255, 255, 255),
-                          onPressed: () {}),
+                        ),
+                            onTap: () {}),
                     ),
                   ],
                 ),
@@ -201,9 +209,13 @@ class _HomeState extends State<Home> {
                         children: [
                           CircleAvatar(
                             backgroundColor:
-                                const Color.fromARGB(97, 223, 176, 176),
+                                const Color.fromARGB(96, 173, 172, 172),
                             radius: 30,
-                            child: Image.network(topBrandCarsList[index].image),
+                            child: ClipOval(
+                              child: Image.network(topBrandCarsList[index].image,
+                              loadingBuilder: LoadingAndErrorBuilder().customLoadingBuilder(height:30 ),
+                              errorBuilder: LoadingAndErrorBuilder().customErrorBuilder(height: 30,width: 30),),
+                            ),
                           ),
                           CustomText(data: topBrandCarsList[index].name)
                         ],
@@ -259,6 +271,31 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+//   Widget searchBar({bool? autofocus,void Function(String)? onChanged,void Function()? onTap,bool? readOnly,String? hintText }){
+//     FocusNode _focusNode=FocusNode();
+//     return TextFormField(
+//       autofocus: autofocus ?? false,
+//       focusNode: _focusNode,
+//       onChanged: onChanged,
+//       onTap: onTap,
+//       readOnly: readOnly ?? false,
+//       decoration: InputDecoration(
+//         filled: true,
+//         fillColor: const Color.fromARGB(255, 255, 255, 255),
+//         hintText: hintText,
+//         prefixIcon: CustomIcons(icon: Icons.search),
+//         contentPadding: const EdgeInsets.all(8),
+//         focusedBorder: const OutlineInputBorder(
+//             borderSide: BorderSide(width: 1, color: primaryColor)),
+//         hintStyle: const TextStyle(color: greyColor),
+//         alignLabelWithHint: true,
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(5),
+//         ),
+//       ),
+//     );
+//   }
 }
 // List<CarDetails> carDetailsList = [
 //   CarDetails(
