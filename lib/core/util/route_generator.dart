@@ -32,35 +32,41 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
-        return MaterialPageRoute(builder: (_) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
       case Routes.signupRoute:
-      return MaterialPageRoute(builder: (_) =>const Signup());
+      return PageRouteBuilder(pageBuilder: (_, __, ___) =>const Signup());
       case Routes.getStartedRoute:
-        return MaterialPageRoute(builder: (_) => const GetStarted());
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => const GetStarted());
       case Routes.forgotPasswordRoute:
-        return MaterialPageRoute(builder: (_) => const ForgotPassword());
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => const ForgotPassword());
       case Routes.enterOtpRoute:
-        return MaterialPageRoute(builder: (_) =>const EnterOtp() );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const EnterOtp() );
       case Routes.resetPasswordRoute:
-        return MaterialPageRoute(builder: (_) =>const ResetPassword() );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const ResetPassword() );
       case Routes.bottomNavbarRoute:
-        return MaterialPageRoute(builder: (_) =>const BottomNavbar1() );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const BottomNavbar1() );
       case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) =>const Home() );
+        return PageRouteBuilder(
+          transitionDuration:const Duration(milliseconds: 600),pageBuilder: (_, __, ___) =>const Home() );
       case Routes.carDetailsRoute:
       print( settings.arguments);
     
-        return MaterialPageRoute(builder: (_) => CarDetailsPage(carDetail: settings.arguments as Car,), );
+        return PageRouteBuilder(
+          transitionDuration:const Duration(milliseconds: 600),
+          pageBuilder: (_, __, ___) => CarDetailsPage(carDetail: settings.arguments as Car,), 
+        );
       case Routes.carBookingRoute:
-        return MaterialPageRoute(builder: (_) =>const CarBookingPage() );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => CarBookingPage(carDetail: settings.arguments as Car ,) );
       case Routes.addCarDetailsRoute:
-        return MaterialPageRoute(
-        builder: (_) => AddCarForm(car: settings.arguments != null ? settings.arguments as Car : null));
+        return PageRouteBuilder(
+        pageBuilder: (_, __, ___) => AddCarForm(car: settings.arguments != null ? settings.arguments as Car : null),
+        //  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {  }
+        );
       case Routes.viewCarListRoute:
-        return MaterialPageRoute(builder: (_) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
       default:
-        return MaterialPageRoute(
-            builder: (_) => Scaffold(
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Scaffold(
                   body: Center(
                       child: Text('No route defined for ${settings.name}')),
                 ));
