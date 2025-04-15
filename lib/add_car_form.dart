@@ -46,9 +46,12 @@ class _AddCarFormState extends State<AddCarForm> {
       _priceController.text = widget.car?.rentPrice ?? "";
       _fuelCapacityController.text = widget.car?.fuelCapacity ?? "";
       preCarImageUrl = widget.car?.imageUrl;
+      isUpdateForm =
+          (widget.car != null || widget.car?.id != null) ? true : false;
     }
   }
 
+  bool? isUpdateForm;
   final TextEditingController _carNameController = TextEditingController();
   final TextEditingController _carBrandController = TextEditingController();
   final TextEditingController _carTypeController = TextEditingController();
@@ -61,6 +64,7 @@ class _AddCarFormState extends State<AddCarForm> {
   final _formKey = GlobalKey<FormState>();
   File? _selectedImage;
   String? preCarImageUrl;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +91,9 @@ class _AddCarFormState extends State<AddCarForm> {
                   CustomBackPageIcon(),
                   Expanded(
                     child: CustomText(
-                      data: addCarDetailsStr,
+                      data: isUpdateForm ?? false
+                          ? updateCarDetailsStr
+                          : addCarDetailsStr,
                       isPageTitle: true,
                       textAlign: TextAlign.center,
                     ),
@@ -219,82 +225,83 @@ class _AddCarFormState extends State<AddCarForm> {
               ),
               CustomSizedBox(height: 0.02),
               CustomElevatedbutton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    setState(() {
-                      loader = true;
-                    });
-                    HideKeyboard.hideKeyboard(context);
-                    Future.delayed(const Duration(seconds: 2), () async {
-                      try {
-                        String? imageUrl;
-                        if (_selectedImage != null) {
-                          // Upload the image to Cloudinary (or your preferred service)
-                          imageUrl = await UploadImageCloudinary
-                              .uploadImageToCloudinary(
-                                  _selectedImage!, "carimage");
-                        } else {
-                          // imageUrl = preCarImageUrl;
-                          if (widget.car != null || preCarImageUrl != null) {
-                            imageUrl = preCarImageUrl;
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      setState(() {
+                        loader = true;
+                      });
+                      HideKeyboard.hideKeyboard(context);
+                      Future.delayed(const Duration(seconds: 2), () async {
+                        try {
+                          String? imageUrl;
+                          if (_selectedImage != null) {
+                            // Upload the image to Cloudinary (or your preferred service)
+                            imageUrl = await UploadImageCloudinary
+                                .uploadImageToCloudinary(
+                                    _selectedImage!, "carimage");
+                          } else {
+                            // imageUrl = preCarImageUrl;
+                            if (widget.car != null || preCarImageUrl != null) {
+                              imageUrl = preCarImageUrl;
+                            }
                           }
-                        }
 
-                        if (imageUrl == null) {
-                          throw Exception("Image upload failed");
+                          if (imageUrl == null) {
+                            throw Exception("Image upload failed");
+                          }
+                          //getting the userId from sharedprefences
+                          GetUserInfo getUserInfo = GetUserInfo();
+                          String? userId = await getUserInfo.getUserId();
+                          Car obj = Car(
+                              carName: _carNameController.text,
+                              carBrand: _carBrandController.text,
+                              carType: _carTypeController.text,
+                              passengerCapacity:
+                                  _passengerCapacityController.text,
+                              fuelCapacity: _fuelCapacityController.text,
+                              rentPrice: _priceController.text,
+                              imageUrl: imageUrl,
+                              userId: userId);
+                          FirebaseFirestore firebaseFirestore =
+                              FirebaseFirestore.instance;
+                          if (widget.car != null && widget.car?.id != null) {
+                            await firebaseFirestore
+                                .collection("cars")
+                                .doc(widget.car?.id!)
+                                .update(obj.toJson());
+                          } else {
+                            await firebaseFirestore
+                                .collection("cars")
+                                .add(obj.toJson());
+                          }
+                          setState(() {
+                            loader = false;
+                          });
+                          DisplaySnackbar.show(
+                            context,
+                            carDetailsAddedSuccessStr,
+                            isSuccess: true,
+                          );
+                          // _carNameController.clear();
+                          // _carBrandController.clear();
+                          // _carTypeController.clear();
+                          // _passengerCapacityController.clear();
+                          // _fuelCapacityController.clear();
+                          // _priceController.clear();
+                          Navigator.pop(context);
+                        } catch (e) {
+                          setState(() {
+                            loader = false;
+                          });
+                          DisplaySnackbar.show(context, e.toString(),
+                              isError: true);
                         }
-                        //getting the userId from sharedprefences
-                        GetUserInfo getUserInfo = GetUserInfo();
-                        String? userId = await getUserInfo.getUserId();
-                        Car obj = Car(
-                            carName: _carNameController.text,
-                            carBrand: _carBrandController.text,
-                            carType: _carTypeController.text,
-                            passengerCapacity:
-                                _passengerCapacityController.text,
-                            fuelCapacity: _fuelCapacityController.text,
-                            rentPrice: _priceController.text,
-                            imageUrl: imageUrl,
-                            userId: userId);
-                        FirebaseFirestore firebaseFirestore =
-                            FirebaseFirestore.instance;
-                        if (widget.car != null && widget.car?.id != null) {
-                          await firebaseFirestore
-                              .collection("cars")
-                              .doc(widget.car?.id!)
-                              .update(obj.toJson());
-                        } else {
-                          await firebaseFirestore
-                              .collection("cars")
-                              .add(obj.toJson());
-                        }
-                        setState(() {
-                          loader = false;
-                        });
-                        DisplaySnackbar.show(
-                          context,
-                          carDetailsAddedSuccessStr,
-                          isSuccess: true,
-                        );
-                        // _carNameController.clear();
-                        // _carBrandController.clear();
-                        // _carTypeController.clear();
-                        // _passengerCapacityController.clear();
-                        // _fuelCapacityController.clear();
-                        // _priceController.clear();
-                        Navigator.pop(context);
-                      } catch (e) {
-                        setState(() {
-                          loader = false;
-                        });
-                        DisplaySnackbar.show(context, e.toString(),
-                            isError: true);
-                      }
-                    });
-                  }
-                },
-                child: const Text(submitStr),
-              ),
+                      });
+                    }
+                  },
+                  child: isUpdateForm ?? false
+                      ? const Text(updateStr)
+                      : const Text(submitStr)),
             ],
           ),
         ),

@@ -151,6 +151,7 @@ const String logoutConfirmStr="Do you really want to Logout?";
 
 // add car form page
 const String addCarDetailsStr="Add Car Details";
+const String updateCarDetailsStr="Update Car Details";
 const String carNameLabelStr="Car Name";
 const String carImageLabelStr="Car Image";
 const String carLogoLabelStr="Car Logo";
@@ -183,6 +184,7 @@ const String imageSizeValidationStr="Image size should be less than 4 MB";
 const String imageValidationStr="Please upload an image";
 const String imageExtensionsValidationStr="Image should be either in 'jpeg','jpg' or 'png' format";
 const String submitStr="Submit";
+const String updateStr="Update";
 const String cameraStr="Camera";
 // const String galleryStr="Gallery";
 
