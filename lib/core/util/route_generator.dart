@@ -7,6 +7,8 @@ import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/home.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/model/car.dart';
+import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/notification_page.dart';
 import 'package:car_rental_system/reset_password.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
@@ -34,7 +36,9 @@ class RouteGenerator {
       case Routes.loginRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
       case Routes.signupRoute:
-      return PageRouteBuilder(pageBuilder: (_, __, ___) =>const Signup());
+      return PageRouteBuilder(pageBuilder: (_, __, ___) => 
+      Signup(user:settings.arguments != null ? settings.arguments as User : null)
+      );
       case Routes.getStartedRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => const GetStarted());
       case Routes.forgotPasswordRoute:
@@ -64,7 +68,9 @@ class RouteGenerator {
         );
       case Routes.viewCarListRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
-      default:
+      case Routes.notificationRoute:
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const NotificationPage() );
+     default:
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) => Scaffold(
                   body: Center(

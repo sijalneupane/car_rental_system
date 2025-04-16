@@ -23,13 +23,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Signup extends StatefulWidget {
-  const Signup({super.key});
+  User? user;
+  Signup({super.key, this.user});
 
   @override
   State<Signup> createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.user != null) {
+      _nameController.text = widget.user?.name ?? "";
+      _emailAddressController.text = widget.user?.email ?? "";
+      _passwordController.text = widget.user?.password ?? "";
+      userId = widget.user?.userId ?? "";
+    }
+  }
+
+  String? userId;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailAddressController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -40,6 +54,7 @@ class _SignupState extends State<Signup> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    print(userId);
     return Scaffold(
         body: Stack(
       children: [
@@ -65,7 +80,7 @@ class _SignupState extends State<Signup> {
                     height: 0.02,
                   ),
                   CustomText(
-                    data: createAccountStr,
+                    data: userId != null ? updateProfieStr : createAccountStr,
                     fontSize: 30,
                     textAlign: TextAlign.center,
                   ),
@@ -144,31 +159,36 @@ class _SignupState extends State<Signup> {
                   //     return null; // Validation passed
                   //   },
                   // ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: isTermsAndConditionedAgreed,
-                        onChanged: (bool? value) {
-                          setState(
-                            () {
-                              isTermsAndConditionedAgreed =
-                                  value! ? true : false;
-                            },
-                          );
-                        },
-                      ),
-                      CustomText(
-                        data: agreeTermsAndConditionStr,
-                        fontSize: 16,
-                      ),
-                    ],
-                  ),
+                  userId == null
+                      ? Row(
+                          children: [
+                            Checkbox(
+                              value: isTermsAndConditionedAgreed,
+                              onChanged: (bool? value) {
+                                setState(
+                                  () {
+                                    isTermsAndConditionedAgreed =
+                                        value! ? true : false;
+                                  },
+                                );
+                              },
+                            ),
+                            CustomText(
+                              data: agreeTermsAndConditionStr,
+                              fontSize: 16,
+                            ),
+                          ],
+                        )
+                      :const  SizedBox(),
                   CustomSizedBox(
                     height: 0.03,
                   ),
                   CustomElevatedbutton(
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
+                          if (userId != null) {
+                            isTermsAndConditionedAgreed = true;
+                          }
                           if (!isTermsAndConditionedAgreed) {
                             DisplaySnackbar.show(
                                 context, notAgreedToTermsAndConditionsMessage);
@@ -211,9 +231,9 @@ class _SignupState extends State<Signup> {
                                 loader = false;
                               });
                               RouteGenerator.navigateToPage(
-                                // ignore: use_build_context_synchronously
-                                context,
-                                Routes.loginRoute);
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  Routes.loginRoute);
                             } catch (e) {
                               setState(() {
                                 loader = false;
@@ -228,40 +248,50 @@ class _SignupState extends State<Signup> {
                   CustomSizedBox(
                     height: 0.03,
                   ),
-                  Row(
-                    children: [
-                      const Expanded(child: Divider()),
-                      CustomText(data: orStr),
-                      const Expanded(child: Divider()),
-                    ],
-                  ),
-                  CustomSizedBox(
-                    height: 0.03,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CustomElevatedbutton(
-                          onPressed: () {},
-                          backgroundColor: Colors.white,
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          child: CustomImageAssets(
-                            name: googleLogoPath,
-                            height: 40,
-                          )),
-                      CustomElevatedbutton(
-                          onPressed: () {},
-                          backgroundColor: Colors.white,
-                          width: MediaQuery.of(context).size.width * 0.35,
-                          child: CustomImageAssets(
-                            name: facebookLogoPath,
-                            height: 40,
-                          ))
-                    ],
-                  ),
-                  CustomSizedBox(
-                    height: 0.03,
-                  ),
+                  userId == null
+                      ? Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Expanded(child: Divider()),
+                                CustomText(data: orStr),
+                                const Expanded(child: Divider()),
+                              ],
+                            ),
+                            CustomSizedBox(
+                              height: 0.03,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CustomElevatedbutton(
+                                  onPressed: () {},
+                                  backgroundColor: Colors.white,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: CustomImageAssets(
+                                    name: googleLogoPath,
+                                    height: 40,
+                                  ),
+                                ),
+                                CustomElevatedbutton(
+                                  onPressed: () {},
+                                  backgroundColor: Colors.white,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.35,
+                                  child: CustomImageAssets(
+                                    name: facebookLogoPath,
+                                    height: 40,
+                                  ),
+                                )
+                              ],
+                            ),
+                            CustomSizedBox(
+                              height: 0.03,
+                            ),
+                          ],
+                        )
+                      : const SizedBox(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

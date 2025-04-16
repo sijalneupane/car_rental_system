@@ -11,4 +11,5 @@ class Routes {
   static const carBookingRoute = "/carBooking";
 static const addCarDetailsRoute="/addCarDetails";
 static const viewCarListRoute="/viewCarList";
+static const notificationRoute="/notification";
 }

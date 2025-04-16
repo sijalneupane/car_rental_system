@@ -1,9 +1,11 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
 import 'package:car_rental_system/core/util/dialog_box.dart';
+import 'package:car_rental_system/core/util/get_user_info.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/custom_profile_options_button.dart';
+import 'package:car_rental_system/model/user.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
@@ -21,6 +23,25 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  User? user;
+  String? userId;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserIdAndInfo();
+  }
+
+  getUserIdAndInfo() async {
+    userId = await GetUserInfo().getUserId();
+    if (userId != null) {
+        User? user1 = await GetUserInfo().getUserDetails(userId!);
+     setState(() {
+      user=user1;
+     });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: CustomCircleAvatar(
                     backgroundImage: const NetworkImage(
                         "https://randomuser.me/api/portraits/men/85.jpg"),
-                      
                     radius: 40,
                   ),
                 ),
@@ -60,7 +80,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icons.edit,
                   data: editProfileStr,
                   onPressed: () {
-                    RouteGenerator.navigateToPage(context, Routes.signupRoute,);
+                    RouteGenerator.navigateToPage(context, Routes.signupRoute,
+                        arguments: user);
                   },
                 ),
                 CustomProfileOptionsButton(
@@ -109,10 +130,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         message: logoutConfirmStr,
                         onCancelPressed: () {},
                         onOkPressed: () async {
-                          SharedPreferences prefs=await SharedPreferences.getInstance();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           prefs.clear();
                           RouteGenerator.navigateToPageWithoutStack(
-                              context, Routes.loginRoute,arguments: true);
+                              context, Routes.loginRoute,
+                              arguments: true);
                         });
                   },
                 ),

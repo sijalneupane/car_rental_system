@@ -14,15 +14,30 @@ class GetUserInfo {
       return null;
     }
   }
+  // Future<User?> getUserDetails(String userId) async {
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   firestore.collection("Register").doc(userId).get().then((value) {
+  //     // if (value.exists) {
+  //       print(value);
+  //       User user = User.fromJson(value.data() as Map<String, dynamic>);
+  //       return user;
+  //     // }
+  //   });
+  //   return null;
+  // }
+// }
+Future<User?> getUserDetails(String userId) async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future<User?> getUserDetails(String userId) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    firestore.collection("Register").doc(userId).get().then((value) {
-      if (value.exists) {
-        User user = User.fromJson(value as Map<String, dynamic>);
-        return user;
-      }
-    });
-    return null;
+  DocumentSnapshot doc = await firestore.collection("Register").doc(userId).get();
+
+  if (doc.exists && doc.data() != null) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    User user = User.fromJson(data);
+    user.userId=userId;
+    return user;
   }
+
+  return null;
+}
 }

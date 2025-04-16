@@ -13,6 +13,7 @@ const String letsStartImagePath="assets/images/lets_start.png";
 const String googleLogoPath="assets/images/google_logo.png";
 const String facebookLogoPath="assets/images/facebook_logo.png";
 const String createAccountStr="Create Account";
+const String updateProfieStr="Update Profile";
 const String welcomeBackStr="Welcom Back";
 const String alreadyHaveAccountStr="Already have an account? ";
 const String dontHaveAccountStr="Dont have an account? ";

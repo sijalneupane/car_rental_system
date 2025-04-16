@@ -55,6 +55,7 @@ class _MyAppState extends State<MyApp> {
     initNotifications();
     configureFirebaseMessaging();
     requestNotificationPermissions();
+    checkForInitialMessage(); // ✅ handles notification tap when app is terminated
   }
 
   Future<void> initNotifications() async {
@@ -78,6 +79,7 @@ class _MyAppState extends State<MyApp> {
     await flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
+        // ✅ handles local notification tap
         firebaseNavigatorKey.currentState?.pushNamed(Routes.notificationRoute);
       },
     );
@@ -117,6 +119,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // ✅ Navigate to notification screen when notification is tapped from background
       firebaseNavigatorKey.currentState?.pushNamed(Routes.notificationRoute);
     });
   }
@@ -129,10 +132,20 @@ class _MyAppState extends State<MyApp> {
       channelDescription: 'Channel Description',
       importance: Importance.max,
       priority: Priority.high,
+      playSound: true,
     );
 
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
+    const DarwinNotificationDetails iosNotificationDetails =
+        DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+
+    const NotificationDetails notificationDetails = NotificationDetails(
+      android: androidNotificationDetails,
+      iOS: iosNotificationDetails,
+    );
 
     await flutterLocalNotificationsPlugin.show(
       0,
@@ -173,6 +186,16 @@ class _MyAppState extends State<MyApp> {
     );
 
     print('User granted permission: ${settings.authorizationStatus}');
+  }
+
+  // ✅ Check for notification tap when app is terminated
+  Future<void> checkForInitialMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+
+    if (initialMessage != null) {
+      firebaseNavigatorKey.currentState?.pushNamed(Routes.notificationRoute);
+    }
   }
 
   // This widget is the root of your application.
