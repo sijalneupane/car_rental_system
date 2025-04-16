@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:car_rental_system/car_booking_page.dart';
 import 'package:car_rental_system/bottom_navbar.dart';
 import 'package:car_rental_system/car_details_page.dart';
+import 'package:car_rental_system/core/util/route_const.dart';
+import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/firebase_options.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/splash_screen.dart';
@@ -8,6 +12,7 @@ import 'package:car_rental_system/POC_upload_image_demo.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -33,21 +38,124 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+final GlobalKey<NavigatorState> firebaseNavigatorKey =
+    GlobalKey<NavigatorState>();
+final GlobalKey<ScaffoldMessengerState> scaffoldKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class _MyAppState extends State<MyApp> {
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initializeFirebaseMessaging();
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+    initNotifications();
+    configureFirebaseMessaging();
+    requestNotificationPermissions();
+  }
 
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
+  Future<void> initNotifications() async {
+    // Initialize native Android and iOS notifications
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/launcher_icon');
+
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (details) {
+        firebaseNavigatorKey.currentState?.pushNamed(Routes.notificationRoute);
+      },
+    );
+  }
+
+  Future<void> requestNotificationPermissions() async {
+    // if (Platform.isIOS) {
+    //   final bool? isAllowed = await flutterLocalNotificationsPlugin
+    //       .resolvePlatformSpecificImplementation<
+    //           IOSFlutterLocalNotificationsPlugin>()
+    //       ?.requestPermissions(
+    //         alert: true,
+    //         badge: true,
+    //         sound: true,
+    //       );
+
+    //   print('Notification permission status on iOS: $isAllowed');
+    // } else if (Platform.isAndroid) {
+    final status = await messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: true,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+    //}
+  }
+
+  void configureFirebaseMessaging() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      showNotification(
+        message.notification?.title ?? '',
+        message.notification?.body ?? '',
+      );
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      firebaseNavigatorKey.currentState?.pushNamed(Routes.notificationRoute);
     });
   }
+
+  void showNotification(String title, String body) async {
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'channel_id',
+      'Channel Name',
+      channelDescription: 'Channel Description',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      title,
+      body,
+      notificationDetails,
+    );
+  }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   initializeFirebaseMessaging();
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     print('Got a message whilst in the foreground!');
+  //     print('Message data: ${message.data}');
+
+  //     if (message.notification != null) {
+  //       print('Message also contained a notification: ${message.notification}');
+  //     }
+  //   });
+  // }
 
   initializeFirebaseMessaging() async {
     FirebaseMessaging messaging = FirebaseMessaging.instance;
@@ -71,6 +179,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: firebaseNavigatorKey,
+      onGenerateRoute: RouteGenerator.generateRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
