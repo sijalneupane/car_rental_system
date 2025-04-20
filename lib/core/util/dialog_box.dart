@@ -5,6 +5,7 @@ import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 
 class DialogBox {
+  
   // Custom Alert Dialog using AlertDialog
   static showAlertBox({
     required BuildContext context,

@@ -56,9 +56,9 @@ class _SignupState extends State<Signup> {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
-       await  user?.getIdToken().then((value){
-        print(value);
-       });
+        await user?.getIdToken().then((value) {
+          print(value);
+        });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
           // handle the error here
@@ -266,7 +266,7 @@ class _SignupState extends State<Signup> {
                             );
 
                             try {
-                             await storeInRegisters(user);
+                              await storeInRegisters(user);
                               setState(() {
                                 loader = false;
                               });
@@ -306,11 +306,20 @@ class _SignupState extends State<Signup> {
                               children: [
                                 CustomElevatedbutton(
                                   onPressed: () async {
-                                    User? user = await signInWithGoogle(
-                                        context: context);
-                                    if (user != null) {
-                                      // Users users = Users(email: user.email,name: user.displayName,);
-                                      RouteGenerator.navigateToPageWithoutStack(context,Routes.loginRoute);
+                                    try {
+                                      User? user = await signInWithGoogle(
+                                          context: context);
+                                      if (user != null) {
+                                        // Users users = Users(email: user.email,name: user.displayName,);
+                                        RouteGenerator
+                                            .navigateToPageWithoutStack(
+                                                context, Routes.bottomNavbarRoute);
+                                      }
+                                    } catch (e) {
+                                      print(e.toString());
+                                      DisplaySnackbar.show(
+                                          context, e.toString(),
+                                          isError: true);
                                     }
                                   },
                                   backgroundColor: Colors.white,

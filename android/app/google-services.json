@@ -12,7 +12,28 @@
           "package_name": "com.carrentalsystem.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1460615228-6jplv3s9uvh5hbn70pdlmet6l13f5vvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carrentalsystem.app",
+            "certificate_hash": "a501b5dc2d76a434217321ce77f015d3b9e65264"
+          }
+        },
+        {
+          "client_id": "1460615228-s6qgankd9v8v4gfvsefg4rgi0gg6dtr1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.carrentalsystem.app",
+            "certificate_hash": "0849cfd8a18e9b65d3a92eaf3f55186b2c470890"
+          }
+        },
+        {
+          "client_id": "1460615228-ngbk1eaba6v8tgpu1j70cbcf04lh01m1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCY7wn-H6lTJXbuJ8gWC0VFVYgDgG1K1us"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1460615228-ngbk1eaba6v8tgpu1j70cbcf04lh01m1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1460615228-2pmlotjiuldq07flf5b6nfug5kpvb1ef.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carrentalsystem.app"
+              }
+            }
+          ]
         }
       }
     }
