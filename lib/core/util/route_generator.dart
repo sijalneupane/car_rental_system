@@ -37,7 +37,7 @@ class RouteGenerator {
         return PageRouteBuilder(pageBuilder: (_, __, ___) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
       case Routes.signupRoute:
       return PageRouteBuilder(pageBuilder: (_, __, ___) => 
-      Signup(user:settings.arguments != null ? settings.arguments as User : null)
+      Signup(user:settings.arguments != null ? settings.arguments as Users : null)
       );
       case Routes.getStartedRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => const GetStarted());

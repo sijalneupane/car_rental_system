@@ -35,7 +35,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
   bool emptyList = false;
   List<Car> preCarsList = [];
   List<Car> carsList = [];
-  User? user;
+  Users? user;
   @override
   void initState() {
     // TODO: implement initState
@@ -81,6 +81,7 @@ class _ViewCarListScreenState extends State<ViewCarListScreen> {
   }
 
   fetchUserDetails() async {
+    
     GetUserInfo getUserInfo = GetUserInfo();
     String? userId = await getUserInfo.getUserId();
     if (userId != null) {

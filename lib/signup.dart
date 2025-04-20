@@ -20,10 +20,12 @@ import 'package:car_rental_system/widgets/custom_sized_box.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Signup extends StatefulWidget {
-  User? user;
+  Users? user;
   Signup({super.key, this.user});
 
   @override
@@ -31,6 +33,64 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  Future<User?> signInWithGoogle({required BuildContext context}) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user;
+
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+
+      try {
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+
+        user = userCredential.user;
+       await  user?.getIdToken().then((value){
+        print(value);
+       });
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'account-exists-with-different-credential') {
+          // handle the error here
+        } else if (e.code == 'invalid-credential') {
+          // handle the error here
+        }
+      } catch (e) {
+        // handle the error here
+      }
+    }
+
+    return user;
+  }
+
+  Future<void> storeInRegisters(Users user) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    await firestore
+        .collection("Register")
+        .where("email", isEqualTo: user.email)
+        .get()
+        .then((value) async {
+      if (value.docs.isNotEmpty) {
+        // DisplaySnackbar.show(
+        //     // ignore: use_build_context_synchronously
+        //     context,
+        //     " ${user.email} is already used");
+        throw Exception(" ${user.email} is already used");
+      }
+    });
+    await firestore.collection("Register").add(user.toJson());
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -179,7 +239,7 @@ class _SignupState extends State<Signup> {
                             ),
                           ],
                         )
-                      :const  SizedBox(),
+                      : const SizedBox(),
                   CustomSizedBox(
                     height: 0.03,
                   ),
@@ -199,34 +259,14 @@ class _SignupState extends State<Signup> {
                             loader = true;
                           });
                           Future.delayed(const Duration(seconds: 2), () async {
-                            User user = User(
+                            Users user = Users(
                               name: _nameController.text.trim(),
                               email: _emailAddressController.text.trim(),
                               password: _passwordController.text.trim(),
                             );
 
                             try {
-                              FirebaseFirestore firestore =
-                                  FirebaseFirestore.instance;
-                              await firestore
-                                  .collection("Register")
-                                  .where("email",
-                                      isEqualTo:
-                                          _emailAddressController.text.trim())
-                                  .get()
-                                  .then((value) async {
-                                if (value.docs.isNotEmpty) {
-                                  DisplaySnackbar.show(
-                                      // ignore: use_build_context_synchronously
-                                      context,
-                                      " ${_emailAddressController.text} is already used");
-                                  throw Exception(
-                                      " ${_emailAddressController.text} is already used");
-                                }
-                              });
-                              await firestore
-                                  .collection("Register")
-                                  .add(user.toJson());
+                             await storeInRegisters(user);
                               setState(() {
                                 loader = false;
                               });
@@ -239,7 +279,7 @@ class _SignupState extends State<Signup> {
                                 loader = false;
                               });
                               // ignore: use_build_context_synchronously
-                              DisplaySnackbar.show(context, failedStr);
+                              DisplaySnackbar.show(context, e.toString());
                             }
                           });
                         }
@@ -265,7 +305,14 @@ class _SignupState extends State<Signup> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 CustomElevatedbutton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    User? user = await signInWithGoogle(
+                                        context: context);
+                                    if (user != null) {
+                                      // Users users = Users(email: user.email,name: user.displayName,);
+                                      RouteGenerator.navigateToPageWithoutStack(context,Routes.loginRoute);
+                                    }
+                                  },
                                   backgroundColor: Colors.white,
                                   width:
                                       MediaQuery.of(context).size.width * 0.35,

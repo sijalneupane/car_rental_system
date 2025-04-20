@@ -1,18 +1,18 @@
-class User {
+class Users {
   String? userId;
   String? name;
   String? email;
   String? password;
   String? profileImageUrl;
 
-  User(
+  Users(
       {this.userId,
       this.name,
       this.email,
       this.password,
       this.profileImageUrl});
 
-  User.fromJson(Map<String, dynamic> json) {
+  Users.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     name = json['name'];
     email = json['email'];

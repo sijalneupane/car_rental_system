@@ -23,7 +23,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User? user;
+  Users? user;
   String? userId;
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   getUserIdAndInfo() async {
     userId = await GetUserInfo().getUserId();
     if (userId != null) {
-        User? user1 = await GetUserInfo().getUserDetails(userId!);
+        Users? user1 = await GetUserInfo().getUserDetails(userId!);
      setState(() {
       user=user1;
      });

@@ -26,14 +26,14 @@ class GetUserInfo {
   //   return null;
   // }
 // }
-Future<User?> getUserDetails(String userId) async {
+Future<Users?> getUserDetails(String userId) async {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   DocumentSnapshot doc = await firestore.collection("Register").doc(userId).get();
 
   if (doc.exists && doc.data() != null) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    User user = User.fromJson(data);
+    Users user = Users.fromJson(data);
     user.userId=userId;
     return user;
   }
