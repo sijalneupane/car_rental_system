@@ -34,10 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
               context, Routes.bottomNavbarRoute);
         } else {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
-          bool? isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
-          // print('isLoggedIn: $isLoggedIn'); // Debugging line
+          bool? rememberMe = prefs.getBool('rememberMe') ?? false;
+          // print('rememberMe: $rememberMe'); // Debugging line
 
-          if (isLoggedIn == true) {
+          if (rememberMe == true) {
             RouteGenerator.navigateToPageWithoutStack(
                 context, Routes.bottomNavbarRoute);
           } else {
@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
       } catch (e) {
-        print('Error retrieving isLoggedIn: $e'); // Debugging line
+        print('Error retrieving rememberMe: $e'); // Debugging line
         RouteGenerator.navigateToPageWithoutStack(
             context, Routes.getStartedRoute);
       }

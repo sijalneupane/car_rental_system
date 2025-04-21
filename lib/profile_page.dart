@@ -5,7 +5,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/custom_profile_options_button.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_circle_avatar.dart';
 import 'package:car_rental_system/widgets/custom_sized_box.dart';
@@ -26,7 +26,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Users? user;
+  Users? users;
   String? userId;
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (userId != null) {
       Users? user1 = await GetUserInfo().getUserDetails(userId!);
       setState(() {
-        user = user1;
+        users = user1;
       });
     }
   }
@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   data: editProfileStr,
                   onPressed: () {
                     RouteGenerator.navigateToPage(context, Routes.signupRoute,
-                        arguments: user);
+                        arguments: users);
                   },
                 ),
                 CustomProfileOptionsButton(
@@ -121,7 +121,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 CustomProfileOptionsButton(
                   icon: Icons.settings,
                   data: settingStr,
-                  onPressed: () {},
+                  onPressed: () {
+                    RouteGenerator.navigateToPage(
+                        context, Routes.settingsRoute,arguments: users);
+                  },
                 ),
                 CustomProfileOptionsButton(
                   icon: Icons.exit_to_app,
@@ -138,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           bool logoutFromFirebaseGoogleLogin =
                               await signOut(context: context);
                           if (logoutFromFirebaseGoogleLogin) {
-                            prefs.clear();
+                            prefs.setBool("rememberMe", false);
                             print("-------------------Logging out throught The firebase google account");
                             RouteGenerator.navigateToPageWithoutStack(
                                 context, Routes.loginRoute,

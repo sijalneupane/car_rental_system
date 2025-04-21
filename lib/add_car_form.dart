@@ -9,7 +9,7 @@ import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/core/util/upload_image_cloudinary.dart';
 import 'package:car_rental_system/model/car.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_dropdown.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';

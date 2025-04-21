@@ -8,7 +8,7 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/model/car.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_caroverview_container.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';

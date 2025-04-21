@@ -5,7 +5,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
@@ -39,16 +39,39 @@ class _LoginPgaeState extends State<LoginPgae> {
   bool loader = false;
   final _formKey = GlobalKey<FormState>();
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            ui(),
-            loader ? Loader.backdropFilter(context) : const SizedBox()
-          ],
-        ));
-  }
+Widget build(BuildContext context) {
+  return Scaffold(
+    floatingActionButton: FutureBuilder<bool>(
+      future: checkBiometricEnable(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SizedBox(); // Placeholder while loading
+        }
+        if (snapshot.data == true) {
+          return FloatingActionButton(
+            onPressed: () {
+              // Add your onPressed logic here
+            },
+          );
+        }
+        return SizedBox(); // No FAB if biometric is not enabled
+      },
+    ),
+    backgroundColor: Colors.white,
+    body: Stack(
+      children: [
+        ui(),
+        loader ? Loader.backdropFilter(context) : const SizedBox()
+      ],
+    ),
+  );
+}
+
+Future<bool> checkBiometricEnable() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool? isBiometricEnabled = prefs.getBool('isBiometricEnabled') ?? false;
+  return isBiometricEnabled;
+}
 
   Widget ui() {
     return SafeArea(
@@ -181,7 +204,7 @@ class _LoginPgaeState extends State<LoginPgae> {
                             if (value.docs.isNotEmpty) {
                               await prefs.clear();
                               if (rememberMe) {
-                                await prefs.setBool('isLoggedIn', true);
+                                await prefs.setBool('rememberMe', true);
                               }
                               await prefs.setString("userId",value.docs[0].id.toString());
                               DisplaySnackbar.show(

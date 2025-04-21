@@ -9,6 +9,7 @@ import 'package:car_rental_system/firebase_options.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/splash_screen.dart';
 import 'package:car_rental_system/POC_upload_image_demo.dart';
+import 'package:email_otp/email_otp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -28,6 +29,23 @@ main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  //setup email otp configuration
+   EmailOTP.config(
+    appName: 'Car Rental System',
+    otpType: OTPType.numeric,
+    expiry : 30000,
+    emailTheme: EmailTheme.v6,
+    appEmail: 'sijalneupane5@gmail.com',
+    otpLength: 5,
+  );
+    EmailOTP.setSMTP(
+    host: 'smtp.gmail.com',
+    emailPort: EmailPort.port587,
+    secureType: SecureType.tls,
+    username: 'sijalneupane5@gmail.com',
+    password: 'udeg kclw xsrn ncfz',
+  );
   runApp(const MyApp());
 }
 
@@ -75,7 +93,8 @@ class _MyAppState extends State<MyApp> {
 
     // Initialize native Android and iOS notifications
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');  // Using default Flutter icon name
+        AndroidInitializationSettings(
+            '@mipmap/ic_launcher'); // Using default Flutter icon name
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
@@ -121,7 +140,7 @@ class _MyAppState extends State<MyApp> {
       provisional: false,
       sound: true,
     );
-    
+
     print('User granted permission: ${status.authorizationStatus}');
   }
 
@@ -136,7 +155,7 @@ class _MyAppState extends State<MyApp> {
 
       if (notification != null) {
         print('Message also contained a notification: ${notification.title}');
-        
+
         try {
           // Show the notification in the foreground
           flutterLocalNotificationsPlugin.show(
@@ -179,7 +198,7 @@ class _MyAppState extends State<MyApp> {
     // Get FCM token
     String? token = await messaging.getToken();
     print("FCM TOKEN: $token");
-    
+
     // Subscribe to topics if needed
     // await FirebaseMessaging.instance.subscribeToTopic('general');
   }
@@ -212,8 +231,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
 
 // import 'dart:io';
 

@@ -1,4 +1,5 @@
 import 'package:car_rental_system/core/util/color_utils.dart';
+import 'package:car_rental_system/core/util/display_snackbar.dart';
 import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
@@ -6,18 +7,20 @@ import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class EnterOtp extends StatefulWidget {
-  const EnterOtp({super.key});
+  String email;
+  EnterOtp({super.key, required this.email});
 
   @override
   State<EnterOtp> createState() => _EnterOtpState();
 }
 
 class _EnterOtpState extends State<EnterOtp> {
-  TextEditingController _pinCodeController = TextEditingController();
+  final TextEditingController _pinCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   // FocusNode _focusNode=FocusNode();
   @override
@@ -73,13 +76,15 @@ class _EnterOtpState extends State<EnterOtp> {
                       // selectedFillColor: Colors.white, // Fill color when the pin is selected
                     ),
                     appContext: context,
-                    length: 4,
+                    length: 5,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     keyboardType: TextInputType.number,
+
                     validator: (value) {
                       if (value!.isEmpty) {
                         return validateOtpStr;
-                      }return null;
+                      }
+                      return null;
                     },
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
@@ -92,6 +97,18 @@ class _EnterOtpState extends State<EnterOtp> {
                           data: resendOtpStr,
                           color: primaryColor,
                         ),
+                        onTap: () async {
+                          // Resend OTP logic here
+                          if (await EmailOTP.sendOTP(
+                            email: widget.email,
+                          )) {
+                            DisplaySnackbar.show(
+                                context, "OTP resent to ${widget.email}");
+                          }else{
+                            DisplaySnackbar.show(context,
+                                "Failed to resend OTP to ${widget.email}");
+                          }
+                        },
                       )
                     ],
                   ),
@@ -99,8 +116,14 @@ class _EnterOtpState extends State<EnterOtp> {
                   CustomElevatedbutton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print(_pinCodeController.text);
-                          RouteGenerator.navigateToPage(context, Routes.resetPasswordRoute);
+                          print(EmailOTP.getOTP());
+                          // print(_pinCodeController.text);
+                          if( EmailOTP.verifyOTP(otp: _pinCodeController.text)){
+                          RouteGenerator.navigateToPage(
+                              context, Routes.resetPasswordRoute);
+                          }else{
+                            DisplaySnackbar.show(context, "OTP didn't match");
+                          }
                         }
                       },
                       child: CustomText(

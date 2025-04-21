@@ -7,7 +7,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
@@ -56,8 +56,9 @@ class _SignupState extends State<Signup> {
             await auth.signInWithCredential(credential);
 
         user = userCredential.user;
+        // user?.getIdTokenResult()
         await user?.getIdToken().then((value) {
-          print(value);
+          print("<----Goggle Token::$value");
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'account-exists-with-different-credential') {
@@ -312,8 +313,8 @@ class _SignupState extends State<Signup> {
                                       if (user != null) {
                                         // Users users = Users(email: user.email,name: user.displayName,);
                                         RouteGenerator
-                                            .navigateToPageWithoutStack(
-                                                context, Routes.bottomNavbarRoute);
+                                            .navigateToPageWithoutStack(context,
+                                                Routes.bottomNavbarRoute);
                                       }
                                     } catch (e) {
                                       print(e.toString());

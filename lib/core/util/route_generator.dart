@@ -7,9 +7,10 @@ import 'package:car_rental_system/enter_otp.dart';
 import 'package:car_rental_system/home.dart';
 import 'package:car_rental_system/login.dart';
 import 'package:car_rental_system/model/car.dart';
-import 'package:car_rental_system/model/user.dart';
+import 'package:car_rental_system/model/users.dart';
 import 'package:car_rental_system/notification_page.dart';
 import 'package:car_rental_system/reset_password.dart';
+import 'package:car_rental_system/settings_page.dart';
 import 'package:car_rental_system/signup.dart';
 import 'package:car_rental_system/get_started.dart';
 import 'package:car_rental_system/forgot_password.dart';
@@ -34,43 +35,71 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>  LoginPgae(fromLogout: settings.arguments as bool? ?? false ,) );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => LoginPgae(
+                  fromLogout: settings.arguments as bool? ?? false,
+                ));
       case Routes.signupRoute:
-      return PageRouteBuilder(pageBuilder: (_, __, ___) => 
-      Signup(user:settings.arguments != null ? settings.arguments as Users : null)
-      );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Signup(
+                user: settings.arguments != null
+                    ? settings.arguments as Users
+                    : null));
       case Routes.getStartedRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) => const GetStarted());
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const GetStarted());
       case Routes.forgotPasswordRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) => const ForgotPassword());
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const ForgotPassword());
       case Routes.enterOtpRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const EnterOtp() );
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>  EnterOtp(email: settings.arguments as String,));
       case Routes.resetPasswordRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const ResetPassword() );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const ResetPassword());
       case Routes.bottomNavbarRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const BottomNavbar1() );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const BottomNavbar1());
       case Routes.homeRoute:
         return PageRouteBuilder(
-          transitionDuration:const Duration(milliseconds: 600),pageBuilder: (_, __, ___) =>const Home() );
+            transitionDuration: const Duration(milliseconds: 600),
+            pageBuilder: (_, __, ___) => const Home());
       case Routes.carDetailsRoute:
-      print( settings.arguments);
-    
+        print(settings.arguments);
+
         return PageRouteBuilder(
-          transitionDuration:const Duration(milliseconds: 600),
-          pageBuilder: (_, __, ___) => CarDetailsPage(carDetail: settings.arguments as Car,), 
+          transitionDuration: const Duration(milliseconds: 600),
+          pageBuilder: (_, __, ___) => CarDetailsPage(
+            carDetail: settings.arguments as Car,
+          ),
         );
       case Routes.carBookingRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) => CarBookingPage(carDetail: settings.arguments as Car ,) );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => CarBookingPage(
+                  carDetail: settings.arguments as Car,
+                ));
       case Routes.addCarDetailsRoute:
         return PageRouteBuilder(
-        pageBuilder: (_, __, ___) => AddCarForm(car: settings.arguments != null ? settings.arguments as Car : null),
-        //  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {  }
+          pageBuilder: (_, __, ___) => AddCarForm(
+              car: settings.arguments != null
+                  ? settings.arguments as Car
+                  : null),
+          //  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {  }
         );
       case Routes.viewCarListRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) => ViewCarListScreen(fromHomePage:settings.arguments as bool? ?? false ) );
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => ViewCarListScreen(
+                fromHomePage: settings.arguments as bool? ?? false));
+      case Routes.settingsRoute:
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => SettingsPage(
+                users: settings.arguments != null
+                    ? settings.arguments as Users
+                    : null));
+
       case Routes.notificationRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>const NotificationPage() );
-     default:
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const NotificationPage());
+      default:
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) => Scaffold(
                   body: Center(
