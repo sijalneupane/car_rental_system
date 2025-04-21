@@ -55,7 +55,7 @@ class RouteGenerator {
         return PageRouteBuilder(pageBuilder: (_, __, ___) =>  EnterOtp(email: settings.arguments as String,));
       case Routes.resetPasswordRoute:
         return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => const ResetPassword());
+            pageBuilder: (_, __, ___) =>  ResetPassword(email: settings.arguments as String,));
       case Routes.bottomNavbarRoute:
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) => const BottomNavbar1());

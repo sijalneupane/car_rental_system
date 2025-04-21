@@ -10,6 +10,7 @@ import 'package:car_rental_system/widgets/custom_app_bar.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_border_icon_button.dart';
+import 'package:car_rental_system/widgets/custom_icons.dart';
 import 'package:car_rental_system/widgets/custom_image_assets.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
 import 'package:car_rental_system/widgets/custom_no_border_icon_button.dart';
@@ -49,6 +50,7 @@ Widget build(BuildContext context) {
         }
         if (snapshot.data == true) {
           return FloatingActionButton(
+            child: CustomIcons(icon: Icons.fingerprint),
             onPressed: () {
               // Add your onPressed logic here
             },
