@@ -128,14 +128,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       PhoneEmailOTPDetails? phoneEmailOTPDetails;
                       if (usingPhoneNumber) {
                         FirebaseAuth auth = FirebaseAuth.instance;
-                        auth.verifyPhoneNumber(
-                          phoneNumber:"+977${_emailPhoneController.text}",
+                      await  auth.verifyPhoneNumber(
+                          phoneNumber:"+977 ${_emailPhoneController.text}",
                           timeout: Duration(minutes: 1),
-                          verificationCompleted: (phoneAuthCredential) {},
-                          verificationFailed: (error) {},
+                          verificationCompleted: (phoneAuthCredential) {
+                            DisplaySnackbar.show(context,"Verification completed: ${phoneAuthCredential.smsCode}");
+                          },
+                          verificationFailed: (error) {
+                            throw Exception("${error.message}<----------->${error.code}");
+                          },
                           codeSent: (verificationId, forceResendingToken) {
-                            phoneEmailOTPDetails=PhoneEmailOTPDetails(phoneNumber:_emailPhoneController.text ,usingPhoneNumber: true);
-                            RouteGenerator.navigateToPageWithoutStack(context,Routes.enterOtpRoute);
+                            // phoneEmailOTPDetails=PhoneEmailOTPDetails(phoneNumber:_emailPhoneController.text ,usingPhoneNumber: true);
+                            // RouteGenerator.navigateToPageWithoutStack(context,Routes.enterOtpRoute);
+                            DisplaySnackbar.show(context,
+                                "OTP has been sent to the ${_emailPhoneController.text}");
                           },
                           codeAutoRetrievalTimeout: (verificationId) {},
                         );
