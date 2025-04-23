@@ -44,7 +44,7 @@ main() async {
     emailPort: EmailPort.port587,
     secureType: SecureType.tls,
     username: 'sijalneupane5@gmail.com',
-    password: 'udeg kclw xsrn ncfz',
+    password: 'udeg kclw xsrn ncfz',//generate app password if you have enable google 2factor authentication
   );
   runApp(const MyApp());
 }

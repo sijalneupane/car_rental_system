@@ -52,7 +52,7 @@ class RouteGenerator {
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) => const ForgotPassword());
       case Routes.enterOtpRoute:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) =>  EnterOtp(email: settings.arguments as String,));
+        return PageRouteBuilder(pageBuilder: (_, __, ___) =>  EnterOtp(phoneEmailOtpDetails: settings.arguments as PhoneEmailOTPDetails,));
       case Routes.resetPasswordRoute:
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) =>  ResetPassword(email: settings.arguments as String,));

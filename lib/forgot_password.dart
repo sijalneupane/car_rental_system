@@ -5,6 +5,7 @@ import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
+import 'package:car_rental_system/widgets/custom_checkbox.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_text.dart';
 import 'package:car_rental_system/widgets/custom_textformfield.dart';
@@ -52,8 +53,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }
   }
 
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _emailPhoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool usingPhoneNumber = false;
   bool loader = false;
   @override
   Widget build(BuildContext context) {
@@ -87,11 +89,17 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               CustomTextformfield(
-                controller: _emailController,
-                labelText: emailAddressStr,
-                hintText: emailAddressHintStr,
+                controller: _emailPhoneController,
+                labelText: phoneNumberEmailLabelStr,
+                hintText: phoneNumberEmailHintStr,
                 validator: (p0) {
-                  if (p0!.isEmpty) {
+                  if (usingPhoneNumber) {
+                    if (p0!.isEmpty) {
+                      return validatePhoneStr;
+                    } else if (!phoneRegex.hasMatch(p0)) {
+                      return validatePhoneRegexStr;
+                    }
+                  } else if (p0!.isEmpty) {
                     return validateEmailAddressStr;
                   } else if (!emailRegex.hasMatch(p0)) {
                     return validateEmailAddressRegexStr;
@@ -99,49 +107,94 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   return null;
                 },
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-              CustomElevatedbutton(
-                  onPressed: () async {
-                    try {
-                      if (_formKey.currentState!.validate()) {
-                        HideKeyboard.hideKeyboard(context);
-                        setState(() {
-                          loader = true;
-                        });
-                        if (await _isEmailValid(_emailController.text)) {
-                          if (await EmailOTP.sendOTP(
-                            email: _emailController.text,
-                          )) {
-                            RouteGenerator.navigateToPage(
-                                context, Routes.enterOtpRoute,arguments: _emailController.text);
-                          } else {
-                            
-                            DisplaySnackbar.show(context,
-                                "Failed to send  password reset OTP to the ${_emailController.text}");
-                              throw Exception("Failed to send OTP");
-                          }
-                        }else{
-                          DisplaySnackbar.show(context,
-                              "${_emailController.text} is not a registered email for this app");
-                        }
-                      }
-                    } catch (e) {
-                      DisplaySnackbar.show(context,
-                         e.toString());
-                    } finally {
-                      setState(() {
-                        loader = false;
-                      });
-                    }
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              CustomCheckbox(
+                  value: usingPhoneNumber,
+                  onChanged: (p0) {
+                    setState(() {
+                      usingPhoneNumber = p0!;
+                    });
                   },
-                  child: CustomText(
-                    data: sendCodeStr,
-                    color: Colors.white,
-                  ))
+                  checkBoxTitle: "Use Phone Number"),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              CustomElevatedbutton(
+                onPressed: () async {
+                  try {
+                    if (_formKey.currentState!.validate()) {
+                      HideKeyboard.hideKeyboard(context);
+                      setState(() {
+                        loader = true;
+                      });
+                      PhoneEmailOTPDetails? phoneEmailOTPDetails;
+                      if (usingPhoneNumber) {
+                        FirebaseAuth auth = FirebaseAuth.instance;
+                        auth.verifyPhoneNumber(
+                          phoneNumber:"+977${_emailPhoneController.text}",
+                          timeout: Duration(minutes: 1),
+                          verificationCompleted: (phoneAuthCredential) {},
+                          verificationFailed: (error) {},
+                          codeSent: (verificationId, forceResendingToken) {
+                            phoneEmailOTPDetails=PhoneEmailOTPDetails(phoneNumber:_emailPhoneController.text ,usingPhoneNumber: true);
+                            RouteGenerator.navigateToPageWithoutStack(context,Routes.enterOtpRoute);
+                          },
+                          codeAutoRetrievalTimeout: (verificationId) {},
+                        );
+                      } else if (await _isEmailValid(
+                          _emailPhoneController.text)) {
+                        if (await EmailOTP.sendOTP(
+                          email: _emailPhoneController.text,
+                        )) {
+                              phoneEmailOTPDetails=PhoneEmailOTPDetails(emailAddress:_emailPhoneController.text );
+                          RouteGenerator.navigateToPage(
+                              context, Routes.enterOtpRoute,
+                              arguments: phoneEmailOTPDetails);
+                        } else {
+                          DisplaySnackbar.show(context,
+                              "Failed to send  password reset OTP to the ${_emailPhoneController.text}");
+                          throw Exception("Failed to send OTP");
+                        }
+                      } else {
+                        DisplaySnackbar.show(context,
+                            "${_emailPhoneController.text} is not a registered email for this app");
+                      }
+                    }
+                  } catch (e) {
+                    DisplaySnackbar.show(context, e.toString());
+                  } finally {
+                    setState(() {
+                      loader = false;
+                    });
+                  }
+                },
+                child: CustomText(
+                  data: sendCodeStr,
+                  color: Colors.white,
+                ),
+              )
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class PhoneEmailOTPDetails {
+  //sending otp to phone Number
+  // sendOtpFromPhoneAuth() async {
+  //   FirebaseAuth auth = FirebaseAuth.instance;
+  //   await auth.verifyPhoneNumber(
+  //     timeout: Duration(minutes: 2),
+  //     verificationCompleted: (phoneAuthCredential) {},
+  //     verificationFailed: (error) {},
+  //     codeSent: (verificationId, forceResendingToken) {},
+  //     codeAutoRetrievalTimeout: (verificationId) {},
+  //   );
+  // }
+
+  String? emailAddress;
+  String? phoneNumber;
+  String? otp;
+  bool usingPhoneNumber;
+  PhoneEmailOTPDetails({this.emailAddress, this.phoneNumber, this.otp,this.usingPhoneNumber=false});
 }

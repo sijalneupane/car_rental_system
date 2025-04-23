@@ -51,6 +51,13 @@ const String failedStr="Failed !";
 const String credentialsDidnotMatchStr="Credentials didnot match";
 const String rememberMeStr="Remember Me";
 const String forgotPasswordStr="Forgot Passwoord";
+const String phoneNumberEmailHintStr="Enter email or phone number";
+const String phoneNumberEmailLabelStr="Email or Phone Number";
+const String phoneNumberRegexString=r'^[0-9]{10}$';
+RegExp phoneRegex = RegExp(phoneNumberRegexString);
+
+const String validatePhoneStr="PLease enter Phone Numbers";
+const String validatePhoneRegexStr="PLease enter 10 digit phone number";
 const String sendCodeStr="Send Code";
 const String verifyAccountStr="Verify Account";
 const String didntReceiveOtpStr="Didn't recieve otp? ";

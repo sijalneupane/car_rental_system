@@ -4,6 +4,7 @@ import 'package:car_rental_system/core/util/route_const.dart';
 import 'package:car_rental_system/core/util/route_generator.dart';
 import 'package:car_rental_system/core/util/spin_kit.dart';
 import 'package:car_rental_system/core/util/string_utils.dart';
+import 'package:car_rental_system/forgot_password.dart';
 import 'package:car_rental_system/widgets/custom_back_page_icon.dart';
 import 'package:car_rental_system/widgets/custom_elevatedbutton.dart';
 import 'package:car_rental_system/widgets/custom_inkwell.dart';
@@ -13,14 +14,20 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class EnterOtp extends StatefulWidget {
-  String email;
-  EnterOtp({super.key, required this.email});
+  PhoneEmailOTPDetails phoneEmailOtpDetails;
+  EnterOtp({super.key, required this.phoneEmailOtpDetails});
 
   @override
   State<EnterOtp> createState() => _EnterOtpState();
 }
 
 class _EnterOtpState extends State<EnterOtp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    
+  }
   final TextEditingController _pinCodeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool loader = false;
@@ -110,13 +117,13 @@ class _EnterOtpState extends State<EnterOtp> {
                     onTap: () async {
                       // Resend OTP logic here
                       if (await EmailOTP.sendOTP(
-                        email: widget.email,
+                        email: widget.phoneEmailOtpDetails.emailAddress??'',
                       )) {
                         DisplaySnackbar.show(
-                            context, "OTP resent to ${widget.email}");
+                            context, "OTP resent to ${widget.phoneEmailOtpDetails}");
                       } else {
                         DisplaySnackbar.show(
-                            context, "Failed to resend OTP to ${widget.email}");
+                            context, "Failed to resend OTP to ${widget.phoneEmailOtpDetails}");
                       }
                     },
                   )
@@ -138,7 +145,7 @@ class _EnterOtpState extends State<EnterOtp> {
                           });
                           RouteGenerator.navigateToPage(
                               context, Routes.resetPasswordRoute,
-                              arguments: widget.email);
+                              arguments: widget.phoneEmailOtpDetails);
                         } else {
                           DisplaySnackbar.show(context, "OTP didn't match");
                         }

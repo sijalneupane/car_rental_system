@@ -7,20 +7,23 @@ import 'package:readmore/readmore.dart';
 class CustomCheckbox extends StatelessWidget {
   bool? value;
   void Function(bool?)? onChanged;
-  String data;
+  String checkBoxTitle;
   CustomCheckbox(
       {super.key,
       required this.value,
       required this.onChanged,
-      required this.data});
+      required this.checkBoxTitle});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        
          
         Checkbox(
+          
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           value: value, onChanged: onChanged),
         CustomSizedBox(
@@ -28,7 +31,7 @@ class CustomCheckbox extends StatelessWidget {
         ),
         Expanded(
           child: ReadMoreText(
-            data, // Just a placeholder text to allow expansion
+            checkBoxTitle, // Just a placeholder text to allow expansion
             trimLines: 2,
             colorClickableText: primaryColor,
             trimMode: TrimMode.Line,

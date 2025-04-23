@@ -144,7 +144,7 @@ class _CarBookingPageState extends State<CarBookingPage> {
                           _insuranceAgreed = value!;
                         });
                       },
-                      data: insuranceCoveragesAgreementStr),
+                      checkBoxTitle: insuranceCoveragesAgreementStr),
                   CustomSizedBox(
                     height: 0.01,
                   ),
